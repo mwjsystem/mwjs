@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -25,6 +26,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatCheckboxModule
      ,MatDatepickerModule
      ,MatDialogModule
+     ,MatExpansionModule
      ,MatFormFieldModule
      ,MatIconModule
      ,MatInputModule
@@ -48,6 +50,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatCheckboxModule
      ,MatDatepickerModule
      ,MatDialogModule
+     ,MatExpansionModule
      ,MatFormFieldModule
      ,MatIconModule
      ,MatInputModule

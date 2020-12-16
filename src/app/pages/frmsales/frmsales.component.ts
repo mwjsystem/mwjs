@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 export class FrmsalesComponent implements OnInit {
 
   constructor(private title: Title) {
-    this.title.setTitle('Mwjsystem(受注伝票)');
+    this.title.setTitle('受注伝票(Mwjsystem)');
    }
 
   ngOnInit(): void {

@@ -4,14 +4,21 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { AuthModule } from '@auth0/auth0-angular';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxYubinBangoModule } from 'ngx-yubinbango';
 import { environment } from './../environments/environment';
+import { GraphQLModule } from './common/graph-ql/graphql.module';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { FrmsalesComponent } from './pages/frmsales/frmsales.component';
 import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
+import { MstmemberComponent } from './pages/mstmember/mstmember.component';
+import { AddressComponent } from './common/address/address.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +27,9 @@ import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
     HomeComponent,
     NavbarComponent,
     FrmsalesComponent,
-    MstgoodsComponent
+    MstgoodsComponent,
+    MstmemberComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +40,13 @@ import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
       redirectUri: `${window.location.origin}`
     }),
     BrowserAnimationsModule,
-    MaterialModule
+    FormsModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    GraphQLModule,
+    MaterialModule,
+    HttpClientModule,
+    NgxYubinBangoModule
   ],
   providers: [],
   bootstrap: [AppComponent]

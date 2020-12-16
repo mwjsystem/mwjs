@@ -1,12 +1,12 @@
-<mat-toolbar color="primary" style="height:40px;">
+<mat-toolbar style="height:40px;">
     <button mat-button [matMenuTriggerFor]="sale">受注伝票</button>
     <mat-menu #sale="matMenu">
         <a mat-menu-item routerLink="/frmsales">受注伝票</a>
         <a mat-menu-item>受注履歴</a>
     </mat-menu>
-    <button mat-button [matMenuTriggerFor]="cust">顧客</button>
+    <button mat-button [matMenuTriggerFor]="cust">顧客マスタ</button>
     <mat-menu #cust="matMenu">
-        <a mat-menu-item>顧客マスタ</a>
+        <a mat-menu-item routerLink="/mstmember">顧客マスタ</a>
         <a mat-menu-item>ＤＭ抽出</a>
         <a mat-menu-item>ＤＭリスト</a>
         <a mat-menu-item>顧客問合せ</a>
