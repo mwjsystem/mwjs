@@ -1,10 +1,10 @@
-<form formGroupName="{{formName}}" ngNativeValidate ybAddress [ybAutocompleteMode]="'off'" #address="ybAddress" fxLayoutGap="7px">
+<form formGroupName="{{formName}}" ngNativeValidate ybAddress fxLayoutGap="7px">
     <mat-form-field>
         <mat-label>郵便番号(ハイフンなし)</mat-label>
         <input matInput formControlName="zip" ybPostalCode required size="7" maxlength="7">
-        <button mat-button matSuffix mat-stroked-button aria-label="get" (click)="address.complete()">
+        <!-- <button mat-button matSuffix mat-stroked-button aria-label="get" (click)="address.complete()">
             住所補完
-        </button>
+        </button> -->
     </mat-form-field>
     <mat-form-field>
         <mat-label>都道府県</mat-label>
@@ -23,11 +23,11 @@
         <input matInput formControlName="extend" ybExtended>
     </mat-form-field>
     <mat-form-field>
-        <mat-label>住所その他</mat-label>
+        <mat-label>道場名</mat-label>
         <input matInput formControlName="extend2">
     </mat-form-field>
     <mat-form-field>
-        <mat-label>宛名</mat-label>
+        <mat-label>住所宛名</mat-label>
         <input matInput formControlName="adrname" required>
     </mat-form-field>
 </form>

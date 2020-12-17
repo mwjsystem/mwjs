@@ -19,6 +19,7 @@ import { FrmsalesComponent } from './pages/frmsales/frmsales.component';
 import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
 import { MstmemberComponent } from './pages/mstmember/mstmember.component';
 import { AddressComponent } from './common/address/address.component';
+import { AdrredaComponent } from './dialog/adrreda/adrreda.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AddressComponent } from './common/address/address.component';
     FrmsalesComponent,
     MstgoodsComponent,
     MstmemberComponent,
-    AddressComponent
+    AddressComponent,
+    AdrredaComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +51,9 @@ import { AddressComponent } from './common/address/address.component';
     NgxYubinBangoModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AdrredaComponent
+  ]
 })
 export class AppModule { }

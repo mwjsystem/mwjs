@@ -1,18 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
-export class Addr {
-  zip:string;
-  region:string;
-  local:string;
-  street:string;
-  extend:string;
-  extend2:string;
-  adrname:string;
-  constructor(init?:Partial<Addr>) {
-      Object.assign(this, init);
-  }
-}
+import { Title } from '@angular/platform-browser';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-mstmember',
@@ -22,7 +11,7 @@ export class Addr {
 export class MstmemberComponent implements OnInit {
 
   form: FormGroup;
-
+  addr:mwI.Addr;
   // get_addr(formname:string): Addr {
   //   return {
   //     zip: this.form.get(formname).get('zip').value,
@@ -35,7 +24,10 @@ export class MstmemberComponent implements OnInit {
   //   };
   // }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private title: Title) {
+    this.title.setTitle('顧客マスタ(Mwjsystem)');
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({});
