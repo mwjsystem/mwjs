@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>顧客検索</h2>
+<mat-dialog-content>
+  <app-mcdtbl (setmcd)="sel_mcd($event)"></app-mcdtbl>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="mat-raised-button"(click)="close()">Cancel</button>
+  <!-- <button class="mat-raised-button mat-primary"(click)="sel_gcd(this.gdsservice.selgd)">Set</button> -->
+</mat-dialog-actions>

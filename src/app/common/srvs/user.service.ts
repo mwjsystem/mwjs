@@ -6,10 +6,12 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class UserService {
   userInfo: {[key: string]: any} = {};
-
+  compid:number;
   constructor(public auth: AuthService) {
     this.auth.user$.subscribe(user => {
       this.userInfo = user;
+      this.compid=this.userInfo['https://userids'][0]
+      // console.log(this.userInfo,this.compid);
     })
    }
 

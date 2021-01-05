@@ -1,76 +1,40 @@
 import gql from 'graphql-tag';
 
 export const GetMast1 = gql`
-query get_owner($gid: String!) {
-  tblowner(where: {googleid: {_eq: $gid}}) {
-    dojoid
-    dojoname
+query get_members($id: smallint!) {
+  msmember(where: {id: {_eq: $id}}) {
+    mcode
     sei
     mei
+    kana
+    tankakbn
     mail
-    zip
-    region
-    local
-    street
-    extend
-    url
-    tel
-    tblforms {
-      dojoid
-      pattern
-      name
-      memo
-      url
-    }
-    tblmaillogs(order_by: {created_at: desc}) {
-      dojoid
-      created_at
-      subject
-      body
-      sendto
-      from
-      fromnm
+    mail2
+    mail3
+    mail4
+    mail5
+    torikbn
+    sime
+    site
+    inday
+    icode
+    sscode
+    tcode1
+    tcode2
+    msmadrs {
+      eda
+      zip
+      region
+      local
+      street
+      extend
+      tel
+      fax
+      tel2
+      tel3
+      extend2
+      adrname
+      adrbikou
     }    
-  }
-}`;
-
-export const GetQuery2 = gql`
-query get_dojoid {
-  tblowner_aggregate {
-    aggregate {
-      max {
-        dojoid
-      }
-    }
-  }
-}`;
-
-export const InsertOwner = gql`
-mutation ins_owner($object: tblowner_insert_input!) {
-  insert_tblowner_one(object: $object) {
-    dojoid
-    googleid
-  }
-}`;
-
-export const InsertForms = gql`
-mutation ins_forms($objects: [tblform_insert_input!]!) {
-  insert_tblform(objects: $objects) {
-    affected_rows
-  }
-}`;
-
-export const DeleteForms= gql`
-mutation del_forms($did: Int!) {
-  delete_tblform(where: {dojoid: {_eq: $did}}) {
-    affected_rows
-  }
-}`;
-
-export const InsertMaillog = gql`
-mutation ins_maillog($object: tblmaillog_insert_input!) {
-  insert_tblmaillog_one(object: $object) {
-    id
-    dojoid
   }
 }`;

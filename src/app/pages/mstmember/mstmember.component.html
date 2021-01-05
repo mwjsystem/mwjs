@@ -1,19 +1,29 @@
 <app-navbar></app-navbar>
-<mat-toolbar class="toolbar mat-elevation-z8" color="primary">
+<mat-toolbar class="toolbar mat-elevation-z8">
     <div class="icon-area" fxLayout="row" fxLayoutGap="5px">
-        <button mat-button (click)="test()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
+        <mat-form-field fxFlex="0 0 10em">
+            <!-- <mat-label>顧客コード</mat-label> -->
+            <input matInput placeholder="顧客コード" [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
+             (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
+             <!-- <mat-hint>顧客コード</mat-hint> -->
+        </mat-form-field>
+        <button mat-button (click)="diaBetsu()">
+            <mat-icon>local_shipping</mat-icon>
             別納先マスタ
         </button>
-        <button mat-button (click)="test()">
+        <button mat-button (click)="setNext()">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+            次のコード
+        </button>
+        <button mat-button (click)="setPrev()">
             <mat-icon>keyboard_arrow_down</mat-icon>
             前のコード
         </button>  
-        <button mat-button (click)="test()">
+        <button mat-button (click)="mcdHelp()">
             <mat-icon>find_replace</mat-icon>
             顧客検索
         </button>
-        <button mat-button (click)="test()">
+        <button mat-button (click)="refresh()">
             <mat-icon>autorenew</mat-icon>
             再表示
         </button>
@@ -27,29 +37,32 @@
         </a></button>
     </div>
 </mat-toolbar>
+<form [formGroup]="form">
 <mat-card>
-    <form [formGroup]="form">
-        <mat-accordion multi>
-            <mat-card-header>
-                <mat-card-title>
-                    自宅住所
-                </mat-card-title>
-                <mat-card-subtitle>
-                    <mat-checkbox>DM送付する</mat-checkbox>
-                </mat-card-subtitle>
-            </mat-card-header>
-            <app-address [formName]="'addr0'"></app-address>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      勤務先住所
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        <mat-checkbox>DM送付する</mat-checkbox>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-address [formName]="'addr1'"></app-address>                
-            </mat-expansion-panel>
-        </mat-accordion>
-    </form>
+  
 </mat-card>
+<mat-card>     
+    <mat-card-header>
+        <mat-card-title>
+            自宅住所
+        </mat-card-title>
+        <mat-card-subtitle>
+            <mat-checkbox>DM送付する</mat-checkbox>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <app-address [formName]="'addr0'"></app-address>        
+</mat-card>
+<mat-accordion multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+            勤務先住所
+            </mat-panel-title>
+            <mat-panel-description>
+                <mat-checkbox>DM送付する</mat-checkbox>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-address [formName]="'addr1'"></app-address>                
+    </mat-expansion-panel>
+</mat-accordion>
+</form>

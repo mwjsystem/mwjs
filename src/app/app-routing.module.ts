@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'frmsales', component: FrmsalesComponent, canActivate: [AuthGuard] },
   { path: 'mstgoods', component: MstgoodsComponent, canActivate: [AuthGuard] },
   { path: 'mstmember', component: MstmemberComponent, canActivate: [AuthGuard] },
+  { path: 'mstmember/:mode/:mcd', component: MstmemberComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

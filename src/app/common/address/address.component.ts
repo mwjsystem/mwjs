@@ -26,6 +26,9 @@ export class AddressComponent implements OnInit {
       extend: new FormControl(''),
       extend2: new FormControl(''),
       adrname: new FormControl('', Validators.required),
+      tel: new FormControl('', Validators.required),
+      fax: new FormControl(''),
+      tel2: new FormControl(''),
     }))
    
   }

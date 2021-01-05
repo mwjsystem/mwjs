@@ -20,6 +20,8 @@ import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
 import { MstmemberComponent } from './pages/mstmember/mstmember.component';
 import { AddressComponent } from './common/address/address.component';
 import { AdrredaComponent } from './dialog/adrreda/adrreda.component';
+import { McdhelpComponent } from './dialog/mcdhelp/mcdhelp.component';
+import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { AdrredaComponent } from './dialog/adrreda/adrreda.component';
     MstgoodsComponent,
     MstmemberComponent,
     AddressComponent,
-    AdrredaComponent
+    AdrredaComponent,
+    McdhelpComponent,
+    McdtblComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,8 @@ import { AdrredaComponent } from './dialog/adrreda/adrreda.component';
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    AdrredaComponent
+    AdrredaComponent,
+    McdhelpComponent
   ]
 })
 export class AppModule { }
