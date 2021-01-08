@@ -11,7 +11,7 @@ export class UserService {
     this.auth.user$.subscribe(user => {
       this.userInfo = user;
       this.compid=this.userInfo['https://userids'][0]
-      // console.log(this.userInfo,this.compid);
+      console.log(this.userInfo,this.compid);
     })
    }
 
