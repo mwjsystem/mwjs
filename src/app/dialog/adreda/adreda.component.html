@@ -1,0 +1,18 @@
+
+<h2 mat-dialog-title>顧客検索</h2>
+<mat-dialog-content>
+    <form [formGroup]="form">
+      <form formGroupName="base">
+        <mat-form-field>
+          <mat-label>枝番</mat-label>
+          <input matInput formControlName="eda" required size="4">
+        </mat-form-field>
+          
+      </form>        
+        <app-address [formName]="'addr0'"></app-address>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="mat-raised-button"(click)="close()">Cancel</button>
+  <!-- <button class="mat-raised-button mat-primary"(click)="sel_gcd(this.gdsservice.selgd)">Set</button> -->
+</mat-dialog-actions>

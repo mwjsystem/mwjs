@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -8,6 +9,7 @@ import * as Query from './../../common/graph-ql/queries.mst';
 import { UserService } from './../../common/srvs/user.service';
 import { McdService } from './../../dialog/mcdhelp/mcd.service';
 import { McdhelpComponent } from './../../dialog/mcdhelp/mcdhelp.component';
+import { AdredaComponent } from './../../dialog/adreda/adreda.component';
 
 @Component({
   selector: 'app-mstmember',
@@ -45,6 +47,36 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({});
+    this.form.addControl('base', new FormGroup({
+      sei: new FormControl('', Validators.required),
+      mei: new FormControl(''),
+      kana: new FormControl('', Validators.required),
+      tankakbn: new FormControl('', Validators.required),
+      pay: new FormControl(''),
+      okuri: new FormControl(''),
+      mtax: new FormControl('', Validators.required),
+      tcode1: new FormControl('', Validators.required),
+      tcode2: new FormControl('', Validators.required),
+      del: new FormControl(''),
+      sptnkbn: new FormControl(''),
+      bikou: new FormControl(''),
+      inbikou: new FormControl(''),      
+    }));
+    this.form.addControl('kake', new FormGroup({
+      torikbn: new FormControl(''),
+      sime: new FormControl(''),
+      site: new FormControl(''),
+      inday: new FormControl(''),
+      icode: new FormControl(''),  
+      sscode: new FormControl('', Validators.required),    
+    }));
+    this.form.addControl('mail', new FormGroup({
+      mail: new FormControl(''),
+      mail2: new FormControl(''),
+      mail3: new FormControl(''),
+      mail4: new FormControl(''),
+      mail5: new FormControl(''), 
+    }));
     this.route.paramMap.subscribe((params: ParamMap)=>{
       if (params.get('mcd') === null){
         this.mcd = '';
@@ -77,28 +109,24 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
 
   diaBetsu():void {
+    
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    let dialogRef = this.dialog.open(AdredaComponent, dialogConfig);
 
   }
-
   mcdHelp(): void {
     let dialogConfig = new MatDialogConfig();
     this.get_members();
     if (this.mcdsrv.mcds.length==0){
-      // console.log(this.membs.length);
       for(let i=0;i<this.membs.length;i++){
-        // console.log(i,this.membs[i].msmadrs.length);
         for(let j=0;j<this.membs[i].msmadrs.length;j++){
-          // console.log(i,j);
           this.mcdsrv.mcds.push({  
             mcode:this.membs[i].mcode,
             sei:this.membs[i].sei,
             mei:this.membs[i].mei,
             kana:this.membs[i].kana,
-            mail:this.membs[i].mail,
-            mail2:this.membs[i].mail2,
-            mail3:this.membs[i].mail3,
-            mail4:this.membs[i].mail4,
-            mail5:this.membs[i].mail5,
+            mail:this.mcdsrv.set_mail(this.membs[i].mail ,this.membs[i].mail2,this.membs[i].mail3,this.membs[i].mail4,this.membs[i].mail5),
             tcode1:this.membs[i].tcode1,
             tcode2:this.membs[i].tcode2,
             eda:this.membs[i].msmadrs[j].eda,
@@ -109,19 +137,15 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
             extend:this.membs[i].msmadrs[j].extend,
             extend2:this.membs[i].msmadrs[j].extend2,
             adrname:this.membs[i].msmadrs[j].adrname,
-            tel:(this.membs[i].msmadrs[j].tel || "").replace(/-/g,""),
-            fax:(this.membs[i].msmadrs[j].fax || "").replace(/-/g,""),
-            tel2:(this.membs[i].msmadrs[j].tel2 || "").replace(/-/g,""),
-            tel3:(this.membs[i].msmadrs[j].tel3 || "").replace(/-/g,"")
+            tel:this.mcdsrv.set_tel(this.membs[i].msmadrs[j].tel,this.membs[i].msmadrs[j].tel2,this.membs[i].msmadrs[j].tel3,this.membs[i].msmadrs[j].fax)
           });
         }
       }
     }
     // dialogConfig.disableClose = true;
-    // console.log(this.mcdsrv.mcds);
     dialogConfig.autoFocus = true;
-    dialogConfig.height = "3000px";
-    dialogConfig.width = "4000px";
+    // dialogConfig.height = "3000px";
+    // dialogConfig.width = "4000px";
     dialogConfig.data = {
         filter: this.mcd
     };
@@ -132,7 +156,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       data=>{
           // console.log(data);
           if(typeof data != 'undefined'){
-            this.mcd = data.mcd;
+            this.mcd = data.mcode;
           }
           this.refresh();
       }
@@ -185,6 +209,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     // console.log(this.membs,i);
     if(i > -1 ){
       let member:mwI.Member=this.membs[i];
+      this.form.get('base').patchValue(member);
       // console.log(member.msmadrs[0]);
       delete member.msmadrs['__typename'];
       // console.log(member.msmadrs[0],this.form.get('addr0'));

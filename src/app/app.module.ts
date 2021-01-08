@@ -19,7 +19,7 @@ import { FrmsalesComponent } from './pages/frmsales/frmsales.component';
 import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
 import { MstmemberComponent } from './pages/mstmember/mstmember.component';
 import { AddressComponent } from './common/address/address.component';
-import { AdrredaComponent } from './dialog/adrreda/adrreda.component';
+import { AdredaComponent } from './dialog/adreda/adreda.component';
 import { McdhelpComponent } from './dialog/mcdhelp/mcdhelp.component';
 import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
 
@@ -33,7 +33,7 @@ import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
     MstgoodsComponent,
     MstmemberComponent,
     AddressComponent,
-    AdrredaComponent,
+    AdredaComponent,
     McdhelpComponent,
     McdtblComponent
   ],
@@ -57,7 +57,7 @@ import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    AdrredaComponent,
+    AdredaComponent,
     McdhelpComponent
   ]
 })

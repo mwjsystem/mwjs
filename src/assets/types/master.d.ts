@@ -37,6 +37,8 @@ declare namespace mwI {
       sscode:string;
       tcode1:string;
       tcode2:string;
+      del:boolean;
+      sptnkkbn:string;
       msmadrs:Adrs[];
     }
 }

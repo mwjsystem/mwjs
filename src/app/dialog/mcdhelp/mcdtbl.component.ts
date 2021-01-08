@@ -11,9 +11,13 @@ import { Mcd, McdService } from './mcd.service';
 export class McdtblComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @Output() setmcd = new EventEmitter();
-  public filters: any = [{id:'mcode',value:''}];
+  public filters: any = [{id:'mcode',value:''},
+                         {id:'sei',value:''},
+                         {id:'kana',value:''},
+                         {id:'mail',value:''},
+                         {id:'tel',value:''}];
   dataSource:MatTableDataSource<Mcd>;
-  displayedColumns = ['mcode','sei','kana','tcode1','tcode2','mail','mail2','mail3','mail4','mail5','zip','region','local','street','extend','extend2','adrname','tel','fax','tel2']; 
+  displayedColumns = ['mcode','sei','kana','tcode1','tcode2','mail','eda','zip','region','local','street','extend','extend2','adrname','tel']; 
   constructor(public mcdsrv:McdService) {
     this.dataSource= new MatTableDataSource<Mcd>(this.mcdsrv.mcds);
   }
@@ -34,8 +38,8 @@ export class McdtblComponent implements OnInit {
   }
 
   setMcd(row){
-    // console.log("setGcode");
     this.mcdsrv.selro = row;
+    // console.log("setMcd",this.mcdsrv.selro);
     this.setmcd.emit(this.mcdsrv.selro);
   }
 

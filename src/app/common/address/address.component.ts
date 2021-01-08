@@ -29,7 +29,7 @@ export class AddressComponent implements OnInit {
       tel: new FormControl('', Validators.required),
       fax: new FormControl(''),
       tel2: new FormControl(''),
-    }))
+    }));
    
   }
   test() {

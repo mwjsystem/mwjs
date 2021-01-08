@@ -21,6 +21,8 @@ query get_members($id: smallint!) {
     sscode
     tcode1
     tcode2
+    del
+    sptnkbn
     msmadrs {
       eda
       zip
