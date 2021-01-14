@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>顧客検索</h2>
+<h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle style="cursor: move;">顧客検索</h1>
+<!-- <h2 mat-dialog-title>顧客検索</h2> -->
 <mat-dialog-content>
   <app-mcdtbl (setmcd)="sel_mcd($event)"></app-mcdtbl>
 </mat-dialog-content>

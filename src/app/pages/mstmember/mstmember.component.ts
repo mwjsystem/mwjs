@@ -20,8 +20,17 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
 
   form: FormGroup;
   membs: mwI.Member[]=[];
+  tcds: mwI.Sval[]=[];
+  daib: mwI.Sval[]=[];
+  bmon: mwI.Sval[]=[];
+  mtax: mwI.Sval[]=[];
+  tanka:mwI.Sval[]=[];
+  sptnk:mwI.Sval[]=[];
+  pay:  mwI.Sval[]=[];
+  nkin: mwI.Sval[]=[];
+  site: mwI.Sval[]=[];
   mcd:string;
-  mode:number=0;
+  mode:number=3;
   // get_addr(formname:string): Addr {
   //   return {
   //     zip: this.form.get(formname).get('zip').value,
@@ -55,6 +64,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       pay: new FormControl(''),
       okuri: new FormControl(''),
       mtax: new FormControl('', Validators.required),
+      daib: new FormControl(''),
+      bmon: new FormControl(''),
       tcode1: new FormControl('', Validators.required),
       tcode2: new FormControl('', Validators.required),
       del: new FormControl(''),
@@ -91,6 +102,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         this.refresh();
       } 
     });
+    this.get_bunrui();
+    this.get_staff();
   }
 
   ngAfterViewInit(): void{
@@ -144,8 +157,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     }
     // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    // dialogConfig.height = "3000px";
-    // dialogConfig.width = "4000px";
+    dialogConfig.height = "3000px";
+    dialogConfig.width = "900vw";
     dialogConfig.data = {
         filter: this.mcd
     };
@@ -202,6 +215,49 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     }  
   }
 
+  get_bunrui():void {
+    this.apollo.watchQuery<any>({
+      query: Query.GetMast2, 
+        variables: { 
+          id : this.usrsrv.compid
+        },
+      })
+      .valueChanges
+      .subscribe(({ data }) => {
+        for (let i=0;i<data.msbunrui.length;i++){
+          let sval:mwI.Sval = {value:data.msbunrui[i].code,viewval:data.msbunrui[i].name};
+          // console.log(this.svals[data.msbunrui[i].kubun],data.msbunrui[i].kubun);
+          this[data.msbunrui[i].kubun].push(sval);
+          // switch (data.msbunrui[i].kubun) {
+          //   case 'daib':
+          //     this.daib.push(sval);
+          //     break;
+          // }
+        }
+        
+      },(error) => {
+        console.log('error query get_bunrui', error);
+      });
+  }
+
+  get_staff():void {
+      this.apollo.watchQuery<any>({
+        query: Query.GetMast3, 
+          variables: { 
+            id : this.usrsrv.compid
+          },
+        })
+        .valueChanges
+        .subscribe(({ data }) => {
+          for (let i=0;i<data.msstaff.length;i++){
+              this.tcds.push({value:data.msstaff[i].code,viewval:data.msstaff[i].name});
+          }
+          // console.log(data.msmember,this.membs);
+          
+        },(error) => {
+          console.log('error query get_staff', error);
+        });
+  }  
 
   refresh():void {
     this.get_members();
@@ -226,8 +282,11 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     } 
   }
   
-  test(){
-    console.log(this.form.get('addr0'),this.form.get('addr1'));
+  test(value){
+    this.mode=value;
+    // console.log(this.mode);
+    this.form.disable();
+    // console.log(this['tcds'],this.form.get('base').get('tcode1'));
   }
 
 

@@ -1,5 +1,9 @@
 declare namespace mwI {
-    interface Adrs {
+  interface Sval {
+      value: string | number;
+      viewval: string;  
+  }
+  interface Adrs {
       eda:number;
       zip:string;
       region:string;
@@ -38,7 +42,20 @@ declare namespace mwI {
       tcode1:string;
       tcode2:string;
       del:boolean;
-      sptnkkbn:string;
+      sptnkbn:string;
+      daibunuri:string;
+      bumon:string;
       msmadrs:Adrs[];
+    }
+    interface Bunrui {
+      kubun:number;
+      code:string;
+      name:string;
+      memo:string;
+    }
+    interface Staff {
+      code:string;
+      name:string;
+      mail:string;
     }
 }

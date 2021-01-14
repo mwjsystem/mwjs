@@ -17,7 +17,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';;
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatTabsModule
      ,MatToolbarModule
      ,MatNativeDateModule
+     ,DragDropModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'}
@@ -64,6 +66,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
      ,MatTabsModule
      ,MatToolbarModule
      ,MatNativeDateModule
+     ,DragDropModule
   ]
 })
 export class MaterialModule { }

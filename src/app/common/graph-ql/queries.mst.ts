@@ -40,3 +40,20 @@ query get_members($id: smallint!) {
     }    
   }
 }`;
+export const GetMast2 = gql`
+query get_bunrui($id: smallint!){
+  msbunrui(where: {id: {_eq: $id}}) {
+    kubun
+    code
+    name
+    memo
+  }
+}`;
+export const GetMast3 = gql`
+query get_staff($id: smallint!){
+  msstaff(where: {id: {_eq: $id}}) {
+    code
+    name
+    mail
+  }
+}`;

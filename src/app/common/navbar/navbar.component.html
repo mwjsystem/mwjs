@@ -1,15 +1,15 @@
-<mat-toolbar style="height:40px;">
+<mat-toolbar style="height:40px;" fxLayout="row" style="text-align:center;">
     <button mat-button [matMenuTriggerFor]="sale">受注伝票</button>
     <mat-menu #sale="matMenu">
         <a mat-menu-item routerLink="/frmsales">受注伝票</a>
         <a mat-menu-item>受注履歴</a>
     </mat-menu>
-    <button mat-button [matMenuTriggerFor]="cust">顧客マスタ</button>
+    <button mat-button [matMenuTriggerFor]="cust">顧客関連</button>
     <mat-menu #cust="matMenu">
         <a mat-menu-item routerLink="/mstmember">顧客マスタ</a>
+        <a mat-menu-item>掛率表</a>
         <a mat-menu-item>ＤＭ抽出</a>
         <a mat-menu-item>ＤＭリスト</a>
-        <a mat-menu-item>顧客問合せ</a>
     </mat-menu>    
     <button mat-button [matMenuTriggerFor]="depo">売上入金</button>
     <mat-menu #depo="matMenu">
@@ -63,7 +63,7 @@
         <a mat-menu-item>発注履歴</a>
         <a mat-menu-item>仕入一覧表</a>
     </mat-menu>
-    <button mat-button [matMenuTriggerFor]="mast">マスタ</button>
+    <button mat-button [matMenuTriggerFor]="mast">各マスタ</button>
     <mat-menu #mast="matMenu">
         <a mat-menu-item target="_blank" routerLink="/mstgoods">商品マスタ</a>
         <a mat-menu-item>仕入先マスタ</a>
