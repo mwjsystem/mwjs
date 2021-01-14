@@ -130,35 +130,11 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
   mcdHelp(): void {
     let dialogConfig = new MatDialogConfig();
-    this.get_members();
-    if (this.mcdsrv.mcds.length==0){
-      for(let i=0;i<this.membs.length;i++){
-        for(let j=0;j<this.membs[i].msmadrs.length;j++){
-          this.mcdsrv.mcds.push({  
-            mcode:this.membs[i].mcode,
-            sei:this.membs[i].sei,
-            mei:this.membs[i].mei,
-            kana:this.membs[i].kana,
-            mail:this.mcdsrv.set_mail(this.membs[i].mail ,this.membs[i].mail2,this.membs[i].mail3,this.membs[i].mail4,this.membs[i].mail5),
-            tcode1:this.membs[i].tcode1,
-            tcode2:this.membs[i].tcode2,
-            eda:this.membs[i].msmadrs[j].eda,
-            zip:this.membs[i].msmadrs[j].zip,
-            region:this.membs[i].msmadrs[j].region,
-            local:this.membs[i].msmadrs[j].local,
-            street:this.membs[i].msmadrs[j].street,
-            extend:this.membs[i].msmadrs[j].extend,
-            extend2:this.membs[i].msmadrs[j].extend2,
-            adrname:this.membs[i].msmadrs[j].adrname,
-            tel:this.mcdsrv.set_tel(this.membs[i].msmadrs[j].tel,this.membs[i].msmadrs[j].tel2,this.membs[i].msmadrs[j].tel3,this.membs[i].msmadrs[j].fax)
-          });
-        }
-      }
-    }
+
     // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.height = "3000px";
-    dialogConfig.width = "900vw";
+    // dialogConfig.height = "3000px";
+    // dialogConfig.width = "900vw";
     dialogConfig.data = {
         filter: this.mcd
     };
@@ -209,6 +185,30 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
           this.membs = data.msmember;
           delete this.membs['__typename'];
           // console.log(data.msmember,this.membs);
+          if (this.mcdsrv.mcds.length==0){
+            for(let i=0;i<this.membs.length;i++){
+              for(let j=0;j<this.membs[i].msmadrs.length;j++){
+                this.mcdsrv.mcds.push({  
+                  mcode:this.membs[i].mcode,
+                  sei:this.membs[i].sei,
+                  mei:this.membs[i].mei,
+                  kana:this.membs[i].kana,
+                  mail:this.mcdsrv.set_mail(this.membs[i].mail ,this.membs[i].mail2,this.membs[i].mail3,this.membs[i].mail4,this.membs[i].mail5),
+                  tcode1:this.membs[i].tcode1,
+                  tcode2:this.membs[i].tcode2,
+                  eda:this.membs[i].msmadrs[j].eda,
+                  zip:this.membs[i].msmadrs[j].zip,
+                  region:this.membs[i].msmadrs[j].region,
+                  local:this.membs[i].msmadrs[j].local,
+                  street:this.membs[i].msmadrs[j].street,
+                  extend:this.membs[i].msmadrs[j].extend,
+                  extend2:this.membs[i].msmadrs[j].extend2,
+                  adrname:this.membs[i].msmadrs[j].adrname,
+                  tel:this.mcdsrv.set_tel(this.membs[i].msmadrs[j].tel,this.membs[i].msmadrs[j].tel2,this.membs[i].msmadrs[j].tel3,this.membs[i].msmadrs[j].fax)
+                });
+              }
+            }
+          } 
         },(error) => {
           console.log('error query get_members', error);
         });
