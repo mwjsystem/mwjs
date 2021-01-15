@@ -1,4 +1,11 @@
-
+::ng-deep.mat-form-field.frm-fld-in-bar {
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
+    .mat-form-field-underline {
+        bottom: 0;
+    }
+}
 // .mat-card-actions {
 //     padding-top: 0px;
 // }

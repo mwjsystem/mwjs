@@ -7,6 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { FrmsalesComponent } from './pages/frmsales/frmsales.component';
 import { MstgoodsComponent } from './pages/mstgoods/mstgoods.component';
 import { MstmemberComponent } from './pages/mstmember/mstmember.component';
+import { BeforeunloadGuard } from './beforeunload.guard';
 
 
 const routes: Routes = [
@@ -15,7 +16,7 @@ const routes: Routes = [
   { path: 'frmsales', component: FrmsalesComponent, canActivate: [AuthGuard] },
   { path: 'mstgoods', component: MstgoodsComponent, canActivate: [AuthGuard] },
   { path: 'mstmember', component: MstmemberComponent, canActivate: [AuthGuard] },
-  { path: 'mstmember/:mode/:mcd', component: MstmemberComponent, canActivate: [AuthGuard] },
+  { path: 'mstmember/:mode/:mcd', component: MstmemberComponent, canActivate: [AuthGuard], canDeactivate: [BeforeunloadGuard] },
 ];
 
 @NgModule({

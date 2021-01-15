@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Title } from '@angular/platform-browser';
@@ -9,12 +9,14 @@ import * as Query from './../../common/graph-ql/queries.mst';
 import { UserService } from './../../common/srvs/user.service';
 import { McdService } from './../../dialog/mcdhelp/mcd.service';
 import { McdhelpComponent } from './../../dialog/mcdhelp/mcdhelp.component';
+import { EdaService } from './../../dialog/adreda/eda.service';
 import { AdredaComponent } from './../../dialog/adreda/adreda.component';
 
 @Component({
   selector: 'app-mstmember',
   templateUrl: './mstmember.component.html',
-  styleUrls: ['./../../app.component.scss']
+  styleUrls: ['./../../app.component.scss'],
+  encapsulation : ViewEncapsulation.None
 })
 export class MstmemberComponent implements OnInit, AfterViewInit {
 
@@ -31,17 +33,6 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   site: mwI.Sval[]=[];
   mcd:string;
   mode:number=3;
-  // get_addr(formname:string): Addr {
-  //   return {
-  //     zip: this.form.get(formname).get('zip').value,
-  //     region: this.form.get(formname).get('region').value,
-  //     local: this.form.get(formname).get('local').value,
-  //     street: this.form.get(formname).get('street').value,
-  //     extend: this.form.get(formname).get('extend').value,
-  //     extend2: this.form.get(formname).get('extend2').value,
-  //     adrname: this.form.get(formname).get('adrname').value,
-  //   };
-  // }
 
   constructor(private fb: FormBuilder,
               private title: Title,
@@ -50,8 +41,9 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
               private dialog: MatDialog,
               private usrsrv: UserService,
               private mcdsrv: McdService,
+              private edasrv: EdaService,
               private apollo: Apollo) {
-    this.title.setTitle('顧客マスタ(Mwjsystem)');
+    this.title.setTitle('顧客マスタ(MwjSystem)');
   }
 
   ngOnInit(): void {
@@ -93,17 +85,16 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         this.mcd = '';
       }else{
         this.mcd = params.get('mcd');
-        this.refresh();
       }
       if (params.get('mode') === null){
-        this.mode = 0;
+        this.mode = 3;
       }else{
         this.mode = +params.get('mode');
-        this.refresh();
       } 
     });
     this.get_bunrui();
     this.get_staff();
+    this.refresh();
   }
 
   ngAfterViewInit(): void{
@@ -122,9 +113,12 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
 
   diaBetsu():void {
-    
     let dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      mcode: this.mcd,
+      mode: this.mode
+    };
     let dialogRef = this.dialog.open(AdredaComponent, dialogConfig);
 
   }
@@ -150,10 +144,6 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
           this.refresh();
       }
     );
-
-    
-
-
   }
 
   setNext(){
@@ -266,10 +256,14 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     if(i > -1 ){
       let member:mwI.Member=this.membs[i];
       this.form.get('base').patchValue(member);
-      // console.log(member.msmadrs[0]);
       delete member.msmadrs['__typename'];
-      // console.log(member.msmadrs[0],this.form.get('addr0'));
-      // console.log(this.form.get('addr0'),this.form.get('addr1'));
+      this.edasrv.adrs=[];
+      for (let j=0;j<member.msmadrs.length;j++){
+        if (member.msmadrs[j].eda > 1){
+          this.edasrv.adrs.push(member.msmadrs[j]);
+        }
+      }
+      
       this.form.get('addr0').patchValue(member.msmadrs[0]);
       let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
       if(j > -1 ){
@@ -277,8 +271,12 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       }else{
         this.form.get('addr1').reset();
       }
-      // console.log(this.form.get('addr0'),this.form.get('addr1'));
-      history.replaceState('','','./mstmember/0/' + this.mcd); 
+      history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
+    }
+    if(this.mode==3){
+      this.form.disable();
+    }else{
+      this.form.enable();
     } 
   }
   
@@ -289,6 +287,39 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     // console.log(this['tcds'],this.form.get('base').get('tcode1'));
   }
 
+  modeToCre():void {
+    this.mode=1;
+    this.form.reset();
+    this.form.enable();
+    this.mcd="新規登録";
+    history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
+  }
 
-  
+  modeToUpd():void {
+    this.mode=2;
+    this.form.enable();
+    history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd);
+  }
+
+  save():void {
+
+
+
+
+
+    this.mode=3;
+    this.form.disable();
+  }
+
+  shouldConfirmOnBeforeunload():boolean {
+    return this.form.dirty || this.form.touched;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(e: Event) {
+    if (this.shouldConfirmOnBeforeunload()) {
+      e.returnValue = true;
+    }
+  }  
+
 }

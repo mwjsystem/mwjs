@@ -1,4 +1,7 @@
 <mat-toolbar style="height:40px;" fxLayout="row" style="text-align:center;">
+    <a mat-button mat-icon-button routerLink="/">
+        <mat-icon>dashboard</mat-icon>
+    </a>
     <button mat-button [matMenuTriggerFor]="sale">受注伝票</button>
     <mat-menu #sale="matMenu">
         <a mat-menu-item routerLink="/frmsales">受注伝票</a>
@@ -65,7 +68,7 @@
     </mat-menu>
     <button mat-button [matMenuTriggerFor]="mast">各マスタ</button>
     <mat-menu #mast="matMenu">
-        <a mat-menu-item target="_blank" routerLink="/mstgoods">商品マスタ</a>
+        <a mat-menu-item routerLink="/mstgoods">商品マスタ</a>
         <a mat-menu-item>仕入先マスタ</a>
         <a mat-menu-item>伝票マスタ</a>
         <a mat-menu-item>倉庫マスタ</a>

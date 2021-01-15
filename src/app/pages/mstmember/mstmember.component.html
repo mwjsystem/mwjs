@@ -1,7 +1,19 @@
 <app-navbar></app-navbar>
 <mat-toolbar color="primary" class="toolbar mat-elevation-z8">
-    <div class="icon-area" fxLayout="row wrap" fxLayoutGap="5px">
-        <mat-form-field fxFlex="0 0 10em">
+    <div class="icon-area" fxLayout="row wrap">
+      <button mat-button (click)="modeToCre()" [style.display]="mode==1 ? 'none' : 'block'">
+        <mat-icon>add_box</mat-icon>
+        新規
+      </button>        
+      <button mat-button (click)="modeToUpd()" [style.display]="mode==3 && this.mcd ? 'block' : 'none'">
+        <mat-icon>edit</mat-icon>
+        編集
+      </button>
+      <button mat-button (click)="save()" [style.display]="mode==3 ? 'none' : 'block'">
+        <mat-icon>save</mat-icon>
+        保存
+      </button>
+      <mat-form-field fxFlex="0 0 10em" fxFlexAlign="end" class="frm-fld-in-bar">
             <mat-label>顧客コード</mat-label>
             <input matInput [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
              (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>

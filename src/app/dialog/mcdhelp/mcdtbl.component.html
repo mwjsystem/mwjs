@@ -6,7 +6,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>名前</mat-label>
-        <input matInput (keyup)="updateFilter('mei',$event.target.value)">
+        <input matInput (keyup)="updateFilter('sei',$event.target.value)">
       </mat-form-field>
       <mat-form-field>
         <mat-label>カナ</mat-label>
@@ -20,10 +20,6 @@
         <mat-label>電話番号</mat-label>
         <input matInput type="url" (keyup)="updateFilter('tel',$event.target.value)">
       </mat-form-field>
-      <!-- <mat-form-field style="width:20em;">
-        <mat-label>商品名Filter</mat-label>
-        <input matInput (keyup)="updateFilter('gname',$event.target.value)" placeholder="商品名">
-      </mat-form-field> -->
     </mat-toolbar>
     <table mat-table [dataSource]="dataSource" aria-label="Elements">
         <ng-container matColumnDef="mcode">
@@ -34,10 +30,6 @@
             <th mat-header-cell *matHeaderCellDef>名前</th>
             <td mat-cell *matCellDef="let row">{{row.sei + row.mei}}</td>
         </ng-container>
-        <!-- <ng-container matColumnDef="mei">
-            <th mat-header-cell *matHeaderCellDef>名</th>
-            <td mat-cell *matCellDef="let row">{{row.mei}}</td>
-        </ng-container> -->
         <ng-container matColumnDef="kana">
             <th mat-header-cell *matHeaderCellDef>カナ</th>
             <td mat-cell *matCellDef="let row">{{row.kana}}</td>
@@ -54,22 +46,6 @@
             <th mat-header-cell *matHeaderCellDef>Mail</th>
             <td mat-cell *matCellDef="let row">{{row.mail}}</td>
         </ng-container>
-        <!-- <ng-container matColumnDef="mail2">
-            <th mat-header-cell *matHeaderCellDef>Mail2</th>
-            <td mat-cell *matCellDef="let row">{{row.mail2}}</td>
-        </ng-container>
-        <ng-container matColumnDef="mail3">
-            <th mat-header-cell *matHeaderCellDef>Mail3</th>
-            <td mat-cell *matCellDef="let row">{{row.mail3}}</td>
-        </ng-container>
-        <ng-container matColumnDef="mail4">
-            <th mat-header-cell *matHeaderCellDef>Mail4</th>
-            <td mat-cell *matCellDef="let row">{{row.mail4}}</td>
-        </ng-container>
-        <ng-container matColumnDef="mail5">
-            <th mat-header-cell *matHeaderCellDef>Mail5</th>
-            <td mat-cell *matCellDef="let row">{{row.mail5}}</td>
-        </ng-container>                         -->
         <ng-container matColumnDef="eda">
           <th mat-header-cell *matHeaderCellDef>枝番</th>
           <td mat-cell *matCellDef="let row">{{row.eda}}</td>
@@ -106,14 +82,6 @@
             <th mat-header-cell *matHeaderCellDef>電話番号</th>
             <td mat-cell *matCellDef="let row">{{row.tel}}</td>
         </ng-container>
-        <!-- <ng-container matColumnDef="fax">
-            <th mat-header-cell *matHeaderCellDef>FAX番号</th>
-            <td mat-cell *matCellDef="let row">{{row.fax}}</td>
-        </ng-container>
-        <ng-container matColumnDef="tel2">
-          <th mat-header-cell *matHeaderCellDef>電話番号2</th>
-          <td mat-cell *matCellDef="let row">{{row.tel2}}</td>
-        </ng-container> -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setMcd(row)"></tr>
     </table>

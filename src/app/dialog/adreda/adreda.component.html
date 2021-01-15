@@ -1,14 +1,39 @@
+<mat-toolbar color="primary" class="toolbar">
+  <div class="icon-area" fxLayout="row wrap">
+    <button mat-button (click)="modeToCre()" [style.display]="mode==1 ? 'none' : 'block'">
+      <mat-icon>add_box</mat-icon>
+      新規
+    </button>        
+    <button mat-button (click)="modeToUpd()" [style.display]="mode==3 ? 'block' : 'none'">
+      <mat-icon>edit</mat-icon>
+      編集
+    </button>
+    <button mat-button (click)="save()" [style.display]="mode==3 ? 'none' : 'block'">
+      <mat-icon>save</mat-icon>
+      保存
+    </button>
+  </div>
+  <mat-form-field>
+    <mat-label>枝番</mat-label>
+    <input matInput [ngModel]="eda" (ngModelChange)="eda=$event" (keyup.enter)="onEnter()" (keydown.f4)="edaHelp()"
+    (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
+    <div [style.display]="edasrv.adrs.length>0 ? 'block' : 'none'">
+    <button mat-button mat-icon-button matSuffix (click)="setNext()">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <button mat-button mat-icon-button matSuffix (click)="setPrev()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <button mat-button mat-icon-button matSuffix (click)="edaHelp()">
+        <mat-icon>find_replace</mat-icon>
+    </button>
+    </div>
+  </mat-form-field>
+</mat-toolbar>
+<h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>別納先</h1>
 
-<h2 mat-dialog-title>顧客検索</h2>
 <mat-dialog-content>
-    <form [formGroup]="form">
-      <form formGroupName="base">
-        <mat-form-field>
-          <mat-label>枝番</mat-label>
-          <input matInput formControlName="eda" required size="4">
-        </mat-form-field>
-          
-      </form>        
+    <form [formGroup]="form">       
         <app-address [formName]="'addr0'"></app-address>
     </form>
 </mat-dialog-content>
