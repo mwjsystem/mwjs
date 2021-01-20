@@ -6,6 +6,16 @@
         bottom: 0;
     }
 }
+.RouterOutlet {
+    padding-top: 35px;
+}
+mat-toolbar {
+    position: fixed;
+    z-index: 100; 
+}
+mat-toolbar + *{
+    padding-top: 70px;    
+}
 // .mat-card-actions {
 //     padding-top: 0px;
 // }
