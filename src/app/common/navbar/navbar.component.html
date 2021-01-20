@@ -88,8 +88,10 @@
     </button>
     <mat-menu #menu="matMenu">
         <form class="menu-form" fxLayout="column">  
-            <a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EVW5l6FhMOdGuKCnCSPdEnoBSebtCJmimXB7VJSd0kpQYw?e=8aM7JA" target="_blank">改善要望Excel</a>
-            <button mat-menu-item [matMenuTriggerFor]="colormenu">Color</button>
+            <a mat-menu-item href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EVW5l6FhMOdGuKCnCSPdEnoBSebtCJmimXB7VJSd0kpQYw?e=8aM7JA" target="_blank">
+                <mat-icon>list_alt</mat-icon>改善要望Excel
+            </a>
+            <button mat-menu-item [matMenuTriggerFor]="colormenu"><mat-icon>palette</mat-icon>テーマカラー</button>
             <mat-menu #colormenu="matMenu">
                 <button mat-menu-item (click)="setColor('indigo-pink')">indigo-pink</button>
                 <button mat-menu-item (click)="setColor('deeppurple-amber')">deeppurple-amber</button>
