@@ -47,7 +47,7 @@
 </mat-toolbar>
 <form [formGroup]="form" fxLayout="row wrap" fxLayoutGap="5px">
 <mat-card fxFlex.gt-sm="50">
-  <mat-card-header fxLayout="row wrap">
+  <mat-card-header fxLayout="row wrap" fxLayoutGap="5px">
     <mat-card-title>
         基本情報
     </mat-card-title>
@@ -71,7 +71,7 @@
   <mat-card-content>
     <form formGroupName="base" fxLayout="column">
       <div fxLayoutGap="5px">
-      <mat-form-field>
+      <mat-form-field style="width:20em">
         <mat-label>姓/会社名</mat-label>
         <input matInput formControlName="sei" required>
       </mat-form-field>
@@ -167,7 +167,7 @@
 <mat-card fxFlex.gt-sm="49">     
     <mat-card-header>
         <mat-card-title>
-            自宅住所
+            基本住所
         </mat-card-title>
     </mat-card-header>
     <app-address [formName]="'addr0'"></app-address>        
@@ -240,7 +240,7 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-            勤務先住所
+            その他住所
             </mat-panel-title>
         </mat-expansion-panel-header>
         <app-address [formName]="'addr1'"></app-address>                

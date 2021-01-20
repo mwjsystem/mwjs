@@ -45,6 +45,7 @@ export class AddressComponent implements OnInit {
   }
 
   saveMadr(mcode:string|number,eda:string|number,mode:number):Subject<string|number> {
+    // console.log(this.formName,eda);
     const form = this.parent.form;
     let neweda:Subject<string|number>=new Subject();
     let madr:any={
@@ -93,7 +94,7 @@ export class AddressComponent implements OnInit {
         })
         .valueChanges     
         .subscribe(({ data }) => {
-          let lceda=data.msmadr_aggregate.aggregate.max.eda;
+          let lceda=data.msmadr_aggregate.aggregate.max.eda+1;
           madr.eda=lceda;
           neweda.next(lceda);
           madrs.push(madr);

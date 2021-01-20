@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
@@ -12,6 +12,7 @@ import { McdService } from './../../dialog/mcdhelp/mcd.service';
 import { McdhelpComponent } from './../../dialog/mcdhelp/mcdhelp.component';
 import { EdaService } from './../../dialog/adreda/eda.service';
 import { AdredaComponent } from './../../dialog/adreda/adreda.component';
+import { AddressComponent } from './../../common/address/address.component';
 
 @Component({
   selector: 'app-mstmember',
@@ -20,7 +21,8 @@ import { AdredaComponent } from './../../dialog/adreda/adreda.component';
   encapsulation : ViewEncapsulation.None
 })
 export class MstmemberComponent implements OnInit, AfterViewInit {
-
+  @ViewChildren( AddressComponent)
+    private children: QueryList<AddressComponent>;
   form: FormGroup;
   membs: mwI.Member[]=[];
   tcds: mwI.Sval[]=[];
@@ -34,6 +36,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   site: mwI.Sval[]=[];
   mcd:number | string;
   mode:number=3;
+  flgadr1:number=1; //その他住所フラグ 1：未登録、2：登録済
 
   constructor(private fb: FormBuilder,
               private title: Title,
@@ -85,7 +88,41 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       if (params.get('mcd') === null){
         this.mcd = '';
       }else{
+        //１件分だけ先に読込
         this.mcd = params.get('mcd');
+        this.apollo.watchQuery<any>({
+          query: Query.GetMast1, 
+            variables: { 
+              id : this.usrsrv.compid,
+              mcode: this.mcd
+            },
+        })
+        .valueChanges
+        .subscribe(({ data }) => { 
+          let member:mwI.Member=data.msmember[0];
+          this.form.get('base').patchValue(member);
+          this.usrsrv.setTmstmp(member);    
+          delete member.msmadrs['__typename'];
+          this.edasrv.adrs=[];
+          for (let j=0;j<member.msmadrs.length;j++){
+            if (member.msmadrs[j].eda > 1){
+              this.edasrv.adrs.push(member.msmadrs[j]);
+            }
+          }
+          this.form.get('addr0').patchValue(member.msmadrs[0]);
+          //その他住所があれば、
+          let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
+          if(j > -1 ){
+            this.form.get('addr1').patchValue(member.msmadrs[j]);
+            this.flgadr1=2;
+          }else{
+            this.form.get('addr1').reset();
+            this.flgadr1=1;
+          }
+        },(error) => {
+          console.log('error query get_members', error);
+        });
+
       }
       if (params.get('mode') === null){
         this.mode = 3;
@@ -290,11 +327,14 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       }
       
       this.form.get('addr0').patchValue(member.msmadrs[0]);
+      //その他住所があれば、
       let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
       if(j > -1 ){
         this.form.get('addr1').patchValue(member.msmadrs[j]);
+        this.flgadr1=2;
       }else{
         this.form.get('addr1').reset();
+        this.flgadr1=1;
       }
       history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
     }
@@ -314,8 +354,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     this.mode=1;
     this.form.reset();
     this.form.enable();
-    this.mcd="新規登録";
-    history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
+    this.mcd="新規登録"; 
   }
 
   modeToUpd():void {
@@ -365,6 +404,10 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         },
       }).subscribe(({ data }) => {
         console.log('update_msmember', data);
+        this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
+        if (this.form.get('addr1').get('zip') !== null) {
+          this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
+        }
         this.mode=3;
         this.form.disable();
         this.form.markAsPristine();
@@ -382,7 +425,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         })
         .valueChanges
         .subscribe(({ data }) => {
-          this.mcd=data.msmember_aggregate.aggregate.max.mcode;
+          this.mcd=data.msmember_aggregate.aggregate.max.mcode + 1;
           member.mcode = this.mcd;
           member.created_at = new Date();
           member.created_by = this.usrsrv.userInfo.nickname;
@@ -394,9 +437,14 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
             },
           }).subscribe(({ data }) => {
             console.log('Insert_msmember', data);
+            this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
+            if (this.form.get('addr1').get('zip') !== null) {
+              this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
+            }
             this.mode=3;
             this.form.disable();
             this.form.markAsPristine();
+            history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd);
           },(error) => {
             console.log('error Insert_msmember', error);
           }); 

@@ -105,7 +105,10 @@
                 <mat-label>会社</mat-label>
                 <input matInput mat-menu-item style="pointer-events: none" value="{{usrsrv.system.name}}">
             </mat-form-field>
-            <span mat-menu-item>ユーザ名:{{usrsrv.userInfo.name}}</span>
+            <mat-form-field>
+                <mat-label>ユーザ名</mat-label>
+                <input matInput mat-menu-item style="pointer-events: none" value="{{usrsrv.userInfo.name}}">
+            </mat-form-field>
         </form>
     </mat-menu>
 </mat-toolbar>

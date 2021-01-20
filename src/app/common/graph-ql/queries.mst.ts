@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GetMast1 = gql`
-query get_members($id: smallint!) {
-  msmember(where: {id: {_eq: $id}}) {
+query get_members($id: smallint!,$mcode:Int) {
+  msmember(where: {id: {_eq: $id}, mcode: {_eq: $mcode}}, order_by: {mcode: asc}) {
     mcode
     sei
     mei
@@ -35,7 +35,7 @@ query get_members($id: smallint!) {
     lday
     created_by
     updated_by
-    msmadrs {
+    msmadrs(order_by: {eda: asc}) {
       eda
       zip
       region
