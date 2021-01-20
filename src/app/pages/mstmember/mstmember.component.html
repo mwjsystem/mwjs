@@ -2,56 +2,71 @@
 <mat-toolbar color="primary" class="toolbar mat-elevation-z8">
     <div class="icon-area" fxLayout="row wrap">
       <button mat-button (click)="modeToCre()" [style.display]="mode==1 ? 'none' : 'block'">
-        <mat-icon>add_box</mat-icon>
-        新規
+        <mat-icon>add_box</mat-icon>新規
       </button>        
       <button mat-button (click)="modeToUpd()" [style.display]="mode==3 && this.mcd ? 'block' : 'none'">
-        <mat-icon>edit</mat-icon>
-        編集
+        <mat-icon>edit</mat-icon>編集
       </button>
       <button mat-button (click)="save()" [style.display]="mode==3 ? 'none' : 'block'">
-        <mat-icon>save</mat-icon>
-        保存
+        <mat-icon>save</mat-icon>保存
       </button>
-      <mat-form-field fxFlex="0 0 10em" fxFlexAlign="end" class="frm-fld-in-bar">
-            <mat-label>顧客コード</mat-label>
-            <input matInput [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
-             (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
-             <!-- <mat-hint>顧客コード</mat-hint> -->
-            <button mat-button mat-icon-button matSuffix (click)="setNext()">
+      <button mat-button (click)="cancel()" [style.display]="mode==3 ? 'none' : 'block'">
+        <mat-icon>cancel</mat-icon>中止
+      </button>
+      <mat-form-field fxFlex="0 0 12em" fxFlexAlign="end" class="frm-fld-in-bar">
+          <mat-label>顧客コード</mat-label>
+          <input matInput [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
+            (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
+            <!-- <mat-hint>顧客コード</mat-hint> -->
+            <button mat-button mat-icon-button matSuffix (click)="setNext()" [style.display]="mode==3 ? 'inline-block' : 'none'">
               <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
-            <button mat-button mat-icon-button matSuffix (click)="setPrev()">
+            <button mat-button mat-icon-button matSuffix (click)="setPrev()" [style.display]="mode==3 ? 'inline-block' : 'none'">
               <mat-icon>keyboard_arrow_down</mat-icon>
             </button>
-            <button mat-button mat-icon-button matSuffix (click)="mcdHelp()">
-                <mat-icon>find_replace</mat-icon>
+            <button mat-button mat-icon-button matSuffix (click)="mcdHelp()" [style.display]="mode==3 ? 'inline-block' : 'none'">
+              <mat-icon>find_replace</mat-icon>
             </button>
-        </mat-form-field>
-        <button mat-button (click)="diaBetsu()">
-            <mat-icon>local_shipping</mat-icon>
-            別納先
-        </button>
-        <button  mat-button (click)="test(1)">
-            <mat-icon>scanner</mat-icon>
-            刺繍データ
-        </button>
-        <button mat-button (click)="refresh()">
-            <mat-icon>autorenew</mat-icon>
-            再表示
-        </button>
-        <button mat-button><a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EdJVQxKeKFRCr0sV1ebScewBQX6bPjCc8acDLL5VzwsIJQ?e=5HEIZ5" target="_blank">
-            <mat-icon>help</mat-icon>
-            ヘルプ
-        </a></button>
+      </mat-form-field>
+      <button mat-button (click)="diaBetsu()" [style.display]="mode==1 ? 'none' : 'inline-block'">
+        <mat-icon>local_shipping</mat-icon>別納先
+      </button>
+      <button  mat-button (click)="test(1)" [style.display]="mode==1 ? 'none' : 'inline-block'">
+        <mat-icon>scanner</mat-icon>刺繍データ
+      </button>
+      <button  mat-button (click)="test(1)" [style.display]="mode==1 ? 'none' : 'inline-block'">
+        <mat-icon>question_answer</mat-icon>問合せ
+      </button>
+      <button mat-button (click)="refresh()">
+        <mat-icon>autorenew</mat-icon>再表示
+      </button>
+      <button mat-button><a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EdJVQxKeKFRCr0sV1ebScewBQX6bPjCc8acDLL5VzwsIJQ?e=5HEIZ5" target="_blank">
+        <mat-icon>help</mat-icon>ヘルプ
+      </a></button>
     </div>
 </mat-toolbar>
 <form [formGroup]="form" fxLayout="row wrap" fxLayoutGap="5px">
 <mat-card fxFlex.gt-sm="50">
-  <mat-card-header>
+  <mat-card-header fxLayout="row wrap">
     <mat-card-title>
         基本情報
     </mat-card-title>
+    <mat-form-field>
+      <mat-label>登録日時</mat-label>
+      <input matInput [value]="usrsrv.tmstmp.created_at | date:'yyyy/MM/dd HH:mm'" disabled>
+    </mat-form-field>
+    <mat-form-field style="width:8em">
+      <mat-label>登録者</mat-label>
+      <input matInput [value]="usrsrv.tmstmp.created_by" disabled>
+    </mat-form-field> 
+    <mat-form-field>
+      <mat-label>更新日時</mat-label>
+      <input matInput [value]="usrsrv.tmstmp.updated_at | date:'yyyy/MM/dd HH:mm'" disabled>
+    </mat-form-field>
+    <mat-form-field style="width:8em">
+      <mat-label>更新者</mat-label>
+      <input matInput [value]="usrsrv.tmstmp.updated_by" disabled>
+    </mat-form-field>
   </mat-card-header>
   <mat-card-content>
     <form formGroupName="base" fxLayout="column">
@@ -76,6 +91,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field style="width:5em">
+        <mat-label>消費税区分</mat-label>
+        <mat-select formControlName="mtax" (change)="test($event)">
+          <mat-option *ngFor="let sval of mtax" [value]="sval.value">
+            {{sval.viewval}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>入金予定初期値</mat-label>
         <mat-select formControlName="pay">
@@ -88,17 +111,9 @@
         <mat-label>配送方法初期値</mat-label>
         <input matInput formControlName="okuri">
       </mat-form-field>
-      <mat-form-field style="width:5em">
-        <mat-label>消費税区分</mat-label>
-        <mat-select formControlName="mtax">
-          <mat-option *ngFor="let sval of mtax" [value]="sval.value">
-            {{sval.viewval}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>大分類</mat-label>
-        <mat-select formControlName="daib">
+        <mat-select formControlName="daibunrui">
           <mat-option *ngFor="let sval of daib" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -106,16 +121,8 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>部門</mat-label>
-        <mat-select formControlName="bmon">
+        <mat-select formControlName="bumon">
           <mat-option *ngFor="let sval of bmon" [value]="sval.value">
-            {{sval.viewval}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field style="width:8em">
-        <mat-label>特別単価区分</mat-label>
-        <mat-select formControlName="sptnkbn">
-          <mat-option *ngFor="let sval of sptnk" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
         </mat-select>
@@ -135,10 +142,16 @@
             {{sval.viewval}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <!-- <mat-form-field> -->
-        <mat-checkbox formControlName="del">削除済</mat-checkbox>
-      <!-- </mat-form-field> -->
+      </mat-form-field>      
+      <mat-form-field style="width:8em">
+        <mat-label>特別単価区分</mat-label>
+        <mat-select formControlName="sptnkbn">
+          <mat-option *ngFor="let sval of sptnk" [value]="sval.value">
+            {{sval.viewval}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>     
+      <mat-checkbox formControlName="del">削除済</mat-checkbox>
       </div>
       <mat-form-field>
         <mat-label>備考</mat-label>

@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
@@ -31,7 +32,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   pay:  mwI.Sval[]=[];
   nkin: mwI.Sval[]=[];
   site: mwI.Sval[]=[];
-  mcd:string;
+  mcd:number | string;
   mode:number=3;
 
   constructor(private fb: FormBuilder,
@@ -39,7 +40,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private elementRef: ElementRef,
               private dialog: MatDialog,
-              private usrsrv: UserService,
+              public usrsrv: UserService,
               private mcdsrv: McdService,
               private edasrv: EdaService,
               private apollo: Apollo) {
@@ -56,8 +57,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       pay: new FormControl(''),
       okuri: new FormControl(''),
       mtax: new FormControl('', Validators.required),
-      daib: new FormControl(''),
-      bmon: new FormControl(''),
+      daibunrui: new FormControl(''),
+      bumon: new FormControl(''),
       tcode1: new FormControl('', Validators.required),
       tcode2: new FormControl('', Validators.required),
       del: new FormControl(''),
@@ -94,12 +95,12 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     });
     this.get_bunrui();
     this.get_staff();
-    this.refresh();
   }
 
   ngAfterViewInit(): void{
-    this.get_members();
-
+    setTimeout(() => {
+      this.refresh();
+    });
   }
 
   contxtMenu(){
@@ -116,11 +117,28 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      mcode: this.mcd,
+      mcode: this.mcd +'(' + this.form.get('base').get('sei').value + ')',
       mode: this.mode
     };
     let dialogRef = this.dialog.open(AdredaComponent, dialogConfig);
-
+    this.edasrv.mcode = this.mcd ;
+    this.edasrv.edas=[];
+    for(let i=0;i<this.mcdsrv.mcds.length;i++){ 
+      if(this.mcdsrv.mcds[i].mcode==this.mcd && this.mcdsrv.mcds[i].eda > 1){
+        this.edasrv.edas.push({
+          eda:this.mcdsrv.mcds[i].eda,
+          zip:this.mcdsrv.mcds[i].zip,
+          region:this.mcdsrv.mcds[i].region,
+          local:this.mcdsrv.mcds[i].local,
+          street:this.mcdsrv.mcds[i].street,
+          extend:this.mcdsrv.mcds[i].extend,
+          extend2:this.mcdsrv.mcds[i].extend2,
+          adrname:this.mcdsrv.mcds[i].adrname,
+          tel:this.mcdsrv.mcds[i].tel,
+        });
+      }
+      
+    }
   }
   mcdHelp(): void {
     let dialogConfig = new MatDialogConfig();
@@ -147,10 +165,12 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
 
   setNext(){
-    let i:number = this.membs.findIndex(obj => obj.mcode == this.mcd);
-    if(i > -1 && i < this.membs.length){
-      this.mcd = this.membs[i+1].mcode;
-    }
+      let i:number = this.membs.findIndex(obj => obj.mcode == this.mcd);
+      if(i > -1 && i < this.membs.length){
+        this.mcd = this.membs[i+1].mcode;
+      } else {
+        this.mcd = this.membs[0].mcode;  
+      }
     this.refresh();
   }
 
@@ -158,6 +178,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     let i:number = this.membs.findIndex(obj => obj.mcode == this.mcd);
     if(i > 0 ){
       this.mcd = this.membs[i-1].mcode;
+    } else {
+      this.mcd = this.membs[0].mcode;  
     }
     this.refresh();
   }
@@ -179,7 +201,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
             for(let i=0;i<this.membs.length;i++){
               for(let j=0;j<this.membs[i].msmadrs.length;j++){
                 this.mcdsrv.mcds.push({  
-                  mcode:this.membs[i].mcode,
+                  mcode:this.membs[i].mcode.toString(),
                   sei:this.membs[i].sei,
                   mei:this.membs[i].mei,
                   kana:this.membs[i].kana,
@@ -256,6 +278,9 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     if(i > -1 ){
       let member:mwI.Member=this.membs[i];
       this.form.get('base').patchValue(member);
+      this.usrsrv.setTmstmp(member);
+      // console.log(member.mtax,this.form.get('base').value.mtax);
+
       delete member.msmadrs['__typename'];
       this.edasrv.adrs=[];
       for (let j=0;j<member.msmadrs.length;j++){
@@ -273,6 +298,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       }
       history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
     }
+    // console.log('refresh',this.mode);
     if(this.mode==3){
       this.form.disable();
     }else{
@@ -281,10 +307,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
   
   test(value){
-    this.mode=value;
-    // console.log(this.mode);
-    this.form.disable();
-    // console.log(this['tcds'],this.form.get('base').get('tcode1'));
+    console.log(value,this.form.get('base').value.mtax);
   }
 
   modeToCre():void {
@@ -302,17 +325,95 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
 
   save():void {
+    let member:any={
+      id: this.usrsrv.compid,
+      mcode: this.mcd,
+      sei: this.usrsrv.editFrmval(this.form.get('base'),'sei'),
+      mei: this.usrsrv.editFrmval(this.form.get('base'),'mei'),
+      kana: this.usrsrv.editFrmval(this.form.get('base'),'kana'),
+      tankakbn: this.usrsrv.editFrmval(this.form.get('base'),'tankakbn'),
+      mail: this.usrsrv.editFrmval(this.form.get('mail'),'mail'),
+      mail2: this.usrsrv.editFrmval(this.form.get('mail'),'mail2'),
+      mail3: this.usrsrv.editFrmval(this.form.get('mail'),'mail3'),
+      mail4: this.usrsrv.editFrmval(this.form.get('mail'),'mail4'),
+      mail5: this.usrsrv.editFrmval(this.form.get('mail'),'mail5'),
+      torikbn: this.usrsrv.editFrmval(this.form.get('kake'),'torikbn'),
+      sime: this.usrsrv.editFrmval(this.form.get('kake'),'sime'),
+      site: this.usrsrv.editFrmval(this.form.get('kake'),'site'),
+      inday: this.usrsrv.editFrmval(this.form.get('kake'),'inday'),
+      icode: this.usrsrv.editFrmval(this.form.get('kake'),'icode'),
+      bikou: this.usrsrv.editFrmval(this.form.get('base'),'bikou'),
+      inbikou: this.usrsrv.editFrmval(this.form.get('base'),'inbikou'),
+      pay: this.usrsrv.editFrmval(this.form.get('base'),'pay'),
+      okuri: this.usrsrv.editFrmval(this.form.get('base'),'okuri'),
+      mtax: this.usrsrv.editFrmval(this.form.get('base'),'mtax'),
+      sscode: this.usrsrv.editFrmval(this.form.get('base'),'sscode'),
+      tcode1: this.usrsrv.editFrmval(this.form.get('base'),'tcode1'),
+      tcode2: this.usrsrv.editFrmval(this.form.get('base'),'tcode2'),
+      del: this.usrsrv.editFrmval(this.form.get('base'),'del'),
+      sptnkbn: this.usrsrv.editFrmval(this.form.get('base'),'sptnkbn'),
+      updated_at:new Date(),
+      updated_by:this.usrsrv.userInfo.nickname
+    }
+    if(this.mode==2){      
+      this.apollo.mutate<any>({
+        mutation: Query.UpdateMast1,
+        variables: {
+          id: this.usrsrv.compid,
+          mcode: this.mcd,
+          "_set": member
+        },
+      }).subscribe(({ data }) => {
+        console.log('update_msmember', data);
+        this.mode=3;
+        this.form.disable();
+        this.form.markAsPristine();
+      },(error) => {
+        console.log('error update_msmember', error);
+      });
+    }else{
+      let membs:any[]=[];
+      this.apollo.watchQuery<any>({
+        query: Query.GetMast5, 
+          variables: { 
+            id : this.usrsrv.compid,
+            maxmcd : +this.usrsrv.system.maxmcd
+          },
+        })
+        .valueChanges
+        .subscribe(({ data }) => {
+          this.mcd=data.msmember_aggregate.aggregate.max.mcode;
+          member.mcode = this.mcd;
+          member.created_at = new Date();
+          member.created_by = this.usrsrv.userInfo.nickname;
+          membs.push(member);
+          this.apollo.mutate<any>({
+            mutation: Query.InsertMast1,
+            variables: {
+              "object": membs
+            },
+          }).subscribe(({ data }) => {
+            console.log('Insert_msmember', data);
+            this.mode=3;
+            this.form.disable();
+            this.form.markAsPristine();
+          },(error) => {
+            console.log('error Insert_msmember', error);
+          }); 
+        },(error) => {
+          console.log('error query get_maxmcode', error);
+        });          
+    }
+  }
 
-
-
-
-
+  cancel():void {
     this.mode=3;
     this.form.disable();
+    this.form.markAsPristine();
   }
 
   shouldConfirmOnBeforeunload():boolean {
-    return this.form.dirty || this.form.touched;
+    return this.form.dirty;
   }
 
   @HostListener('window:beforeunload', ['$event'])

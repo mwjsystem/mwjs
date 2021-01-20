@@ -8,10 +8,10 @@ import { UserService } from '../srvs/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public userSrv:UserService) { }
+  constructor(public usrsrv:UserService) { }
 
   ngOnInit():void {
-    const color:string = localStorage.getItem(this.userSrv.userInfo.nickname + 'MWJS_COLOR');
+    const color:string = localStorage.getItem(this.usrsrv.userInfo.nickname + 'MWJS_COLOR');
     if ( color !== null ){this.setColor(color);}
   }
   setColor(colorname:string):void {
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
           link.href = 'https://unpkg.com/@angular/material/prebuilt-themes/' + colorname + '.css';
         }
       }
-    localStorage.setItem(this.userSrv.userInfo.nickname + 'MWJS_COLOR', colorname);
+    localStorage.setItem(this.usrsrv.userInfo.nickname + 'MWJS_COLOR', colorname);
   }
 
 }

@@ -12,29 +12,33 @@
       <mat-icon>save</mat-icon>
       保存
     </button>
+    <button mat-button (click)="save()" [style.display]="mode==3 ? 'none' : 'block'">
+      <mat-icon>cancel</mat-icon>
+      中止
+    </button>
   </div>
-  <mat-form-field>
+  <mat-form-field fxFlexAlign="end" class="frm-fld-in-bar">
     <mat-label>枝番</mat-label>
     <input matInput [ngModel]="eda" (ngModelChange)="eda=$event" (keyup.enter)="onEnter()" (keydown.f4)="edaHelp()"
     (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
-    <div [style.display]="edasrv.adrs.length>0 ? 'block' : 'none'">
-    <button mat-button mat-icon-button matSuffix (click)="setNext()">
+    <!-- <div [style.display]="edasrv.adrs.length>0 ? 'inline' : 'none'"> -->
+    <button mat-button mat-icon-button matSuffix (click)="setNext()" [style.display]="mode==3 ? 'inline-block' : 'none'">
       <mat-icon>keyboard_arrow_up</mat-icon>
     </button>
-    <button mat-button mat-icon-button matSuffix (click)="setPrev()">
+    <button mat-button mat-icon-button matSuffix (click)="setPrev()" [style.display]="mode==3 ? 'inline-block' : 'none'">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
-    <button mat-button mat-icon-button matSuffix (click)="edaHelp()">
+    <button mat-button mat-icon-button matSuffix (click)="edaHelp()" [style.display]="mode==3 ? 'inline-block' : 'none'">
         <mat-icon>find_replace</mat-icon>
     </button>
-    </div>
+    <!-- </div> -->
   </mat-form-field>
 </mat-toolbar>
-<h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>別納先</h1>
+<h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>{{mcode}} 別納先</h1>
 
 <mat-dialog-content>
     <form [formGroup]="form">       
-        <app-address [formName]="'addr0'"></app-address>
+        <app-address [formName]="'addr'"></app-address>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>

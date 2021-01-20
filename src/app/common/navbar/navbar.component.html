@@ -87,18 +87,25 @@
         <mat-icon>settings</mat-icon>設定
     </button>
     <mat-menu #menu="matMenu">
-        <span mat-menu-item>ユーザ名:{{userSrv.userInfo.name}}</span>
-        <a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EVW5l6FhMOdGuKCnCSPdEnoBSebtCJmimXB7VJSd0kpQYw?e=8aM7JA" target="_blank">改善要望Excel</a>
-        <button mat-menu-item [matMenuTriggerFor]="colormenu">Color</button>
-        <mat-menu #colormenu="matMenu">
-            <button mat-menu-item (click)="setColor('indigo-pink')">indigo-pink</button>
-            <button mat-menu-item (click)="setColor('deeppurple-amber')">deeppurple-amber</button>
-            <button mat-menu-item (click)="setColor('pink-bluegrey')">pink-bluegrey</button>
-            <button mat-menu-item (click)="setColor('purple-green')">purple-green</button>
-        </mat-menu>
-        <button mat-menu-item (click)="userSrv.logout();">
-            <mat-icon>exit_to_app</mat-icon>
-            <span>ログアウト</span>
-        </button>
+        <form class="menu-form">  
+            <a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EVW5l6FhMOdGuKCnCSPdEnoBSebtCJmimXB7VJSd0kpQYw?e=8aM7JA" target="_blank">改善要望Excel</a>
+            <button mat-menu-item [matMenuTriggerFor]="colormenu">Color</button>
+            <mat-menu #colormenu="matMenu">
+                <button mat-menu-item (click)="setColor('indigo-pink')">indigo-pink</button>
+                <button mat-menu-item (click)="setColor('deeppurple-amber')">deeppurple-amber</button>
+                <button mat-menu-item (click)="setColor('pink-bluegrey')">pink-bluegrey</button>
+                <button mat-menu-item (click)="setColor('purple-green')">purple-green</button>
+            </mat-menu>
+            <button mat-menu-item (click)="usrsrv.logout();">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>ログアウト</span>
+            </button>
+                        
+            <mat-form-field>
+                <mat-label>会社</mat-label>
+                <input matInput mat-menu-item style="pointer-events: none" value="{{usrsrv.system.name}}">
+            </mat-form-field>
+            <span mat-menu-item>ユーザ名:{{usrsrv.userInfo.name}}</span>
+        </form>
     </mat-menu>
 </mat-toolbar>

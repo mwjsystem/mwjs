@@ -1,4 +1,5 @@
-<form formGroupName="{{formName}}" ngNativeValidate ybAddress fxLayoutGap="7px">
+<form formGroupName="{{formName}}" ngNativeValidate ybAddress fxLayout="column">
+    <div fxLayoutGap="7px">
     <mat-form-field>
         <mat-label>郵便番号(ハイフンなし)</mat-label>
         <input matInput formControlName="zip" ybPostalCode required size="7" maxlength="7">
@@ -39,7 +40,25 @@
         <input matInput formControlName="tel2">
     </mat-form-field>
     <mat-form-field>
+        <mat-label>電話番号3</mat-label>
+        <input matInput formControlName="tel3">
+    </mat-form-field>
+    <mat-form-field>
         <mat-label>住所宛名</mat-label>
         <input matInput formControlName="adrname" required>
+    </mat-form-field>
+    <mat-checkbox formControlName="del">削除済</mat-checkbox>
+    </div>
+    <mat-form-field>
+        <mat-label>納品先備考</mat-label>
+        <textarea matInput formControlName="adrbikou"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>納品先社内向け備考</mat-label>
+        <textarea matInput formControlName="adrinbikou"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>送り状備考</mat-label>
+        <textarea matInput formControlName="adrokrbko"></textarea>
     </mat-form-field>
 </form>

@@ -20,7 +20,6 @@ export interface Mcd {
   tel:string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })

@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
+import * as Query from './../graph-ql/queries.mst';
+import { UserService } from './../srvs/user.service';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-address',
@@ -14,7 +18,9 @@ import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContaine
 })
 export class AddressComponent implements OnInit {
   @Input() formName: string;
-  constructor(private parent: FormGroupDirective) { }
+  constructor(private parent: FormGroupDirective,
+              private usrsrv: UserService,
+              private apollo: Apollo) { }
 
   ngOnInit(): void {
     const form = this.parent.form;
@@ -29,11 +35,83 @@ export class AddressComponent implements OnInit {
       tel: new FormControl('', Validators.required),
       fax: new FormControl(''),
       tel2: new FormControl(''),
+      tel3: new FormControl(''),
+      adrbikou: new FormControl(''),
+      adrinbikou: new FormControl(''),
+      adrokrbko: new FormControl(''),
+      del: new FormControl(''),
     }));
    
   }
-  test() {
 
-
+  saveMadr(mcode:string|number,eda:string|number,mode:number):Subject<string|number> {
+    const form = this.parent.form;
+    let neweda:Subject<string|number>=new Subject();
+    let madr:any={
+      id: this.usrsrv.compid,
+      mcode: mcode,
+      eda:eda,
+      zip:this.usrsrv.editFrmval(form.get(this.formName),'zip'),
+      region:this.usrsrv.editFrmval(form.get(this.formName),'region'),
+      local:this.usrsrv.editFrmval(form.get(this.formName),'local'),
+      street:this.usrsrv.editFrmval(form.get(this.formName),'street'),
+      extend:this.usrsrv.editFrmval(form.get(this.formName),'extend'),
+      tel:this.usrsrv.editFrmval(form.get(this.formName),'tel'),
+      fax:this.usrsrv.editFrmval(form.get(this.formName),'fax'),
+      tel2:this.usrsrv.editFrmval(form.get(this.formName),'tel2'),
+      tel3:this.usrsrv.editFrmval(form.get(this.formName),'tel3'),
+      extend2:this.usrsrv.editFrmval(form.get(this.formName),'extend2'),
+      adrname:this.usrsrv.editFrmval(form.get(this.formName),'adrname'),
+      adrbikou:this.usrsrv.editFrmval(form.get(this.formName),'adrbikou'),
+      adrinbikou:this.usrsrv.editFrmval(form.get(this.formName),'adrinbikou'),
+      adrokrbko:this.usrsrv.editFrmval(form.get(this.formName),'adrokrbko'),
+      del:this.usrsrv.editFrmval(form.get(this.formName),'del')
+    }
+    if(mode==2){      
+      this.apollo.mutate<any>({
+        mutation: Query.UpdateMast2,
+        variables: {
+          id: this.usrsrv.compid,
+          mcode: mcode,
+          eda:eda,
+          "_set": madr
+        },
+      }).subscribe(({ data }) => {
+        console.log('update_msmadr', data);
+        neweda.next(eda);
+      },(error) => {
+        console.log('error update_msmember', error);
+      });
+    } else {
+      let madrs:any[]=[];
+      this.apollo.watchQuery<any>({
+        query: Query.GetMast6, 
+          variables: { 
+            id: this.usrsrv.compid,
+            mcode: mcode
+          },
+        })
+        .valueChanges     
+        .subscribe(({ data }) => {
+          let lceda=data.msmadr_aggregate.aggregate.max.eda;
+          madr.eda=lceda;
+          neweda.next(lceda);
+          madrs.push(madr);
+          this.apollo.mutate<any>({
+            mutation: Query.InsertMast2,
+            variables: {
+              "object": madrs
+            },
+          }).subscribe(({ data }) => {
+            console.log('Insert_msmadr', data);
+          },(error) => {
+            console.log('error Insert_msmadr', error);
+          }); 
+        },(error) => {
+          console.log('error query get_maxeda', error);
+        });    
+    }
+    return neweda;
   }
+  
 }

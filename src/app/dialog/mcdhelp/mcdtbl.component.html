@@ -34,6 +34,14 @@
             <th mat-header-cell *matHeaderCellDef>カナ</th>
             <td mat-cell *matCellDef="let row">{{row.kana}}</td>
         </ng-container>
+        <ng-container matColumnDef="tel">
+          <th mat-header-cell *matHeaderCellDef>電話番号</th>
+          <td mat-cell *matCellDef="let row">{{row.tel}}</td>
+        </ng-container>
+        <ng-container matColumnDef="mail">
+          <th mat-header-cell *matHeaderCellDef>Mail</th>
+          <td mat-cell *matCellDef="let row">{{row.mail}}</td>
+        </ng-container>
         <ng-container matColumnDef="tcode1">
             <th mat-header-cell *matHeaderCellDef>営業</th>
             <td mat-cell *matCellDef="let row">{{row.tcode1}}</td>
@@ -41,10 +49,6 @@
         <ng-container matColumnDef="tcode2">
             <th mat-header-cell *matHeaderCellDef>内勤</th>
             <td mat-cell *matCellDef="let row">{{row.tcode2}}</td>
-        </ng-container>
-        <ng-container matColumnDef="mail">
-            <th mat-header-cell *matHeaderCellDef>Mail</th>
-            <td mat-cell *matCellDef="let row">{{row.mail}}</td>
         </ng-container>
         <ng-container matColumnDef="eda">
           <th mat-header-cell *matHeaderCellDef>枝番</th>
@@ -77,10 +81,6 @@
         <ng-container matColumnDef="adrname">
             <th mat-header-cell *matHeaderCellDef>宛名</th>
             <td mat-cell *matCellDef="let row">{{row.adrname}}</td>
-        </ng-container>
-        <ng-container matColumnDef="tel">
-            <th mat-header-cell *matHeaderCellDef>電話番号</th>
-            <td mat-cell *matCellDef="let row">{{row.tel}}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="setMcd(row)"></tr>

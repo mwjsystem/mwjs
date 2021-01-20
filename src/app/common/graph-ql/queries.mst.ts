@@ -18,11 +18,23 @@ query get_members($id: smallint!) {
     site
     inday
     icode
+    bikou
+    inbikou
+    pay
+    okuri
+    mtax
     sscode
     tcode1
     tcode2
     del
     sptnkbn
+    daibunrui
+    bumon
+    created_at
+    updated_at
+    lday
+    created_by
+    updated_by
     msmadrs {
       eda
       zip
@@ -37,6 +49,9 @@ query get_members($id: smallint!) {
       extend2
       adrname
       adrbikou
+      adrinbikou
+      adrokrbko
+      del
     }    
   }
 }`;
@@ -55,5 +70,57 @@ query get_staff($id: smallint!){
     code
     name
     mail
+  }
+}`;
+export const GetMast4 = gql`
+query get_system($id: smallint!){
+  mssystem(where: {id: {_eq: $id}}) {
+    name
+    subname
+    maxmcd
+  }
+}`;
+export const GetMast5 = gql`
+query get_mcode($id: smallint!,$maxmcd: Int){
+  msmember_aggregate(where: {id: {_eq: $id}, mcode: {_lt: $maxmcd}}) {
+    aggregate {
+      max {
+        mcode
+      }
+    }
+  }
+}`;
+export const GetMast6 = gql`
+query get_eda($id: smallint!,$mcode: Int!){
+  msmadr_aggregate(where: {id: {_eq: $id}, mcode: {_eq: $mcode}}) {
+    aggregate {
+      max {
+        eda
+      }
+    }
+  }
+}`;
+export const InsertMast1 = gql`
+mutation ins_member($object: [msmember_insert_input!]!) {
+  insert_msmember(objects: $object) {
+    affected_rows
+  }
+}`;
+export const InsertMast2 = gql`
+mutation ins_madr($object: [msmadr_insert_input!]!) {
+  insert_msmadr(objects: $object) {
+    affected_rows
+  }
+}`;
+export const UpdateMast1 = gql`
+mutation upd_member($id: smallint!, $mcode: Int!,$_set: msmember_set_input!) {
+  update_msmember(where: {id: {_eq: $id},mcode: {_eq:$mcode}}, _set: $_set)  {
+    affected_rows
+  }
+}`;
+export const UpdateMast2 = gql`
+mutation upd_madr($id: smallint!, $mcode: Int!, $eda: Int!,$_set: msmadr_set_input!) {
+  update_msmadr(where: {id: {_eq: $id},mcode: {_eq:$mcode},eda: {_eq:$eda}}, _set: $_set)  {
+    affected_rows
   }
 }`;
