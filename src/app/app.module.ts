@@ -27,6 +27,7 @@ import { McdhelpComponent } from './dialog/mcdhelp/mcdhelp.component';
 import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
 import { EdahelpComponent } from './dialog/adreda/edahelp.component';
 import { EdatblComponent } from './dialog/adreda/edatbl.component';
+import { TmstmpComponent } from './common/tmstmp/tmstmp.component';
 
 registerLocaleData(localeJa);
 
@@ -44,7 +45,8 @@ registerLocaleData(localeJa);
     McdhelpComponent,
     McdtblComponent,
     EdahelpComponent,
-    EdatblComponent
+    EdatblComponent,
+    TmstmpComponent
   ],
   imports: [
     BrowserModule,

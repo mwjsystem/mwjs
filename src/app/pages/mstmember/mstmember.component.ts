@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { formatDate } from '@angular/common';
 
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
@@ -34,7 +33,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   pay:  mwI.Sval[]=[];
   nkin: mwI.Sval[]=[];
   site: mwI.Sval[]=[];
-  mcd:number | string;
+  mcd:number | string="読込中です！";
   mode:number=3;
   flgadr1:number=1; //その他住所フラグ 1：未登録、2：登録済
 
@@ -231,6 +230,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         })
         .valueChanges
         .subscribe(({ data }) => {
+          this.mcd="";
           this.membs = data.msmember;
           delete this.membs['__typename'];
           // console.log(data.msmember,this.membs);

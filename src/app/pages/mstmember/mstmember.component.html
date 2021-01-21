@@ -46,26 +46,11 @@
 </mat-toolbar>
 <form [formGroup]="form" fxLayout="row wrap" fxLayoutGap="5px">
 <mat-card fxFlex.gt-sm="50">
-  <mat-card-header fxLayout="row wrap" fxLayoutGap="5px">
+  <mat-card-header fxLayout="row wrap" fxLayoutAlign="space-between">
     <mat-card-title>
         基本情報
     </mat-card-title>
-    <mat-form-field>
-      <mat-label>登録日時</mat-label>
-      <input matInput [value]="usrsrv.tmstmp.created_at | date:'yyyy/MM/dd HH:mm'" disabled>
-    </mat-form-field>
-    <mat-form-field style="width:8em">
-      <mat-label>登録者</mat-label>
-      <input matInput [value]="usrsrv.tmstmp.created_by" disabled>
-    </mat-form-field> 
-    <mat-form-field>
-      <mat-label>更新日時</mat-label>
-      <input matInput [value]="usrsrv.tmstmp.updated_at | date:'yyyy/MM/dd HH:mm'" disabled>
-    </mat-form-field>
-    <mat-form-field style="width:8em">
-      <mat-label>更新者</mat-label>
-      <input matInput [value]="usrsrv.tmstmp.updated_by" disabled>
-    </mat-form-field>
+    <app-tmstmp></app-tmstmp>
   </mat-card-header>
   <mat-card-content>
     <form formGroupName="base" fxLayout="column">
