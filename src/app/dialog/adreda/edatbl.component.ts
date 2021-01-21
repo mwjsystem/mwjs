@@ -11,14 +11,13 @@ import { Edahlp, EdaService } from './eda.service';
 export class EdatblComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @Output() seteda = new EventEmitter();
-  public filters: any = [{id:'eda',value:''},
-                         {id:'adrname',value:''},
+  public filters: any = [{id:'adrname',value:''},
                          {id:'region',value:''},
                          {id:'local',value:''},
                          {id:'tel',value:''},
                         ];
   dataSource:MatTableDataSource<Edahlp>;
-  displayedColumns = ['eda','zip','region','local','street','extend','extend2','adrname','tel']; 
+  displayedColumns = ['eda','adrname','zip','region','local','street','extend','extend2','tel']; 
   constructor(public edasrv:EdaService) {
     this.dataSource= new MatTableDataSource<Edahlp>(this.edasrv.edas);
   }

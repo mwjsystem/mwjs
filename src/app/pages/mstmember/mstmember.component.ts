@@ -14,6 +14,13 @@ import { EdaService } from './../../dialog/adreda/eda.service';
 import { AdredaComponent } from './../../dialog/adreda/adreda.component';
 import { AddressComponent } from './../../common/address/address.component';
 
+interface Mcode {
+  mcode:number;
+  sei:string;
+  mei:string;
+  del:boolean;
+} 
+
 @Component({
   selector: 'app-mstmember',
   templateUrl: './mstmember.component.html',
@@ -24,7 +31,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   @ViewChildren( AddressComponent)
     private children: QueryList<AddressComponent>;
   form: FormGroup;
-  membs: mwI.Member[]=[];
+  membs: Mcode[]=[];
   tcds: mwI.Sval[]=[];
   daib: mwI.Sval[]=[];
   bmon: mwI.Sval[]=[];
@@ -91,39 +98,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       }else{
         //１件分だけ先に読込
         this.mcd = params.get('mcd');
-        this.apollo.watchQuery<any>({
-          query: Query.GetMast1, 
-            variables: { 
-              id : this.usrsrv.compid,
-              mcode: this.mcd
-            },
-        })
-        .valueChanges
-        .subscribe(({ data }) => { 
-          let member:mwI.Member=data.msmember[0];
-          this.form.get('base').patchValue(member);
-          this.usrsrv.setTmstmp(member);    
-          delete member.msmadrs['__typename'];
-          this.edasrv.adrs=[];
-          for (let j=0;j<member.msmadrs.length;j++){
-            if (member.msmadrs[j].eda > 1){
-              this.edasrv.adrs.push(member.msmadrs[j]);
-            }
-          }
-          this.form.get('addr0').patchValue(member.msmadrs[0]);
-          //その他住所があれば、
-          let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
-          if(j > -1 ){
-            this.form.get('addr1').patchValue(member.msmadrs[j]);
-            this.flgadr1=2;
-          }else{
-            this.form.get('addr1').reset();
-            this.flgadr1=1;
-          }
-        },(error) => {
-          console.log('error query get_members', error);
-        });
-
+        this.get_member(+this.mcd);
       }
       if (params.get('mode') === null){
         this.mode = 3;
@@ -131,8 +106,10 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         this.mode = +params.get('mode');
       } 
     });
+    this.get_members();
     this.get_bunrui();
     this.get_staff();
+    // this.set_helpmcds();
   }
 
   ngAfterViewInit(): void{
@@ -159,35 +136,19 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       mode: this.mode
     };
     let dialogRef = this.dialog.open(AdredaComponent, dialogConfig);
-    this.edasrv.mcode = this.mcd ;
-    this.edasrv.edas=[];
-    for(let i=0;i<this.mcdsrv.mcds.length;i++){ 
-      if(this.mcdsrv.mcds[i].mcode==this.mcd && this.mcdsrv.mcds[i].eda > 1){
-        this.edasrv.edas.push({
-          eda:this.mcdsrv.mcds[i].eda,
-          zip:this.mcdsrv.mcds[i].zip,
-          region:this.mcdsrv.mcds[i].region,
-          local:this.mcdsrv.mcds[i].local,
-          street:this.mcdsrv.mcds[i].street,
-          extend:this.mcdsrv.mcds[i].extend,
-          extend2:this.mcdsrv.mcds[i].extend2,
-          adrname:this.mcdsrv.mcds[i].adrname,
-          tel:this.mcdsrv.mcds[i].tel,
-        });
-      }
-      
-    }
   }
   mcdHelp(): void {
+    // this.set_helpmcds();
     let dialogConfig = new MatDialogConfig();
 
     // dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    // dialogConfig.height = "3000px";
-    // dialogConfig.width = "900vw";
-    dialogConfig.data = {
-        filter: this.mcd
-    };
+    // dialogConfig.autoFocus = true;
+    dialogConfig.width  = '100vw';
+    dialogConfig.height = '98%';
+    dialogConfig.panelClass= 'full-screen-modal';
+    // dialogConfig.data = {
+    //     filter: this.mcd
+    // };
     let dialogRef = this.dialog.open(McdhelpComponent, dialogConfig);
     
     dialogRef.afterClosed().subscribe(
@@ -221,50 +182,111 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     }
     this.refresh();
   }
+  get_member(mcode:number){
+    this.apollo.watchQuery<any>({
+      query: Query.GetMast1, 
+        variables: { 
+          id : this.usrsrv.compid,
+          mcode: this.mcd
+        },
+    })
+    .valueChanges
+    .subscribe(({ data }) => { 
+      let member:mwI.Member=data.msmember[0];
+      this.form.get('base').patchValue(member);
+      this.usrsrv.setTmstmp(member); 
+      this.edasrv.mcode = this.mcd ;
+      this.edasrv.edas=[];
+      this.edasrv.adrs=[];
+      for (let j=0;j<member.msmadrs.length;j++){
+        if (member.msmadrs[j].eda > 1){
+          this.edasrv.adrs.push(member.msmadrs[j]);
+          this.edasrv.edas.push({
+            eda:member.msmadrs[j].eda,
+            zip:member.msmadrs[j].zip,
+            region:member.msmadrs[j].region,
+            local:member.msmadrs[j].local,
+            street:member.msmadrs[j].street,
+            extend:member.msmadrs[j].extend,
+            extend2:member.msmadrs[j].extend2,
+            adrname:member.msmadrs[j].adrname,
+            tel:this.mcdsrv.set_tel(member.msmadrs[j].tel,member.msmadrs[j].tel2,member.msmadrs[j].tel3,member.msmadrs[j].fax)
+          });
+        }
+      }
+      this.form.get('addr0').patchValue(member.msmadrs[0]);
+      //その他住所があれば、
+      let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
+      if(j > -1 ){
+        this.form.get('addr1').patchValue(member.msmadrs[j]);
+        this.flgadr1=2;
+      }else{
+        this.form.get('addr1').reset();
+        this.flgadr1=1;
+      }
+    },(error) => {
+      this.toastr.error('顧客コード' + mcode + 'が登録されていません');
+    });
+  }
 
   get_members():void {
-    if (this.membs.length == 0) {
+    if (this.membs.length==0) {
       this.apollo.watchQuery<any>({
-        query: Query.GetMast1, 
+        query: Query.GetMast0, 
           variables: { 
             id : this.usrsrv.compid
           },
         })
         .valueChanges
         .subscribe(({ data }) => {
-          this.mcd="";
-          this.membs = data.msmember;
-          delete this.membs['__typename'];
-          // console.log(data.msmember,this.membs);
-          if (this.mcdsrv.mcds.length==0){
-            for(let i=0;i<this.membs.length;i++){
-              for(let j=0;j<this.membs[i].msmadrs.length;j++){
-                this.mcdsrv.mcds.push({  
-                  mcode:this.membs[i].mcode.toString(),
-                  sei:this.membs[i].sei,
-                  mei:this.membs[i].mei,
-                  kana:this.membs[i].kana,
-                  mail:this.mcdsrv.set_mail(this.membs[i].mail ,this.membs[i].mail2,this.membs[i].mail3,this.membs[i].mail4,this.membs[i].mail5),
-                  tcode1:this.membs[i].tcode1,
-                  tcode2:this.membs[i].tcode2,
-                  eda:this.membs[i].msmadrs[j].eda,
-                  zip:this.membs[i].msmadrs[j].zip,
-                  region:this.membs[i].msmadrs[j].region,
-                  local:this.membs[i].msmadrs[j].local,
-                  street:this.membs[i].msmadrs[j].street,
-                  extend:this.membs[i].msmadrs[j].extend,
-                  extend2:this.membs[i].msmadrs[j].extend2,
-                  adrname:this.membs[i].msmadrs[j].adrname,
-                  tel:this.mcdsrv.set_tel(this.membs[i].msmadrs[j].tel,this.membs[i].msmadrs[j].tel2,this.membs[i].msmadrs[j].tel3,this.membs[i].msmadrs[j].fax)
-                });
-              }
-            }
-          } 
+          if(this.mcd=='読込中です！'){
+            this.mcd="";
+          }
+          this.membs=data.msmember;
         },(error) => {
           console.log('error query get_members', error);
         });
     }  
   }
+
+  // set_helpmcds():void {
+  //   if (this.mcdsrv.mcds.length==0) {
+      // this.apollo.watchQuery<any>({
+      //   query: Query.GetMast, 
+      //     variables: { 
+      //       id : this.usrsrv.compid
+      //     },
+      //   })
+      //   .valueChanges
+      //   .subscribe(({ data }) => {
+      //     for(let i=0;i<data.msmember.length;i++){
+      //       for(let j=0;j<data.msmember[i].msmadrs.length;j++){
+      //         this.mcdsrv.mcds.push({  
+      //           mcode:data.msmember[i].mcode.toString(),
+      //           sei:data.msmember[i].sei,
+      //           mei:data.msmember[i].mei,
+      //           kana:data.msmember[i].kana,
+      //           mail:this.mcdsrv.set_mail(data.msmember[i].mail ,data.msmember[i].mail2,data.msmember[i].mail3,data.msmember[i].mail4,data.msmember[i].mail5),
+      //           tcode1:data.msmember[i].tcode1,
+      //           tcode2:data.msmember[i].tcode2,
+      //           // del:data.msmember[i].msmadrs[j].edl,
+      //           eda:data.msmember[i].msmadrs[j].eda,
+      //           zip:data.msmember[i].msmadrs[j].zip,
+      //           region:data.msmember[i].msmadrs[j].region,
+      //           local:data.msmember[i].msmadrs[j].local,
+      //           street:data.msmember[i].msmadrs[j].street,
+      //           extend:data.msmember[i].msmadrs[j].extend,
+      //           extend2:data.msmember[i].msmadrs[j].extend2,
+      //           adrname:data.msmember[i].msmadrs[j].adrname,
+      //           tel:this.mcdsrv.set_tel(data.msmember[i].msmadrs[j].tel,data.msmember[i].msmadrs[j].tel2,data.msmember[i].msmadrs[j].tel3,data.msmember[i].msmadrs[j].fax)
+      //         });
+      //       }
+      //     }
+      //   },(error) => {
+      //     console.log('error query get_members', error);
+      //   });
+  //   }  
+  // }
 
   get_bunrui():void {
     this.apollo.watchQuery<any>({
@@ -311,33 +333,10 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }  
 
   refresh():void {
-    this.get_members();
     let i:number = this.membs.findIndex(obj => obj.mcode == this.mcd);
     // console.log(this.membs,i);
     if(i > -1 ){
-      let member:mwI.Member=this.membs[i];
-      this.form.get('base').patchValue(member);
-      this.usrsrv.setTmstmp(member);
-      // console.log(member.mtax,this.form.get('base').value.mtax);
-
-      delete member.msmadrs['__typename'];
-      this.edasrv.adrs=[];
-      for (let j=0;j<member.msmadrs.length;j++){
-        if (member.msmadrs[j].eda > 1){
-          this.edasrv.adrs.push(member.msmadrs[j]);
-        }
-      }
-      
-      this.form.get('addr0').patchValue(member.msmadrs[0]);
-      //その他住所があれば、
-      let j:number = member.msmadrs.findIndex(obj => obj.eda == 1);
-      if(j > -1 ){
-        this.form.get('addr1').patchValue(member.msmadrs[j]);
-        this.flgadr1=2;
-      }else{
-        this.form.get('addr1').reset();
-        this.flgadr1=1;
-      }
+      this.get_member(+this.mcd);
       history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd); 
     }
     // console.log('refresh',this.mode);
@@ -394,7 +393,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       del: this.usrsrv.editFrmval(this.form.get('base'),'del'),
       sptnkbn: this.usrsrv.editFrmval(this.form.get('base'),'sptnkbn'),
       updated_at:new Date(),
-      updated_by:this.usrsrv.userInfo.nickname
+      updated_by:this.usrsrv.userInfo.nickname,
+      fkana: this.usrsrv.editFkana(this.form.get('base'),'kana'),
     }
     if(this.mode==2){      
       this.apollo.mutate<any>({
@@ -410,10 +410,13 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         if (this.form.get('addr1').get('zip') !== null) {
           this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
         }
+        this.toastr.success('顧客コード' + this.mcd + 'の変更を保存しました');
         this.mode=3;
         this.form.disable();
         this.form.markAsPristine();
       },(error) => {
+        this.toastr.error('データベースエラー','顧客コード' + this.mcd + 'の変更保存ができませんでした',
+                          {closeButton: true,disableTimeOut: true,tapToDismiss: false});
         console.log('error update_msmember', error);
       });
     }else{
@@ -448,9 +451,13 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
             this.form.markAsPristine();
             history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd);
           },(error) => {
+            this.toastr.error('データベースエラー','顧客コード' + this.mcd + 'の新規登録ができませんでした',
+                              {closeButton: true,disableTimeOut: true,tapToDismiss: false});
             console.log('error Insert_msmember', error);
           }); 
         },(error) => {
+          this.toastr.error('データベースエラー','顧客コードの新規採番ができませんでした',
+                            {closeButton: true,disableTimeOut: true,tapToDismiss: false});
           console.log('error query get_maxmcode', error);
         });          
     }

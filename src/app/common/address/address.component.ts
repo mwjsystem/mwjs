@@ -66,7 +66,8 @@ export class AddressComponent implements OnInit {
       adrbikou:this.usrsrv.editFrmval(form.get(this.formName),'adrbikou'),
       adrinbikou:this.usrsrv.editFrmval(form.get(this.formName),'adrinbikou'),
       adrokrbko:this.usrsrv.editFrmval(form.get(this.formName),'adrokrbko'),
-      del:this.usrsrv.editFrmval(form.get(this.formName),'del')
+      del:this.usrsrv.editFrmval(form.get(this.formName),'del'),
+      ftel:this.usrsrv.editFtel(form.get(this.formName),'tel','fax','tel2','tel3')
     }
     if(mode==2){      
       this.apollo.mutate<any>({

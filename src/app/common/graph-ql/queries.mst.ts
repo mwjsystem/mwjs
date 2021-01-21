@@ -1,8 +1,48 @@
 import gql from 'graphql-tag';
 
+export const GetMast = gql`
+query get_member($where:msmember_bool_exp!,$where2:msmadr_bool_exp) {
+  msmember(where:$where) {
+    mcode
+    sei
+    mei
+    kana
+    mail
+    mail2
+    mail3
+    mail4
+    mail5
+    tcode1
+    tcode2
+    msmadrs(where:$where2) {
+      eda
+      zip
+      region
+      local
+      street
+      extend
+      extend2
+      tel
+      fax
+      tel2
+      tel3
+    }    
+  }
+}`;
+
+export const GetMast0 = gql`
+query get_members($id: smallint!) {
+  msmember(where: {id: {_eq: $id}}, order_by: {mcode: asc}) {
+    mcode
+    sei
+    mei
+    del
+  }
+}`;
+
 export const GetMast1 = gql`
-query get_members($id: smallint!,$mcode:Int) {
-  msmember(where: {id: {_eq: $id}, mcode: {_eq: $mcode}}, order_by: {mcode: asc}) {
+query get_member($id: smallint!,$mcode:Int) {
+  msmember(where: {id: {_eq: $id}, mcode: {_eq: $mcode}}) {
     mcode
     sei
     mei

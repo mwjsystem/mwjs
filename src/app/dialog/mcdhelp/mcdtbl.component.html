@@ -1,25 +1,32 @@
 <div class="mat-elevation-z8">
-    <mat-toolbar>
-      <mat-form-field style="width:10em;">
-        <mat-label>顧客コード</mat-label>
-        <input matInput [(ngModel)]="mcdsrv.filtx" type="number" (keyup)="updateFilter('mcode',$event.target.value)">
+    <mat-toolbar fxLayoutGap="5px">
+      <mat-form-field>
+        <mat-label>顧客名(姓、名)</mat-label>
+        <input matInput (input)="fname=$event.target.value">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>名前</mat-label>
-        <input matInput (keyup)="updateFilter('sei',$event.target.value)">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>カナ</mat-label>
-        <input matInput (keyup)="updateFilter('kana',$event.target.value)">
+        <mat-label>ｶﾅ 半角ｶﾀｶﾅのみ、濁点(ﾞﾟ)長音(-)除く</mat-label>
+        <input matInput (input)="fkana=$event.target.value">
       </mat-form-field>      
       <mat-form-field>
-        <mat-label>メール</mat-label>
-        <input matInput type="url" (keyup)="updateFilter('mail',$event.target.value)">
+        <mat-label>メール1～5</mat-label>
+        <input matInput type="url" (input)="fmail=$event.target.value">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>電話番号</mat-label>
-        <input matInput type="url" (keyup)="updateFilter('tel',$event.target.value)">
+        <mat-label>建物、道場名、宛名</mat-label>
+        <input matInput (input)="fadrnm=$event.target.value">
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>電話番号 or FAX ハイフン(-)なし</mat-label>
+        <input matInput type="number" (input)="ftel=$event.target.value">
+      </mat-form-field>
+      <button class="mat-raised-button"(click)="filterMcd()">検索</button>
+      <mat-paginator #paginators
+          [length]="dataSource?.data.length"
+          [pageIndex]="0"
+          [pageSize]="10"
+          [pageSizeOptions]="[10, 25, 50, 100, 250, 1000]">
+      </mat-paginator>
     </mat-toolbar>
     <table mat-table [dataSource]="dataSource" aria-label="Elements">
         <ng-container matColumnDef="mcode">
@@ -35,12 +42,12 @@
             <td mat-cell *matCellDef="let row">{{row.kana}}</td>
         </ng-container>
         <ng-container matColumnDef="tel">
-          <th mat-header-cell *matHeaderCellDef>電話番号</th>
-          <td mat-cell *matCellDef="let row">{{row.tel}}</td>
+            <th mat-header-cell *matHeaderCellDef>電話番号</th>
+            <td mat-cell *matCellDef="let row">{{row.tel}}</td>
         </ng-container>
         <ng-container matColumnDef="mail">
-          <th mat-header-cell *matHeaderCellDef>Mail</th>
-          <td mat-cell *matCellDef="let row">{{row.mail}}</td>
+            <th mat-header-cell *matHeaderCellDef>Mail</th>
+            <td mat-cell *matCellDef="let row">{{row.mail}}</td>
         </ng-container>
         <ng-container matColumnDef="tcode1">
             <th mat-header-cell *matHeaderCellDef>営業</th>
@@ -51,12 +58,12 @@
             <td mat-cell *matCellDef="let row">{{row.tcode2}}</td>
         </ng-container>
         <ng-container matColumnDef="eda">
-          <th mat-header-cell *matHeaderCellDef>枝番</th>
-          <td mat-cell *matCellDef="let row">{{row.eda}}</td>
+            <th mat-header-cell *matHeaderCellDef>枝番</th>
+            <td mat-cell *matCellDef="let row">{{row.eda}}</td>
         </ng-container>
         <ng-container matColumnDef="zip">
-          <th mat-header-cell *matHeaderCellDef>郵便番号</th>
-          <td mat-cell *matCellDef="let row">{{row.zip}}</td>
+            <th mat-header-cell *matHeaderCellDef>郵便番号</th>
+            <td mat-cell *matCellDef="let row">{{row.zip}}</td>
         </ng-container>
         <ng-container matColumnDef="region">
             <th mat-header-cell *matHeaderCellDef>都道府県</th>
@@ -71,8 +78,8 @@
             <td mat-cell *matCellDef="let row">{{row.street}}</td>
         </ng-container>
         <ng-container matColumnDef="extend">
-          <th mat-header-cell *matHeaderCellDef>建物その他</th>
-          <td mat-cell *matCellDef="let row">{{row.extend}}</td>
+            <th mat-header-cell *matHeaderCellDef>建物その他</th>
+            <td mat-cell *matCellDef="let row">{{row.extend}}</td>
         </ng-container>
         <ng-container matColumnDef="extend2">
             <th mat-header-cell *matHeaderCellDef>道場名/組織名</th>

@@ -66,6 +66,33 @@ export class UserService {
     }
     return val;
   }
+
+  editFkana(frm:AbstractControl,fld:string):any{
+    let val:any;  
+    if(frm.value[fld]==""){
+      val = null;
+    }else{  
+      val = frm.value[fld].match(/^[ｧ-ﾝ]*$/);
+    }
+    return val;
+  }  
+ 
+  editFtel(frm:AbstractControl,fld1:string,fld2:string,fld3:string,fld4:string):any{
+    let val:any=null;  
+    if(frm.value[fld1]!==""){
+      val += frm.value[fld1].match(/^[0-9]*$/);
+    }
+    if(frm.value[fld2]!==""){
+      val += frm.value[fld2].match(/^[0-9]*$/);
+    }
+    if(frm.value[fld3]!==""){
+      val += frm.value[fld3].match(/^[0-9]*$/);
+    }
+    if(frm.value[fld4]!==""){
+      val += frm.value[fld4].match(/^[0-9]*$/);
+    }
+    return val;
+  }  
   
   setTmstmp(obj:any):void {
     this.tmstmp.created_at = obj.created_at;

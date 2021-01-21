@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
 import { Mcd,McdService } from './mcd.service';
 
 @Component({
@@ -10,9 +10,7 @@ import { Mcd,McdService } from './mcd.service';
 export class McdhelpComponent implements OnInit {
 
   constructor(public mcdsrv:McdService,
-              private dialogRef: MatDialogRef<McdhelpComponent>,
-              @Inject(MAT_DIALOG_DATA) data) {
-    this.mcdsrv.filtx = data.filter;
+              private dialogRef: MatDialogRef<McdhelpComponent>) {
   }
 
   ngOnInit(): void {

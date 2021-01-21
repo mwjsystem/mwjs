@@ -26,7 +26,7 @@ export interface Mcd {
 export class McdService {
   public mcds: Mcd[]=[];
   public selro: Mcd;
-  public filtx: string;
+  // public filtx: string;
   public subject = new Subject<Mcd[]>();
   public observe = this.subject.asObservable();
   constructor() { }

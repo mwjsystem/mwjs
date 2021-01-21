@@ -8,3 +8,8 @@ mat-toolbar {
   .mat-cell, .mat-footer-cell, .mat-header-cell{
       padding: 5px;
   }
+
+  .mat-table {
+    overflow-x: scroll;
+    display: table;
+  }

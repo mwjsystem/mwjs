@@ -2,3 +2,16 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-pane{
+    width: unset !important;
+    height: unset !important;
+    max-width: 100% !important;
+}
+
+.mat-dialog-container{
+    max-width: 100%;
+    max-height: unset !important;
+    resize: both;
+    overflow: auto;
+}
