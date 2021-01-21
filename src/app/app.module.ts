@@ -15,6 +15,7 @@ import { NgxYubinBangoModule } from 'ngx-yubinbango';
 import { environment } from './../environments/environment';
 import { BeforeunloadGuard } from './beforeunload.guard';
 import { GraphQLModule } from './common/graph-ql/graphql.module';
+import { ToastrModule } from 'ngx-toastr'; 
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
@@ -61,6 +62,7 @@ registerLocaleData(localeJa);
     FlexLayoutModule,
     ReactiveFormsModule,
     GraphQLModule,
+    ToastrModule.forRoot(),  
     MaterialModule,
     HttpClientModule,
     NgxYubinBangoModule

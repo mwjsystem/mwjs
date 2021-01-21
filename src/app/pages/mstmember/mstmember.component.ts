@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Apollo } from 'apollo-angular';
 import * as Query from './../../common/graph-ql/queries.mst';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../common/srvs/user.service';
 import { McdService } from './../../dialog/mcdhelp/mcd.service';
 import { McdhelpComponent } from './../../dialog/mcdhelp/mcdhelp.component';
@@ -33,7 +34,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   pay:  mwI.Sval[]=[];
   nkin: mwI.Sval[]=[];
   site: mwI.Sval[]=[];
-  mcd:number | string="読込中です！";
+  mcd:number | string;
   mode:number=3;
   flgadr1:number=1; //その他住所フラグ 1：未登録、2：登録済
 
@@ -45,7 +46,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
               public usrsrv: UserService,
               private mcdsrv: McdService,
               private edasrv: EdaService,
-              private apollo: Apollo) {
+              private apollo: Apollo,
+              private toastr: ToastrService) {
     this.title.setTitle('顧客マスタ(MwjSystem)');
   }
 
@@ -85,7 +87,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     }));
     this.route.paramMap.subscribe((params: ParamMap)=>{
       if (params.get('mcd') === null){
-        this.mcd = '';
+        this.mcd = '読込中です！';
       }else{
         //１件分だけ先に読込
         this.mcd = params.get('mcd');
@@ -347,7 +349,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
   
   test(value){
-    console.log(value,this.form.get('base').value.mtax);
+    this.toastr.info('機能作成中');
   }
 
   modeToCre():void {
