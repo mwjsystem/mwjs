@@ -20,7 +20,7 @@
   <mat-form-field fxFlexAlign="end" class="frm-fld-in-bar">
     <mat-label>枝番</mat-label>
     <input matInput [ngModel]="eda" (ngModelChange)="eda=$event" (keyup.enter)="onEnter()" (keydown.f4)="edaHelp()"
-    (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
+     (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
     <!-- <div [style.display]="edasrv.adrs.length>0 ? 'inline' : 'none'"> -->
     <button mat-button mat-icon-button matSuffix (click)="setNext()" [style.display]="mode==3 ? 'inline-block' : 'none'">
       <mat-icon>keyboard_arrow_up</mat-icon>
@@ -42,6 +42,6 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button class="mat-raised-button"(click)="close()">Cancel</button>
+  <button class="mat-raised-button"(click)="close()">閉じる</button>
   <!-- <button class="mat-raised-button mat-primary"(click)="sel_gcd(this.gdsservice.selgd)">Set</button> -->
 </mat-dialog-actions>

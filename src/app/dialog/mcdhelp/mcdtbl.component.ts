@@ -55,7 +55,7 @@ export class McdtblComponent implements OnInit {
 
   filterMcd(){
     let varWh: {[k: string]: any}={"where" : {"_and":[{"id": {"_eq": this.usrsrv.compid}}]}};
-    console.log(varWh,varWh.where);
+    // console.log(varWh,varWh.where);
     if (this.fname!==""){
       varWh.where._and.push({"_or" : [ {"sei":{"_like":"%" + this.fname + "%"}},
                                         {"mei":{"_like":"%" + this.fname + "%"}}

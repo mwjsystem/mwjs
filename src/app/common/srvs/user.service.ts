@@ -69,26 +69,26 @@ export class UserService {
 
   editFkana(frm:AbstractControl,fld:string):any{
     let val:any;  
-    if(frm.value[fld]==""){
-      val = null;
-    }else{  
+    if(frm.value[fld]){
       val = frm.value[fld].match(/^[ｧ-ﾝ]*$/);
+    }else{  
+      val = null;
     }
     return val;
   }  
  
   editFtel(frm:AbstractControl,fld1:string,fld2:string,fld3:string,fld4:string):any{
     let val:any=null;  
-    if(frm.value[fld1]!==""){
+    if(frm.value[fld1]){
       val += frm.value[fld1].match(/^[0-9]*$/);
     }
-    if(frm.value[fld2]!==""){
+    if(frm.value[fld2]){
       val += frm.value[fld2].match(/^[0-9]*$/);
     }
-    if(frm.value[fld3]!==""){
+    if(frm.value[fld3]){
       val += frm.value[fld3].match(/^[0-9]*$/);
     }
-    if(frm.value[fld4]!==""){
+    if(frm.value[fld4]){
       val += frm.value[fld4].match(/^[0-9]*$/);
     }
     return val;

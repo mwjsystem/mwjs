@@ -3,11 +3,13 @@ import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContaine
 import { Apollo } from 'apollo-angular';
 import * as Query from './../graph-ql/queries.mst';
 import { UserService } from './../srvs/user.service';
+// import { TabService } from './../tabidx/tab.service';
 import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
+  // providers: [TabService],
   styleUrls: ['./address.component.scss'],
   viewProviders: [
     {
@@ -95,9 +97,13 @@ export class AddressComponent implements OnInit {
         })
         .valueChanges     
         .subscribe(({ data }) => {
-          let lceda=data.msmadr_aggregate.aggregate.max.eda+1;
-          madr.eda=lceda;
-          neweda.next(lceda);
+          if (eda>1){
+            let lceda=data.msmadr_aggregate.aggregate.max.eda+1;
+            madr.eda=lceda;
+            neweda.next(lceda);
+          } else {
+            madr.eda=eda; 
+          }
           madrs.push(madr);
           this.apollo.mutate<any>({
             mutation: Query.InsertMast2,
@@ -114,6 +120,5 @@ export class AddressComponent implements OnInit {
         });    
     }
     return neweda;
-  }
-  
+  } 
 }

@@ -15,7 +15,7 @@
       <mat-form-field fxFlex="0 0 12em" fxFlexAlign="end" class="frm-fld-in-bar">
           <mat-label>顧客コード</mat-label>
           <input matInput [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
-            (contextmenu)="contxtMenu()" (change)="refresh()" (blur)="refresh()" [ngModelOptions]="{standalone: true}" required>
+            (blur)="refresh()" [ngModelOptions]="{standalone: true}" name="tel-area-code" autocomplete="tel-area-code">
             <!-- <mat-hint>顧客コード</mat-hint> -->
             <button mat-button mat-icon-button matSuffix (click)="setNext()" [style.display]="mode==3 ? 'inline-block' : 'none'">
               <mat-icon>keyboard_arrow_up</mat-icon>
@@ -57,27 +57,27 @@
       <div fxLayoutGap="5px">
       <mat-form-field style="width:20em">
         <mat-label>姓/会社名</mat-label>
-        <input matInput formControlName="sei" required>
+        <input tabIndex="1" matInput formControlName="sei" required>
       </mat-form-field>
       <mat-form-field>
         <mat-label>名</mat-label>
-        <input matInput formControlName="mei">
+        <input tabIndex="2" matInput formControlName="mei">
       </mat-form-field>
       <mat-form-field>
         <mat-label>フリガナ</mat-label>
-        <input matInput formControlName="kana" required>
+        <input tabIndex="3" matInput formControlName="kana" required>
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>単価区分</mat-label>
-        <mat-select formControlName="tankakbn" required>
+        <mat-select tabIndex="4" formControlName="tankakbn" required>
           <mat-option *ngFor="let sval of tanka" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field style="width:5em">
-        <mat-label>消費税区分</mat-label>
-        <mat-select formControlName="mtax" (change)="test($event)">
+        <mat-label>税区分</mat-label>
+        <mat-select tabIndex="5" formControlName="mtax" required>
           <mat-option *ngFor="let sval of mtax" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -85,7 +85,7 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>入金予定初期値</mat-label>
-        <mat-select formControlName="pay">
+        <mat-select tabIndex="6" formControlName="pay">
           <mat-option *ngFor="let sval of pay" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -93,11 +93,11 @@
       </mat-form-field>
       <mat-form-field style="width:4em">
         <mat-label>配送方法初期値</mat-label>
-        <input matInput formControlName="okuri">
+        <input tabIndex="7" matInput formControlName="okuri">
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>大分類</mat-label>
-        <mat-select formControlName="daibunrui">
+        <mat-select tabIndex="8" formControlName="daibunrui">
           <mat-option *ngFor="let sval of daib" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -105,7 +105,7 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>部門</mat-label>
-        <mat-select formControlName="bumon">
+        <mat-select tabIndex="9" formControlName="bumon">
           <mat-option *ngFor="let sval of bmon" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -113,7 +113,7 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>営業担当</mat-label>
-        <mat-select formControlName="tcode1">
+        <mat-select tabIndex="10" formControlName="tcode1">
           <mat-option *ngFor="let sval of tcds" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -121,7 +121,7 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>内勤担当</mat-label>
-        <mat-select formControlName="tcode2">
+        <mat-select tabIndex="11" formControlName="tcode2">
           <mat-option *ngFor="let sval of tcds" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -129,7 +129,7 @@
       </mat-form-field>      
       <mat-form-field style="width:8em">
         <mat-label>特別単価区分</mat-label>
-        <mat-select formControlName="sptnkbn">
+        <mat-select tabIndex="12" formControlName="sptnkbn">
           <mat-option *ngFor="let sval of sptnk" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -139,11 +139,11 @@
       </div>
       <mat-form-field>
         <mat-label>備考</mat-label>
-        <textarea matInput formControlName="bikou"></textarea>
+        <textarea matInput formControlName="bikou" matTextareaAutosize></textarea>
       </mat-form-field>
       <mat-form-field>
         <mat-label>社内向け備考</mat-label>
-        <textarea matInput formControlName="inbikou"></textarea>
+        <textarea matInput formControlName="inbikou" matTextareaAutosize></textarea>
       </mat-form-field>
     </form> 
   </mat-card-content> 
@@ -164,29 +164,29 @@
                 <input type="checkbox" formControlName="torikbn">                   
             </mat-expansion-panel-header> 
             <div fxLayoutGap="5px">
-            <mat-form-field>
+            <mat-form-field style="width:5em">
                 <mat-label>締め日</mat-label>
-                <input matInput formControlName="sime">
+                <input tabIndex="21" matInput formControlName="sime">
             </mat-form-field>
-            <mat-form-field style="width:4em">
+            <mat-form-field style="width:5em">
                 <mat-label>入金サイト</mat-label>
-                <mat-select formControlName="site">
+                <mat-select tabIndex="22" formControlName="site">
                   <mat-option *ngFor="let sval of site" [value]="sval.value">
                     {{sval.viewval}}
                   </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field style="width:5em">
                 <mat-label>入金日</mat-label>
-                <input matInput formControlName="inday">
+                <input tabIndex="23" matInput formControlName="inday">
             </mat-form-field>
             <mat-form-field>
                 <mat-label>請求先コード</mat-label>
-                <input matInput formControlName="icode">
+                <input tabIndex="24" matInput formControlName="icode">
             </mat-form-field>
             <mat-form-field>
               <mat-label>請求書送付先コード</mat-label>
-              <input matInput formControlName="sscode">
+              <input tabIndex="25" matInput formControlName="sscode">
             </mat-form-field>
           </div>
         </mat-expansion-panel>
@@ -197,26 +197,26 @@
             <!-- <div fxLayout="column" fxLayoutGap="5px"> -->
                 <mat-form-field>
                   <mat-label>メールアドレス</mat-label>
-                  <input matInput formControlName="mail">
+                  <input tabIndex="31" matInput formControlName="mail">
                 </mat-form-field>
             <!-- </div> -->
           </mat-expansion-panel-header> 
           <div fxLayout="row" fxLayoutGap="5px">
           <mat-form-field>
             <mat-label>メールアドレス2</mat-label>
-            <input matInput formControlName="mail2">
+            <input tabIndex="32" matInput formControlName="mail2">
           </mat-form-field>
           <mat-form-field>
             <mat-label>メールアドレス3</mat-label>
-            <input matInput formControlName="mail3">
+            <input tabIndex="33" matInput formControlName="mail3">
           </mat-form-field>
           <mat-form-field>
             <mat-label>メールアドレス4</mat-label>
-            <input matInput formControlName="mail4">
+            <input tabIndex="34" matInput formControlName="mail4">
           </mat-form-field>
           <mat-form-field>
             <mat-label>メールアドレス5</mat-label>
-            <input matInput formControlName="mail5">
+            <input tabIndex="35" matInput formControlName="mail5">
           </mat-form-field>
           </div>
       </mat-expansion-panel>

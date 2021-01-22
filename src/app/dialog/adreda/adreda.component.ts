@@ -68,73 +68,6 @@ export class AdredaComponent implements OnInit, AfterViewInit {
   }
 
   save():void {
-    // let madr:any={
-    //   id: this.usrsrv.compid,
-    //   mcode: this.mcode,
-    //   eda:this.eda,
-    //   zip:this.usrsrv.editFrmval(this.form.get('addr'),'zip'),
-    //   region:this.usrsrv.editFrmval(this.form.get('addr'),'region'),
-    //   local:this.usrsrv.editFrmval(this.form.get('addr'),'local'),
-    //   street:this.usrsrv.editFrmval(this.form.get('addr'),'street'),
-    //   extend:this.usrsrv.editFrmval(this.form.get('addr'),'extend'),
-    //   tel:this.usrsrv.editFrmval(this.form.get('addr'),'tel'),
-    //   fax:this.usrsrv.editFrmval(this.form.get('addr'),'fax'),
-    //   tel2:this.usrsrv.editFrmval(this.form.get('addr'),'tel2'),
-    //   tel3:this.usrsrv.editFrmval(this.form.get('addr'),'tel3'),
-    //   extend2:this.usrsrv.editFrmval(this.form.get('addr'),'extend2'),
-    //   adrname:this.usrsrv.editFrmval(this.form.get('addr'),'adrname'),
-    //   adrbikou:this.usrsrv.editFrmval(this.form.get('addr'),'adrbikou'),
-    //   adrinbikou:this.usrsrv.editFrmval(this.form.get('addr'),'adrinbikou'),
-    //   adrokrbko:this.usrsrv.editFrmval(this.form.get('addr'),'adrokrbko')
-    // }
-    // if(this.mode==2){      
-    //   this.apollo.mutate<any>({
-    //     mutation: Query.UpdateMast1,
-    //     variables: {
-    //       id: this.usrsrv.compid,
-    //       mcode: this.mcode,
-    //       eda:this.eda,
-    //       "_set": madr
-    //     },
-    //   }).subscribe(({ data }) => {
-    //     console.log('update_msmadr', data);
-    //     this.mode=3;
-    //     this.form.disable();
-    //     this.form.markAsPristine();
-    //   },(error) => {
-    //     console.log('error update_msmember', error);
-    //   });
-    // } else {
-    //   let madrs:any[]=[];
-    //   this.apollo.watchQuery<any>({
-    //     query: Query.GetMast6, 
-    //       variables: { 
-    //         id: this.usrsrv.compid,
-    //         mcode: this.mcode
-    //       },
-    //     })
-    //     .valueChanges     
-    //     .subscribe(({ data }) => {
-    //       this.eda=data.msmadr_aggregate.aggregate.max.eda;
-    //       madr.eda=this.eda;
-    //       madrs.push(madr);
-    //       this.apollo.mutate<any>({
-    //         mutation: Query.InsertMast2,
-    //         variables: {
-    //           "object": madrs
-    //         },
-    //       }).subscribe(({ data }) => {
-    //         console.log('Insert_msmadr', data);
-    //         this.mode=3;
-    //         this.form.disable();
-    //         this.form.markAsPristine();
-    //       },(error) => {
-    //         console.log('error Insert_msmadr', error);
-    //       }); 
-    //     },(error) => {
-    //       console.log('error query get_maxeda', error);
-    //     });    
-    // }
     this.child.saveMadr(this.edasrv.mcode,this.eda,this.mode).subscribe(neweda =>{
       this.eda=neweda;
       this.mode=3;
@@ -143,6 +76,9 @@ export class AdredaComponent implements OnInit, AfterViewInit {
     });
   }
   cancel():void {
+    if(this.mode==1){
+      this.eda='';
+    }
     this.mode=3;
     this.form.disable();
   }
@@ -191,10 +127,7 @@ export class AdredaComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  contxtMenu(){
-    this.edaHelp();
-    return false;
-  }
+
   onEnter(): void {
     // this.elementRef.nativeElement.querySelector('button').focus();
     this.refresh();
