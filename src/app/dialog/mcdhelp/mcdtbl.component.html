@@ -2,23 +2,23 @@
     <mat-toolbar fxLayoutGap="5px">
       <mat-form-field>
         <mat-label>顧客名(姓、名)</mat-label>
-        <input matInput (input)="fname=$event.target.value">
+        <input matInput (input)="fname=$event.target.value" (blur)="filterMcd()">
       </mat-form-field>
       <mat-form-field>
         <mat-label>ｶﾅ 半角ｶﾀｶﾅのみ、濁点(ﾞﾟ)長音(-)除く</mat-label>
-        <input matInput (input)="fkana=$event.target.value">
+        <input matInput (input)="fkana=$event.target.value" (blur)="filterMcd()">
       </mat-form-field>      
       <mat-form-field>
         <mat-label>メール1～5</mat-label>
-        <input matInput type="url" (input)="fmail=$event.target.value">
+        <input matInput type="url" (input)="fmail=$event.target.value" (blur)="filterMcd()">
       </mat-form-field>
       <mat-form-field>
         <mat-label>建物、道場名、宛名</mat-label>
-        <input matInput (input)="fadrnm=$event.target.value">
+        <input matInput (input)="fadrnm=$event.target.value" (blur)="filterMcd()">
       </mat-form-field>
       <mat-form-field>
         <mat-label>電話番号 or FAX ハイフン(-)なし</mat-label>
-        <input matInput type="number" (input)="ftel=$event.target.value">
+        <input matInput type="number" (input)="ftel=$event.target.value" (blur)="filterMcd()">
       </mat-form-field>
       <button class="mat-raised-button"(click)="filterMcd()">検索</button>
       <mat-paginator #paginators

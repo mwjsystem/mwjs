@@ -54,16 +54,16 @@ export class McdService {
   set_tel(t1:string,t2:string,t3:string,fax:string):string{
     let tel:string="";
     if (t1 !== null) {
-      tel += t1.replace(/-/g,"") + "/";
+      tel += t1 + "/";
     }
     if (t2 !== null) {
-      tel += t2.replace(/-/g,"") + "/";
+      tel += t2 + "/";
     }
     if (t3 !== null) {
-      tel += t3.replace(/-/g,"") + "/";
+      tel += t3 + "/";
     }
     if (fax !== null) {
-      tel += fax.replace(/-/g,"") + "/";
+      tel += fax + "/";
     }
     return (tel || "").slice( 0, -1 );
   }
