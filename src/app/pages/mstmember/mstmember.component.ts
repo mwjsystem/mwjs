@@ -408,7 +408,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
                           {closeButton: true,disableTimeOut: true,tapToDismiss: false});
         console.log('error update_msmember', error);
       });
-    }else{
+    }else{//新規登録
       let membs:any[]=[];
       this.apollo.watchQuery<any>({
         query: Query.GetMast5, 
@@ -421,6 +421,12 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         .subscribe(({ data }) => {
           this.mcd=data.msmember_aggregate.aggregate.max.mcode + 1;
           member.mcode = this.mcd;
+          if (!member.sscode) {
+            member.sscode = this.mcd;
+          }
+          if (!member.icode) {
+            member.icode = this.mcd;
+          }
           member.created_at = new Date();
           member.created_by = this.usrsrv.userInfo.nickname;
           membs.push(member);
