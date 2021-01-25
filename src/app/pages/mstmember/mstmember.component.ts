@@ -33,7 +33,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   @ViewChildren( AddressComponent)
     private children: QueryList<AddressComponent>;
   form: FormGroup;
-  membs: Mcode[]=[];
+  membs:Mcode[]=[];
   tcds: mwI.Sval[]=[];
   daib: mwI.Sval[]=[];
   bmon: mwI.Sval[]=[];
@@ -43,16 +43,17 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   pay:  mwI.Sval[]=[];
   nkin: mwI.Sval[]=[];
   site: mwI.Sval[]=[];
-  mcd:number | string;
-  mode:number=3;
+  mcd:  number | string;
+  mode: number=3;
+  keyword = 'sei';
   flgadr1:number=1; //その他住所フラグ 1：未登録、2：登録済
 
-  constructor(private fb: FormBuilder,
+  constructor(public usrsrv: UserService,
+              private fb: FormBuilder,
               private title: Title,
               private route: ActivatedRoute,
               private elementRef: ElementRef,
               private dialog: MatDialog,
-              public usrsrv: UserService,
               private mcdsrv: McdService,
               private edasrv: EdaService,
               private apollo: Apollo,

@@ -1,46 +1,71 @@
 <mat-toolbar color="primary" class="toolbar mat-elevation-z8">
     <div class="icon-area" fxLayout="row wrap">
-      <button mat-button (click)="modeToCre()" [style.display]="mode==3 ? 'block' : 'none'">
-        <mat-icon>add_box</mat-icon>新規
-      </button>        
-      <button mat-button (click)="modeToUpd()" [style.display]="mode==3 && this.mcd ? 'block' : 'none'">
-        <mat-icon>edit</mat-icon>編集
-      </button>
-      <button mat-button (click)="save()" [style.display]="mode==3 ? 'none' : 'block'">
-        <mat-icon>save</mat-icon>保存
-      </button>
-      <button mat-button (click)="cancel()" [style.display]="mode==3 ? 'none' : 'block'">
-        <mat-icon>cancel</mat-icon>中止
-      </button>
+      <!-- <ng-container> -->
+        <button mat-button (click)="modeToCre()" *ngIf="mode==3" fxHide fxShow.gt-sm>
+          <mat-icon>add_box</mat-icon>新規
+        </button>        
+        <button mat-button (click)="modeToUpd()" *ngIf="mode==3 && this.mcd" fxHide fxShow.gt-sm>
+          <mat-icon>edit</mat-icon>編集
+        </button>
+        <button mat-button (click)="save()" *ngIf="mode!=3" fxHide fxShow.gt-sm>
+          <mat-icon>save</mat-icon>保存
+        </button>
+        <button mat-button (click)="cancel()" *ngIf="mode!=3" fxHide fxShow.gt-sm>
+          <mat-icon>cancel</mat-icon>中止
+        </button>
+      <!-- </ng-container> -->
+      <!-- <div fxFlex="0 0 12em" class="ng-autocomplete" fxFlexAlign="end" class="frm-fld-in-bar">
+        <ng-autocomplete mat-select 
+          [data]="membs"
+          placeholder="顧客コード"
+          (selected)="mcd=$event.mcode"
+          historyIdentifier="mcode"
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+      
+        <ng-template #itemTemplate let-item>
+          <a [innerHTML]="item.mcode"></a>
+        </ng-template>
+      
+        <ng-template #notFoundTemplate let-notFound>
+          <div [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>       -->
+      
       <mat-form-field fxFlex="0 0 12em" fxFlexAlign="end" class="frm-fld-in-bar">
           <mat-label>顧客コード</mat-label>
           <input matInput [ngModel]="mcd" (ngModelChange)="mcd=$event" (keyup.enter)="onEnter()" (keydown.f4)="mcdHelp()"
-            (blur)="refresh()" [ngModelOptions]="{standalone: true}" name="tel-area-code" autocomplete="tel-area-code">
-            <!-- <mat-hint>顧客コード</mat-hint> -->
-            <button mat-button mat-icon-button matSuffix (click)="setNext()" [style.display]="mode==3 ? 'inline-block' : 'none'">
+            (blur)="refresh()" [ngModelOptions]="{standalone: true}">
+            <button mat-button mat-icon-button matSuffix (click)="setNext()" *ngIf="mode==3">
               <mat-icon>keyboard_arrow_up</mat-icon>
             </button>
-            <button mat-button mat-icon-button matSuffix (click)="setPrev()" [style.display]="mode==3 ? 'inline-block' : 'none'">
+            <button mat-button mat-icon-button matSuffix (click)="setPrev()" *ngIf="mode==3">
               <mat-icon>keyboard_arrow_down</mat-icon>
             </button>
-            <button mat-button mat-icon-button matSuffix (click)="mcdHelp()" [style.display]="mode==3 ? 'inline-block' : 'none'">
+            <button mat-button mat-icon-button matSuffix (click)="mcdHelp()" *ngIf="mode==3">
               <mat-icon>find_replace</mat-icon>
             </button>
       </mat-form-field>
-      <button mat-button (click)="diaBetsu()" [style.display]="mode==1 ? 'none' : 'inline-block'">
-        <mat-icon>local_shipping</mat-icon>別納先
+      <button mat-button (click)="diaBetsu()" *ngIf="mode!=1">
+        <mat-icon>local_shipping</mat-icon>
+        <span  fxHide fxShow.gt-sm>別納先</span>
       </button>
-      <button  mat-button (click)="test(1)" [style.display]="mode==1 ? 'none' : 'inline-block'">
-        <mat-icon>scanner</mat-icon>刺繍データ
+      <button  mat-button (click)="test(1)" *ngIf="mode!=1">
+        <mat-icon>scanner</mat-icon>
+        <span  fxHide fxShow.gt-sm>刺繍データ</span>
       </button>
-      <button  mat-button (click)="test(1)" [style.display]="mode==1 ? 'none' : 'inline-block'">
-        <mat-icon>question_answer</mat-icon>問合せ
+      <button  mat-button (click)="test(1)" *ngIf="mode!=1">
+        <mat-icon>question_answer</mat-icon>
+        <span  fxHide fxShow.gt-sm>問合せ</span>
       </button>
       <button mat-button (click)="refresh()">
-        <mat-icon>autorenew</mat-icon>再表示
+        <mat-icon>autorenew</mat-icon>
+        <span  fxHide fxShow.gt-sm>再表示</span>
       </button>
       <button mat-button><a mat-button href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EdJVQxKeKFRCr0sV1ebScewBQX6bPjCc8acDLL5VzwsIJQ?e=5HEIZ5" target="_blank">
-        <mat-icon>help</mat-icon>ヘルプ
+        <mat-icon>help</mat-icon>
+        ヘルプ
       </a></button>
     </div>
 </mat-toolbar>

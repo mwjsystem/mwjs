@@ -5,17 +5,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeJa from '@angular/common/locales/ja';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxYubinBangoModule } from 'ngx-yubinbango';
 import { environment } from './../environments/environment';
 import { BeforeunloadGuard } from './beforeunload.guard';
+
 import { GraphQLModule } from './common/graph-ql/graphql.module';
 import { ToastrModule } from 'ngx-toastr'; 
+import { NgxYubinBangoModule } from 'ngx-yubinbango';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { TabDirective } from './common/tabidx/tab.directive';
+
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
@@ -29,7 +33,6 @@ import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
 import { EdahelpComponent } from './dialog/adreda/edahelp.component';
 import { EdatblComponent } from './dialog/adreda/edatbl.component';
 import { TmstmpComponent } from './common/tmstmp/tmstmp.component';
-import { TabDirective } from './common/tabidx/tab.directive';
 
 registerLocaleData(localeJa);
 
@@ -67,7 +70,8 @@ registerLocaleData(localeJa);
     ToastrModule.forRoot(),  
     MaterialModule,
     HttpClientModule,
-    NgxYubinBangoModule
+    NgxYubinBangoModule,
+    AutocompleteLibModule
   ],
   providers: [BeforeunloadGuard ,{ provide: LOCALE_ID, useValue: 'ja-JP' }],
   bootstrap: [AppComponent],
