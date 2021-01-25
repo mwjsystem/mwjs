@@ -79,7 +79,8 @@ export class McdtblComponent implements OnInit {
                                     ]}]};
     }
     if (this.ftel!==""){
-      if (typeof varWh.where2 != null){
+      // console.log(varWh,varWh.where2 != null);
+      if (varWh.where2 != null){
           varWh.where2._and.push({"ftel" : {"_like":"%" + this.ftel + "%"}});
       } else {
         varWh.where2 = {"ftel" : {"_like":"%" + this.ftel + "%"}};
