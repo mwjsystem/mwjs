@@ -383,7 +383,6 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       sptnkbn: this.usrsrv.editFrmval(this.form.get('base'),'sptnkbn'),
       updated_at:new Date(),
       updated_by:this.usrsrv.userInfo.nickname,
-      fkana: this.usrsrv.editFkana(this.form.get('base'),'kana'),
     }
     if(this.mode==2){      
       this.apollo.mutate<any>({
@@ -396,7 +395,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       }).subscribe(({ data }) => {
         console.log('update_msmember', data);
         this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
-        if (this.form.get('addr1').get('zip') !== null) {
+        if (this.form.get('addr1').get('zip') != null) {
           this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
         }
         this.toastr.success('顧客コード' + this.mcd + 'の変更を保存しました');
@@ -438,7 +437,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
           }).subscribe(({ data }) => {
             console.log('Insert_msmember', data);
             this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
-            if (this.form.get('addr1').get('zip') !== null) {
+            console.log(this.form.get('addr1').get('zip'));
+            if (this.form.get('addr1').get('zip') != null) {
               this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
             }
             this.toastr.success('顧客コード' + this.mcd + 'を新規登録しました');

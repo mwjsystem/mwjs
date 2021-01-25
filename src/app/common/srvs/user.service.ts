@@ -66,30 +66,20 @@ export class UserService {
     }
     return val;
   }
-
-  editFkana(frm:AbstractControl,fld:string):any{
-    let val:any;  
-    if(frm.value[fld]){
-      val = frm.value[fld].match(/^[ｧ-ﾝ]*$/);
-    }else{  
-      val = null;
-    }
-    return val;
-  }  
  
   editFtel(frm:AbstractControl,fld1:string,fld2:string,fld3:string,fld4:string):any{
-    let val:any=null;  
+    let val:any=''; 
     if(frm.value[fld1]){
-      val += frm.value[fld1].match(/^[0-9]*$/);
+      val += frm.value[fld1].replace(/[^0-9]/g,'');
     }
     if(frm.value[fld2]){
-      val += frm.value[fld2].match(/^[0-9]*$/);
+      val += frm.value[fld2].replace(/[^0-9]/g,'');
     }
     if(frm.value[fld3]){
-      val += frm.value[fld3].match(/^[0-9]*$/);
+      val += frm.value[fld3].replace(/[^0-9]/g,'');
     }
     if(frm.value[fld4]){
-      val += frm.value[fld4].match(/^[0-9]*$/);
+      val += frm.value[fld4].replace(/[^0-9]/g,'');
     }
     return val;
   }  
