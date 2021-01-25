@@ -34,7 +34,7 @@ export class McdtblComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;    
-    this.mcdsrv.observe.subscribe();
+    this.mcdsrv.observe.subscribe(() => this.refresh());
     // this.dataSource.filterPredicate = (data: Mcd, filtersJson: string) => {
     //   const matchFilter = [];
     //   const filters = JSON.parse(filtersJson);
@@ -129,7 +129,6 @@ export class McdtblComponent implements OnInit {
           }
         }
         this.mcdsrv.subject.next();
-        this.refresh();
       },(error) => {
         console.log('error query get_members', error);
       });
