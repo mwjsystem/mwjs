@@ -137,8 +137,16 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field style="width:8em">
+        <mat-label>小分類</mat-label>
+        <mat-select tabIndex="10" formControlName="shobunrui">
+          <mat-option *ngFor="let sval of bmon" [value]="sval.value">
+            {{sval.viewval}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="width:8em">
         <mat-label>営業担当</mat-label>
-        <mat-select tabIndex="10" formControlName="tcode1">
+        <mat-select tabIndex="11" formControlName="tcode1">
           <mat-option *ngFor="let sval of tcds" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -146,7 +154,7 @@
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>内勤担当</mat-label>
-        <mat-select tabIndex="11" formControlName="tcode2">
+        <mat-select tabIndex="12" formControlName="tcode2">
           <mat-option *ngFor="let sval of tcds" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>
@@ -154,7 +162,7 @@
       </mat-form-field>      
       <mat-form-field style="width:8em">
         <mat-label>特別単価区分</mat-label>
-        <mat-select tabIndex="12" formControlName="sptnkbn">
+        <mat-select tabIndex="13" formControlName="sptnkbn">
           <mat-option *ngFor="let sval of sptnk" [value]="sval.value">
             {{sval.viewval}}
           </mat-option>

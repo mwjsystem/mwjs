@@ -49,6 +49,7 @@ declare namespace mwI {
     sptnkbn:string;
     daibunuri:string;
     bumon:string;
+    shobunrui:string;
     created_at:Date;
     updated_at:Date;
     lday:Date;
