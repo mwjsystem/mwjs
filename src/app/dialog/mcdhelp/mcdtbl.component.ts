@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Mcd, McdService } from './mcd.service';
 import { Apollo } from 'apollo-angular';
-import * as Query from './../../common/graph-ql/queries.mst';
+import * as Query from './../../common/graph-ql/queries.mstm';
 import { UserService } from './../../common/srvs/user.service';
 
 @Component({

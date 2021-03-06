@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Apollo } from 'apollo-angular';
-import * as Query from './../graph-ql/queries.mst';
+import * as Query from './../graph-ql/queries.mstm';
 import { AbstractControl } from '@angular/forms';
 
 export class TmStmp {

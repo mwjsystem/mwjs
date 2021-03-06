@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import * as Query from './../graph-ql/queries.mst';
+import * as Query from './../graph-ql/queries.mstm';
 import { UserService } from './../srvs/user.service';
 // import { TabService } from './../tabidx/tab.service';
 import { Observable, Subject } from 'rxjs';
@@ -113,7 +113,7 @@ export class AddressComponent implements OnInit {
           }).subscribe(({ data }) => {
             console.log('Insert_msmadr', data);
           },(error) => {
-            console.log('error Insert_msmadr', error);
+            console.log('error Insert_msmadr ' + this.formName, error);
           }); 
         },(error) => {
           console.log('error query get_maxeda', error);

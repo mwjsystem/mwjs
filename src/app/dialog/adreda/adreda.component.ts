@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/co
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import * as Query from './../../common/graph-ql/queries.mst';
+import * as Query from './../../common/graph-ql/queries.mstm';
 import { UserService } from './../../common/srvs/user.service';
 import { EdaService } from './eda.service';
 import { EdahelpComponent } from './edahelp.component';

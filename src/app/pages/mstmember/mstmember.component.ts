@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Apollo } from 'apollo-angular';
-import * as Query from './../../common/graph-ql/queries.mst';
+import * as Query from './../../common/graph-ql/queries.mstm';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../common/srvs/user.service';
 import { McdService } from './../../dialog/mcdhelp/mcd.service';
@@ -43,6 +43,8 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   pay:  mwI.Sval[]=[];
   nkin: mwI.Sval[]=[];
   site: mwI.Sval[]=[];
+  htime:mwI.Sval[]=[];
+  ntype:mwI.Sval[]=[];
   mcd:  number | string;
   mode: number=3;
   keyword = 'sei';
@@ -76,8 +78,11 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       shobunrui: new FormControl(''),
       tcode1: new FormControl('', Validators.required),
       tcode2: new FormControl('', Validators.required),
-      del: new FormControl(''),
       sptnkbn: new FormControl(''),
+      htime: new FormControl(''),
+      ntype: new FormControl(''),
+      tntype: new FormControl(''),
+      del: new FormControl(''),
       bikou: new FormControl(''),
       inbikou: new FormControl(''),      
     }));
@@ -217,13 +222,14 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     })
     .valueChanges
     .subscribe(({ data }) => {
-      if (data.msmember.length == 0){
+      this.form.reset();
+      if (data.msmember_by_pk == null){
         this.mcd = mcode + '　未登録';
-        this.form.reset();
         history.replaceState('','','./mstmember');
       } else {
-        let member:mwI.Member=data.msmember[0];
+        let member:mwI.Member=data.msmember_by_pk;
         this.form.get('base').patchValue(member);
+        this.form.get('base').patchValue({bikou:member.msmadrs[0].adrbikou,inbikou:member.msmadrs[0].adrinbikou});
         this.form.get('kake').patchValue(member);
         this.form.get('mail').patchValue(member);
         this.usrsrv.setTmstmp(member); 
@@ -394,8 +400,10 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         },
       }).subscribe(({ data }) => {
         console.log('update_msmember', data);
+        this.form.get('addr0').patchValue({adrbikou:member.bikou,adrinbikou:member.inbikou});
         this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
-        if (this.form.get('addr1').get('zip') != null) {
+        // console.log(this.form.get('addr1').get('zip'), );
+        if (this.form.get('addr1').value.zip != null) {
           this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
         }
         this.toastr.success('顧客コード' + this.mcd + 'の変更を保存しました');
@@ -437,10 +445,11 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
           }).subscribe(({ data }) => {
             console.log('Insert_msmember', data);
             this.children.toArray()[0].saveMadr(this.mcd,0,this.mode);
-            console.log(this.form.get('addr1').get('zip'));
-            if (this.form.get('addr1').get('zip') != null) {
+            // console.log(this.form.get('addr1').get('zip'),);
+            if (this.form.get('addr1').value.zip != null) {
               this.children.toArray()[1].saveMadr(this.mcd,1,this.flgadr1);
             }
+            
             this.toastr.success('顧客コード' + this.mcd + 'を新規登録しました');
             this.mode=3;
             this.form.disable();

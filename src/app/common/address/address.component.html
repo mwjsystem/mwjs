@@ -23,17 +23,13 @@
         <mat-label>マンション・ビル名</mat-label>
         <input tabIndex="105"  matInput formControlName="extend" ybExtended>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="formName !== 'addr0'">
         <mat-label>道場名</mat-label>
         <input tabIndex="106"  matInput formControlName="extend2">
     </mat-form-field>
     <mat-form-field>
         <mat-label>電話番号</mat-label>
         <input tabIndex="107" matInput formControlName="tel">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>FAX番号</mat-label>
-        <input tabIndex="108" matInput formControlName="fax">
     </mat-form-field>
     <mat-form-field>
         <mat-label>電話番号2</mat-label>
@@ -43,17 +39,21 @@
         <mat-label>電話番号3</mat-label>
         <input tabIndex="110" matInput formControlName="tel3">
     </mat-form-field>
-    <mat-form-field style="width:20em">
+    <mat-form-field>
+        <mat-label>FAX番号</mat-label>
+        <input tabIndex="108" matInput formControlName="fax">
+    </mat-form-field>
+    <mat-form-field style="width:20em" *ngIf="formName !== 'addr0'">
         <mat-label>住所宛名</mat-label>
         <input tabIndex="111" matInput formControlName="adrname" required>
     </mat-form-field>
     <mat-checkbox formControlName="del">削除済</mat-checkbox>
     </div>
-    <mat-form-field>
+    <mat-form-field *ngIf="formName !== 'addr0'">
         <mat-label>納品先備考</mat-label>
         <textarea matInput formControlName="adrbikou" matTextareaAutosize></textarea>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field *ngIf="formName !== 'addr0'">
         <mat-label>納品先社内向け備考</mat-label>
         <textarea matInput formControlName="adrinbikou" matTextareaAutosize></textarea>
     </mat-form-field>

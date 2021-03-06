@@ -42,7 +42,7 @@ query get_members($id: smallint!) {
 
 export const GetMast1 = gql`
 query get_member($id: smallint!,$mcode:Int) {
-  msmember(where: {id: {_eq: $id}, mcode: {_eq: $mcode}}) {
+  msmember_by_pk(id: $id, mcode:$mcode) {
     mcode
     sei
     mei
@@ -58,8 +58,6 @@ query get_member($id: smallint!,$mcode:Int) {
     site
     inday
     icode
-    bikou
-    inbikou
     pay
     okuri
     mtax

@@ -33,6 +33,8 @@ import { McdtblComponent } from './dialog/mcdhelp/mcdtbl.component';
 import { EdahelpComponent } from './dialog/adreda/edahelp.component';
 import { EdatblComponent } from './dialog/adreda/edatbl.component';
 import { TmstmpComponent } from './common/tmstmp/tmstmp.component';
+import { GdstblComponent } from './pages/mstgoods/gdstbl.component';
+import { GtnktblComponent } from './pages/mstgoods/gtnktbl.component';
 
 registerLocaleData(localeJa);
 
@@ -52,7 +54,9 @@ registerLocaleData(localeJa);
     EdahelpComponent,
     EdatblComponent,
     TmstmpComponent,
-    TabDirective
+    TabDirective,
+    GdstblComponent,
+    GtnktblComponent
   ],
   imports: [
     BrowserModule,
