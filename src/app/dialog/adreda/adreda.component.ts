@@ -30,11 +30,12 @@ export class AdredaComponent implements OnInit, AfterViewInit {
               private apollo: Apollo) { 
                 this.mcode=data.mcode;
                 this.mode =data.mode;
+                this.eda =data.eda;
               }
 
   ngOnInit(): void {
     this.form = this.fb.group({});
-    if(this.edasrv.adrs.length>0){
+    if(this.edasrv.adrs.length>0 && this.eda == null ){
       // console.log(this.edasrv);
       this.eda=this.edasrv.adrs[0].eda;
     } else {
@@ -52,7 +53,7 @@ export class AdredaComponent implements OnInit, AfterViewInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.eda);
   }
 
   modeToCre():void {

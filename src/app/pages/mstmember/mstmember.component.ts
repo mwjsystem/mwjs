@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { Apollo } from 'apollo-angular';
 import * as Query from './../../common/graph-ql/queries.mstm';
+import * as Querys from './../frmsales/queries.frms';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from './../../common/srvs/user.service';
 import { McdService } from './../../dialog/mcdhelp/mcd.service';
@@ -14,13 +15,6 @@ import { EdaService } from './../../dialog/adreda/eda.service';
 import { AdredaComponent } from './../../dialog/adreda/adreda.component';
 import { AddressComponent } from './../../common/address/address.component';
 // import { TabService } from './../../common/tabidx/tab.service';
-
-interface Mcode {
-  mcode:number;
-  sei:string;
-  mei:string;
-  del:boolean;
-} 
 
 @Component({
   selector: 'app-mstmember',
@@ -33,7 +27,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   @ViewChildren( AddressComponent)
     private children: QueryList<AddressComponent>;
   form: FormGroup;
-  membs:Mcode[]=[];
+  membs:mwI.Mcode[]=[];
   tcds: mwI.Sval[]=[];
   daib: mwI.Sval[]=[];
   bmon: mwI.Sval[]=[];
@@ -45,6 +39,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   site: mwI.Sval[]=[];
   htime:mwI.Sval[]=[];
   ntype:mwI.Sval[]=[];
+  hokuri: mwI.Hokuri[]=[];
   mcd:  number | string;
   mode: number=3;
   keyword = 'sei';
@@ -118,6 +113,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     this.get_members();
     this.get_bunrui();
     this.get_staff();
+    this.get_hokuri();
   }
 
   ngAfterViewInit(): void{
@@ -195,7 +191,6 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
   }
 
   checkMcode(mcode:number|string):boolean {
-    // console.log(typeof mcode,mcode);
     let flg:boolean; 
     let i:number = this.membs.findIndex(obj => obj.mcode == mcode);
     if( i > -1 ){
@@ -266,6 +261,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         history.replaceState('','','./mstmember/' + this.mode + '/' + this.mcd);
       }
     },(error) => {
+      console.log('error query get_msmember', error);
       this.mcd = mcode + '　未登録';
       this.form.reset();
       history.replaceState('','','./mstmember');
@@ -302,8 +298,10 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
       .valueChanges
       .subscribe(({ data }) => {
         for (let i=0;i<data.msbunrui.length;i++){
-          let sval:mwI.Sval = {value:data.msbunrui[i].code,viewval:data.msbunrui[i].name};
-          this[data.msbunrui[i].kubun].push(sval);
+          if(data.msbunrui[i].kubun in this){
+            let sval:mwI.Sval = {value:data.msbunrui[i].code,viewval:data.msbunrui[i].name};
+            this[data.msbunrui[i].kubun].push(sval);
+          }
         }
       },(error) => {
         console.log('error query get_bunrui', error);
@@ -327,9 +325,24 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
         });
   }  
  
+  get_hokuri():void {
+    this.apollo.watchQuery<any>({
+      query: Querys.GetMast2, 
+        variables: { 
+          id : this.usrsrv.compid
+        },
+      })
+      .valueChanges
+      .subscribe(({ data }) => {
+        this.hokuri=data.mshokuri;
+      },(error) => {
+        console.log('error query get_hokuri', error);
+      });
+  }
+
   test(value){
     this.toastr.info('機能作成中');
-    console.log(this.mcd,typeof this.mcd);
+    console.log(this.form);
   }
 
   modeToCre():void {

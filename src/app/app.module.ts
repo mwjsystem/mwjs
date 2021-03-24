@@ -35,6 +35,11 @@ import { EdatblComponent } from './dialog/adreda/edatbl.component';
 import { TmstmpComponent } from './common/tmstmp/tmstmp.component';
 import { GdstblComponent } from './pages/mstgoods/gdstbl.component';
 import { GtnktblComponent } from './pages/mstgoods/gtnktbl.component';
+import { JdatePipe } from './common/pipes/jdate.pipe';
+import { JmeitblComponent } from './pages/frmsales/jmeitbl.component';
+import { JmeitblbkComponent } from './pages/frmsales/jmeitblbk/jmeitblbk.component';
+import { NuminputDirective } from './common/direcs/numinput.directive';
+import { GcdinputDirective } from './common/direcs/gcdinput.directive';
 
 registerLocaleData(localeJa);
 
@@ -56,7 +61,12 @@ registerLocaleData(localeJa);
     TmstmpComponent,
     TabDirective,
     GdstblComponent,
-    GtnktblComponent
+    GtnktblComponent,
+    JdatePipe,
+    JmeitblComponent,
+    JmeitblbkComponent,
+    NuminputDirective,
+    GcdinputDirective
   ],
   imports: [
     BrowserModule,

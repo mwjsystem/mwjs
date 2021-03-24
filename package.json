@@ -38,6 +38,7 @@
     "file-saver": "^2.0.5",
     "force-ssl-heroku": "^1.0.2",
     "graphql": "^15.0.0",
+    "moment": "^2.29.1",
     "ngx-toastr": "^13.2.0",
     "ngx-yubinbango": "^1.0.5",
     "rxjs": "~6.5.4",

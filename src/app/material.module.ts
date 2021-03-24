@@ -17,6 +17,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';;
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -40,6 +41,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
      ,MatTableModule
      ,MatTabsModule
      ,MatToolbarModule
+     ,MatTooltipModule
      ,MatNativeDateModule
      ,DragDropModule
   ],
@@ -65,6 +67,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
      ,MatTableModule
      ,MatTabsModule
      ,MatToolbarModule
+     ,MatTooltipModule
      ,MatNativeDateModule
      ,DragDropModule
   ]

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
+import { FormGroupDirective, FormGroup, FormControl, Validators, ControlContainer, FormArray, FormBuilder } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import * as Query from './../graph-ql/queries.mstm';
 import { UserService } from './../srvs/user.service';

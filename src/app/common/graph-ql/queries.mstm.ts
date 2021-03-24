@@ -41,7 +41,7 @@ query get_members($id: smallint!) {
 }`;
 
 export const GetMast1 = gql`
-query get_member($id: smallint!,$mcode:Int) {
+query get_member($id: smallint!,$mcode:Int!) {
   msmember_by_pk(id: $id, mcode:$mcode) {
     mcode
     sei
@@ -95,7 +95,7 @@ query get_member($id: smallint!,$mcode:Int) {
 }`;
 export const GetMast2 = gql`
 query get_bunrui($id: smallint!){
-  msbunrui(where: {id: {_eq: $id}}) {
+  msbunrui(where: {id: {_eq: $id}},order_by: {kubun:asc, sort:asc, code:asc}) {
     kubun
     code
     name

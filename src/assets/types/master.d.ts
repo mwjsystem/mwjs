@@ -3,6 +3,53 @@ declare namespace mwI {
     value: string;
     viewval: string;  
   }
+
+  interface Bunsho {
+    code: number;
+    name: string;
+    title:string;
+    gakutxt:string;
+    stamp:boolean;
+    atesaki:string;
+    message:string;
+    second:number;
+    include:number;    
+  }
+
+  interface Hokuri {
+    code:   number;
+    name:   string;
+    htype:  string;
+    binshu: string;
+    mtchaku:string;
+    daibiki:boolean;
+    scode:  string;
+    csvimp: string;
+    cuscode:string;
+    order:  string; 
+    hscode: number;
+    onmin:  number;
+    onmax:  number;
+  }
+
+  interface Haisou {
+    code: number;
+    name: string;
+    url:  string;   
+  }
+
+  interface Hktime {
+    hscode: number;
+    code:   string;
+    name:   string;
+    bunrui: string;   
+  }
+  interface Mcode {
+    mcode:number;
+    sei:string;
+    mei:string;
+    del:boolean;
+  }   
   interface Adrs {
     eda:number;
     zip:string;

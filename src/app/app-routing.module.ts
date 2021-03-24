@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'frmsales', component: FrmsalesComponent, canActivate: [AuthGuard] },
+  { path: 'frmsales/:mode/:denno', component: FrmsalesComponent, canActivate: [AuthGuard], canDeactivate: [BeforeunloadGuard] },
   { path: 'mstgoods', component: MstgoodsComponent, canActivate: [AuthGuard] },
   { path: 'mstgoods/:mode/:grpcd', component: MstgoodsComponent, canActivate: [AuthGuard], canDeactivate: [BeforeunloadGuard] },
   { path: 'mstmember', component: MstmemberComponent, canActivate: [AuthGuard] },
