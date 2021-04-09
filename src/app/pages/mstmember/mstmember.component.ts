@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewEncapsulation, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation, ElementRef, ViewChildren, QueryList, HostListener, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { Title } from '@angular/platform-browser';
@@ -21,7 +21,8 @@ import { AddressComponent } from './../../common/address/address.component';
   templateUrl: './mstmember.component.html',
   // providers: [TabService],
   styleUrls: ['./../../app.component.scss'],
-  encapsulation : ViewEncapsulation.None
+  encapsulation : ViewEncapsulation.None,
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class MstmemberComponent implements OnInit, AfterViewInit {
   @ViewChildren( AddressComponent)
@@ -54,7 +55,9 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
               private mcdsrv: McdService,
               private edasrv: EdaService,
               private apollo: Apollo,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private zone: NgZone) {
+    zone.onMicrotaskEmpty.subscribe(() => { console.log('mstmember detect change'); });
     this.title.setTitle('顧客マスタ(MwjSystem)');
   }
 
@@ -114,6 +117,7 @@ export class MstmemberComponent implements OnInit, AfterViewInit {
     this.get_bunrui();
     this.get_staff();
     this.get_hokuri();
+    this.usrsrv.get_bunsho();
   }
 
   ngAfterViewInit(): void{

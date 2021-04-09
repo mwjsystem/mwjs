@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewEncapsulation, HostListener, ViewChild ,AfterViewChecked, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { Title } from '@angular/platform-browser';
@@ -20,14 +20,14 @@ import { JmeitblComponent } from './jmeitbl.component';
 @Component({
   selector: 'app-frmsales',
   templateUrl: './frmsales.component.html',
-  styleUrls: ['./frmsales.component.scss']
+  styleUrls: ['./../../app.component.scss'],
+  encapsulation : ViewEncapsulation.None
 })
 export class FrmsalesComponent implements OnInit, AfterViewInit {
   @ViewChild(JmeitblComponent ) jmeitbl:JmeitblComponent;
   form: FormGroup;
   denno:number|string;
   mode: number=3;
-  bunsho: mwI.Bunsho[]=[];
   hokuri: mwI.Hokuri[]=[];
   haisou: mwI.Haisou[]=[];
   hktime: mwI.Hktime[]=[];
@@ -41,9 +41,10 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
   nkin: mwI.Sval[]=[];
   skbn: mwI.Sval[]=[];
   jucd: mwI.Sval[]=[];
+  ntype: mwI.Sval[]=[];
   goods: mwI.SalGds[]=[];
   rows: FormArray = this.fb.array([]);
-
+  gdsttl:number=0;
   constructor(private fb: FormBuilder,
               private title: Title,
               private route: ActivatedRoute,
@@ -54,8 +55,11 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
               public usrsrv: UserService,
               public jmisrv:JyumeiService,
               private apollo: Apollo,
-              private toastr: ToastrService) {
-    this.title.setTitle('受注伝票(MwjSystem)');
+              private toastr: ToastrService,
+              private cdRef:ChangeDetectorRef,
+              private zone: NgZone) {
+                zone.onMicrotaskEmpty.subscribe(() => { console.log('frmsales detect change'); });
+                title.setTitle('受注伝票(MwjSystem)');
    }
 
   ngOnInit(): void {
@@ -65,6 +69,7 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
       ncode: new FormControl(''),
       nsaki: new FormControl(''),
       nadr: new FormControl(''),
+      bunsho: new FormControl(''),
       day: new FormControl(''),
       yday: new FormControl(''),
       sday: new FormControl(''),
@@ -80,11 +85,23 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
       jcode: new FormControl('', Validators.required),
       pcode: new FormControl('', Validators.required),
       skbn: new FormControl('', Validators.required),
+      dbikou: new FormControl(''),
+      nbikou: new FormControl(''),
+      obikou: new FormControl(''),
+      inbikou: new FormControl(''),
+      gtotal: new FormControl(''),
+      souryou: new FormControl(''),
+      tesuu: new FormControl(''),
+      nebiki: new FormControl(''),
+      taxtotal: new FormControl(''),
+      syoukei: new FormControl(''),
+      tyousei: new FormControl(''),
+      total: new FormControl(''),
       mtbl: this.rows 
     });
 
     this.get_members();
-    this.get_bunsho();
+    this.usrsrv.get_bunsho();
     this.get_haisou();
     this.get_hokuri();
     this.get_hktime();
@@ -111,6 +128,10 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngAfterViewChecked(): void {
+    this.cdRef.detectChanges();
+  }
+
   onEnter(): void {
     this.elementRef.nativeElement.querySelector('button').focus();
   }
@@ -132,6 +153,7 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
 
   selBetsu(value:string){
     if(value=="2"){
+      // console.log(this.form.get('nadr'));
       this.form.get('nadr').setValue('');
     } else {
       this.form.get('nadr').setValue(+value); 
@@ -194,13 +216,15 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
       } else {
         let jyuden:mwI.Jyuden=data.trjyuden_by_pk;
         // console.log(this.form.value);
-        this.form.patchValue(jyuden);
-        // console.log(this.form.value);
         if(jyuden.nadr>1){
           this.form.get('nsaki').setValue("2");
         } else { 
           this.form.get('nsaki').setValue(jyuden.nadr.toString());  
         }
+        // console.log(this.form);
+        this.form.patchValue(jyuden);
+        // this.form.get('nadr').setValue(+jyuden.nadr);
+        // console.log(this.form.value.bunsyo,jyuden.bunsyo);
         this.jmisrv.jyumei=data.trjyuden_by_pk.trjyumeis;
         // console.log(this.jmisrv.jyumei,data.trjyuden_by_pk);
         // this.jmisrv.subject.next();
@@ -230,20 +254,6 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get_bunsho():void {
-    this.apollo.watchQuery<any>({
-      query: Query.GetMast1, 
-        variables: { 
-          id : this.usrsrv.compid
-        },
-      })
-      .valueChanges
-      .subscribe(({ data }) => {
-        this.bunsho=data.msbunsho;
-      },(error) => {
-        console.log('error query get_bunsho', error);
-      });
-  }
   get_hokuri():void {
     this.apollo.watchQuery<any>({
       query: Query.GetMast2, 
@@ -430,7 +440,7 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
     this.setMcdtxt();
     this.form.get('scode').setValue(mcd);
     this.form.get('ncode').setValue(mcd);
-    this.form.get('nadr').setValue(0);
+    // this.form.get('nadr').setValue(0);
     this.setScdtxt();
     this.setNcdtxt();
   }
@@ -458,7 +468,7 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
   } 
 
   setNcdtxt(){
-    this.form.get('nadr').setValue(0);
+    // this.form.get('nadr').setValue(0);
     let ncd:number=this.form.getRawValue().ncode;
     const i:number = this.membs.findIndex(obj => obj.mcode == ncd);
     // console.log(i);
@@ -523,8 +533,9 @@ export class FrmsalesComponent implements OnInit, AfterViewInit {
       let dialogRef = this.dialog.open(AdredaComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data=>{
+            console.log(data);
             if(typeof data != 'undefined'){
-              this.form.get('nadr').setValue(data.eda);
+              this.form.get('nadr').setValue(data);
             }
         }
       );

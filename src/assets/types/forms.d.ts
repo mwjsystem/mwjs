@@ -14,7 +14,7 @@ declare namespace mwI {
     nadr:number;
     souko:string;
     tcode:number;
-    bunsyo:number;
+    bunsho:number;
     dbikou:string;
     nbikou:string;
     obikou:string;

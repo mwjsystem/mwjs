@@ -21,11 +21,11 @@ export class GcdinputDirective {
 
   @HostListener("blur", ["$event.target.value"])
   onBlur(value) {
-    this.transform(value)
+    this.transform(value);
   }
 
   ngOnInit() {
-    this.transform(this.el.value)
+    this.transform(this.el.value);
   }
   transform(value) {
     // console.log(conv.replace(/[^A-ZＡ-Ｚ0-9０-９－-]/g, ''));
@@ -33,5 +33,9 @@ export class GcdinputDirective {
       return String.fromCharCode(s.charCodeAt(0) - 65248);
     });
     this.value=this.el.value;
+  }
+  getValue(value):string {
+    this.transform(value);
+    return this.value;
   }
 }

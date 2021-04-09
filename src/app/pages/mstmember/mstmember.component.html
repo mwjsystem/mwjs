@@ -161,16 +161,16 @@
       <mat-form-field style="width:8em">
         <mat-label>納品書タイプ</mat-label>
         <mat-select #msel12 tabIndex="15" formControlName="ntype" (keyup.enter)="msel12.close()">
-          <mat-option *ngFor="let sval of ntype" [value]="sval.value">
-            {{sval.viewval}}
+          <mat-option *ngFor="let sval of usrsrv.bunsho" [value]="sval.code">
+            {{sval.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field style="width:8em">
         <mat-label>納品書Type(直送)</mat-label>
         <mat-select #msel13 tabIndex="16" formControlName="tntype" (keyup.enter)="msel13.close()">
-          <mat-option *ngFor="let sval of ntype" [value]="sval.value">
-            {{sval.viewval}}
+          <mat-option *ngFor="let sval of usrsrv.bunsho" [value]="sval.code">
+            {{sval.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>        

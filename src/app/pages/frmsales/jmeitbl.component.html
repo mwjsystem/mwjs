@@ -30,7 +30,7 @@
     <th mat-header-cell *matHeaderCellDef>商品コード</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
     <mat-form-field>
-      <input [tabIndex]="(i + 1) * 100 + 1" matInput gcdInput formControlName="gcode" (blur)="updVal(i, 'gcode',$event.target.value)" maxlength="20" style="ime-mode:disabled;">
+      <input [tabIndex]="(i + 1) * 100 + 1" matInput gcdInput formControlName="gcode" (change)="updGds(i,$event.target.value)" maxlength="20">
     </mat-form-field>
     </td>
   </ng-container>
@@ -118,12 +118,11 @@
     </mat-form-field>
     </td>
   </ng-container>
-  
   <!-- <ng-container matColumnDef="tintanka">
     <th mat-header-cell *matHeaderCellDef>税込み単価</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
     <mat-form-field>
-      <input matInput formControlName="tintanka" (blur)="updateList(i, 'tintanka', row.tintanka)">
+      <input matInput formControlName="tintanka" disabled>
     </mat-form-field>
     </td>
   </ng-container>
@@ -131,7 +130,7 @@
     <th mat-header-cell *matHeaderCellDef>税抜き単価</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
     <mat-form-field>
-      <input matInput formControlName="touttanka" (blur)="updateList(i, 'touttanka', row.touttanka)">
+      <input matInput formControlName="touttanka" disabled>
     </mat-form-field>
     </td>
   </ng-container>
@@ -139,26 +138,27 @@
     <th mat-header-cell *matHeaderCellDef>消費税単価</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
     <mat-form-field>
-      <input matInput formControlName="taxtanka" (blur)="updateList(i, 'taxtanka', row.taxtanka)">
+      <input matInput formControlName="taxtanka" disabled>
     </mat-form-field>
     </td>
   </ng-container>
-  <ng-container matColumnDef="tinmoney">
-    <th mat-header-cell *matHeaderCellDef>税込み金額</th>
-    <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
-    <mat-form-field>
-      <input matInput formControlName="tinmoney" (blur)="updateList(i, 'tinmoney', row.tinmoney)">
-    </mat-form-field>
-    </td>
-  </ng-container>
+
   <ng-container matColumnDef="toutmoney">
     <th mat-header-cell *matHeaderCellDef>税抜き金額</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
     <mat-form-field>
-      <input matInput formControlName="toutmoney" (blur)="updateList(i, 'toutmoney', row.toutmoney)">
+      <input matInput formControlName="toutmoney" disabled>
     </mat-form-field>
     </td>
   </ng-container> -->
+  <ng-container matColumnDef="tinmoney">
+    <th mat-header-cell *matHeaderCellDef>税込み金額</th>
+    <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
+    <mat-form-field style="width:6em;">
+      <input matInput [value]="frmVal(i,'tinmoney') | number" disabled class="i_num">
+    </mat-form-field>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="souko">
     <th mat-header-cell *matHeaderCellDef>倉庫コード</th>
     <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="i">
@@ -187,5 +187,5 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 </ng-container> 
-<mat-paginator  [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons ></mat-paginator>
+<mat-paginator  [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons ></mat-paginator>
 </div>  

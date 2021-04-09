@@ -73,6 +73,8 @@ query get_member($id: smallint!,$mcode:Int!) {
     lday
     created_by
     updated_by
+    ntype
+    tntype
     msmadrs(order_by: {eda: asc}) {
       eda
       zip

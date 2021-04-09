@@ -68,7 +68,7 @@
         <div fxLayout="row wrap" fxLayoutAlign="start end">
           <mat-form-field style="width: 7em;">
             <mat-label>納品先選択</mat-label>
-            <mat-select tabIndex="4" formControlName="nsaki" #betsu (selectionChange)="selBetsu($event.value)" required>
+            <mat-select tabIndex="4" formControlName="nsaki" (selectionChange)="selBetsu($event.value)" required>
               <mat-option value ="0">基本住所</mat-option>
               <mat-option value ="1">その他住所</mat-option>
               <mat-option value ="2">別納</mat-option>
@@ -76,13 +76,21 @@
           </mat-form-field>
           <mat-form-field style="width: 3em;">
             <mat-label>別納先枝番</mat-label>
-            <input tabIndex="5"  matInput formControlName="nadr" required>
+            <input matInput formControlName="nadr" required>
           </mat-form-field>
-          <button mat-button (click)="diaBetsu()" *ngIf="betsu.value=='2'">
+          <button mat-button (click)="diaBetsu()" *ngIf="form.value.nsaki=='2'">
             <mat-icon>local_shipping</mat-icon>
             <span  fxHide fxShow.gt-sm>別納先</span>
           </button>
         </div>
+        <mat-form-field style="width:12em">
+          <mat-label>納品書タイプ</mat-label>
+          <mat-select #msel12 tabIndex="5" formControlName="bunsho" (keyup.enter)="msel12.close()">
+            <mat-option *ngFor="let sval of usrsrv.bunsho" [value]="sval.code">
+              {{sval.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div fxLayout="column">
         <div fxLayout="row wrap" fxLayoutAlign="start end">
@@ -193,7 +201,7 @@
         </div>
         <mat-form-field style="width: 7em;">
           <mat-label>配送希望時間</mat-label>
-          <mat-select #msel5 tabIndex="18" formControlName="htime" (keyup.enter)="msel5.close()">
+          <mat-select #msel6 tabIndex="18" formControlName="htime" (keyup.enter)="msel6.close()">
             <mat-option *ngFor="let sval of hktval" [value]="sval.value">
               {{sval.viewval}}
             </mat-option>
@@ -211,14 +219,64 @@
           <input tabIndex="20" matInput formControlName="okurino">
         </mat-form-field>
       </div>
+      <div fxLafxLayout="row wrap" fxLayoutGap="5px">
+        <mat-form-field style="width: 100%;">
+          <mat-label>伝票備考</mat-label>
+          <textarea matInput formControlName="dbikou" matTextareaAutosize></textarea>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+          <mat-label>納品書備考</mat-label>
+          <textarea matInput formControlName="nbikou" matTextareaAutosize></textarea>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+          <mat-label>送り状備考</mat-label>
+          <textarea matInput formControlName="obikou" matTextareaAutosize></textarea>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;">
+          <mat-label>社内向け備考</mat-label>
+          <textarea matInput formControlName="inbikou" matTextareaAutosize></textarea>
+        </mat-form-field>
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card>     
-    <mat-card-header>
+    <mat-card-header  fxLafxLayout="row wrap" fxLayoutGap="5px">
         <mat-card-title>
           受注明細
         </mat-card-title>
-    </mat-card-header>
+        <mat-form-field style="width:6em;">
+          <mat-label>商品計</mat-label>
+          <input matInput [value]="form.value.gtotal | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>送料計</mat-label>
+          <input matInput [value]="form.value.souryou | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>手数料</mat-label>
+          <input matInput [value]="form.value.tesuu | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>値引計</mat-label>
+          <input matInput [value]="form.value.nebiki | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>消費税</mat-label>
+          <input matInput [value]="form.value.taxtotal | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>小計</mat-label>
+          <input matInput [value]="form.value.syoukei | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>調整額</mat-label>
+          <input matInput [value]="form.value.taxtotal | number" class="i_num" disabled>
+        </mat-form-field>
+        <mat-form-field style="width:6em;">
+          <mat-label>税込合計額</mat-label>
+          <input matInput [value]="form.value.syoukei | number" class="i_num" disabled>
+        </mat-form-field>
+      </mat-card-header>
     <mat-card-content>
       <app-jmeitbl [parentForm]="form"></app-jmeitbl>
     </mat-card-content>

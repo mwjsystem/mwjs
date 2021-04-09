@@ -3,8 +3,11 @@ import { Component, OnInit, Input, ViewChild ,AfterViewChecked, ChangeDetectorRe
 import {  FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { UserService } from './../../common/srvs/user.service';
+import { GcdinputDirective } from './../../common/direcs/gcdinput.directive';
 import { JyumeiService } from './jyumei.service';
-import { BehaviorSubject } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import * as Query from './queries.frms';
 
 @Component({
   selector: 'app-jmeitbl',
@@ -14,14 +17,34 @@ import { BehaviorSubject } from 'rxjs';
 export class JmeitblComponent implements OnInit {
   @Input() parentForm: FormGroup;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(GcdinputDirective, {static: false}) directive;
   dataSource = new MatTableDataSource();
   
   // dataSource = new BehaviorSubject<AbstractControl[]>([]);
-  displayedColumns = ['line','gcode','gtext','suu','teika','tanka','money','taxkbn','taxmoney','spec','mbikou','genka','souko','taxrate'];
+  displayedColumns = ['line',
+                      'gcode',
+                      'gtext',
+                      'suu',
+                      'teika',
+                      'tanka',
+                      'money',
+                      'taxkbn',
+                      'taxmoney',
+                      // 'tintanka',
+                      // 'touttanka',
+                      'tinmoney',
+                      // 'toutmoney',
+                      'spec',
+                      'mbikou',
+                      'genka',
+                      'souko',
+                      'taxrate'];
   
   // form: FormGroup = this.fb.group({ 'jmeitbl': this.rows });
   constructor(private cdRef:ChangeDetectorRef,
               private fb:     FormBuilder,
+              private apollo: Apollo,
+              public usrsrv: UserService,
               // private parent: FormGroupDirective,
               public jmisrv:  JyumeiService) {
     // this.dataSource= new MatTableDataSource<mwI.Jyumei>(this.jmisrv.jyumei);
@@ -68,7 +91,7 @@ export class JmeitblComponent implements OnInit {
       tintanka:[jyumei.tintanka],
       touttanka:[jyumei.touttanka],
       taxtanka:[jyumei.taxtanka],
-      tinmoney:[jyumei.tinmoney],
+      tinmoney:[{value:jyumei.tinmoney,disabled:true}],
       toutmoney:[jyumei.toutmoney],
       taxmoney:[jyumei.taxmoney],
       taxrate:[jyumei.taxrate]
@@ -94,7 +117,7 @@ export class JmeitblComponent implements OnInit {
       tintanka:[''],
       touttanka:[''],
       taxtanka:[''],
-      tinmoney:[''],
+      tinmoney:[{value:'',disabled:true}],
       toutmoney:[''],
       taxmoney:[''],
       taxrate:['']
@@ -107,6 +130,26 @@ export class JmeitblComponent implements OnInit {
     // console.log(this.frmVal(i,'r_teika'),this.frmVal(i,'genka'));
     // this.refresh();
   }
+
+  updGds(i: number,value: string):void {
+    let val:string =this.directive.getValue(value);
+    this.apollo.watchQuery<any>({
+      query: Query.GetMast9, 
+        variables: { 
+          id : this.usrsrv.compid,           
+          gds: val,
+          day: this.parentForm.value.day
+        },
+      })
+      .valueChanges
+      .subscribe(({ data }) => {
+        let msgds = data.msgoods_by_pk;
+        console.log(val,data);
+        this.frmArr.controls[i].get('gtext').setValue(msgds.subname);
+      },(error) => {
+        console.log('error query get_good', error);
+      });
+  }  
 
   updateList(i: number, fld: string){
     // this.jmisrv.jyumei[i][property] = value;
@@ -141,9 +184,9 @@ export class JmeitblComponent implements OnInit {
     });
     // console.log(this.frmArr.getRawValue());
     // console.log(i);
-    // for(let j=20-i;j<21;j++){
-    //   (this.form.get('jmeitbl') as FormArray).push(this.createRow(j));
-    // }
+    for(let j=19-i;j<21;j++){
+      this.frmArr.push(this.createRow(j));
+    }
     this.refresh();
   }
 

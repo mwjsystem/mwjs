@@ -16,9 +16,28 @@ mat-toolbar {
 mat-toolbar + *{
     padding-top: 70px;    
 }
-// .mat-card-actions {
-//     padding-top: 0px;
-// }
-// .mat-card{
-//     padding-top: 0px;
-// }
+mat-form-field {
+    height: 3em;
+    font-size: 1em;
+    padding-left: .4em;
+  }
+
+.nmtxt {
+  padding-bottom: 15px;
+  margin-right: 7px; 
+  width: 15em;
+}  
+
+.ybtxt {
+  padding-bottom: 15px;
+  margin-right: 7px; 
+}  
+
+.i_num {
+  text-align: right;
+  margin:0px;
+}
+
+mat-card-header {
+  padding-bottom: 1em;
+}

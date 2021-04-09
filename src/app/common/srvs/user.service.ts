@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Apollo } from 'apollo-angular';
-import * as Query from './../graph-ql/queries.mstm';
+import * as Query from './queries.usr';
 import { AbstractControl } from '@angular/forms';
 
 export class TmStmp {
@@ -31,6 +31,7 @@ export class UserService {
   compid:number;
   tmstmp:TmStmp=new TmStmp();
   system:System=new System();
+  bunsho: mwI.Bunsho[]=[];
   
   constructor(public auth: AuthService,
               private apollo: Apollo) {
@@ -55,6 +56,21 @@ export class UserService {
   logout(): void {
     // Call this to log the user out of the application
     this.auth.logout({ returnTo: window.location.origin });
+  }
+
+  get_bunsho():void {
+    this.apollo.watchQuery<any>({
+      query: Query.GetMast1, 
+        variables: { 
+          id : this.compid
+        },
+      })
+      .valueChanges
+      .subscribe(({ data }) => {
+        this.bunsho=data.msbunsho;
+      },(error) => {
+        console.log('error query get_bunsho', error);
+      });
   }
 
   editFrmval(frm:AbstractControl,fld:string):any{

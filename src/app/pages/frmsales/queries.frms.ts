@@ -1,20 +1,5 @@
 import gql from 'graphql-tag';
 
-export const GetMast1 = gql`
-query get_bunsho($id: smallint!) {
-  msbunsho(where: {id: {_eq: $id}}) {
-    code
-    name
-    title
-    gakutxt
-    stamp
-    atesaki
-    message
-    second
-    include
-  }
-}`;
-
 export const GetMast2 = gql`
 query get_okuri($id: smallint!) {
   mshokuri(where: {id: {_eq: $id}}) {
@@ -105,6 +90,33 @@ query get_goods($id: smallint!,$day: date!) {
     }
   }
 }`;
+export const GetMast9 = gql`
+query get_good($id: smallint!,$gds:String!,$day: date!) {
+  msgoods_by_pk(gcode: $gds, id: $id){
+    msggroup {
+      gkbn
+      siire
+    }
+    gcode
+    subname
+    irisu
+    iriunit
+    koguchi
+    max
+    order
+    send
+    skbn
+    zkbn
+    msgtankas_aggregate(where: {day: {_lt: $day}}) {
+      aggregate {
+        max {
+          day
+        }
+      }
+    }
+  }
+}`;
+
 
 export const GetJyuden = gql`
 query get_jyuden($id: smallint!,$dno: Int!) {
@@ -122,7 +134,7 @@ query get_jyuden($id: smallint!,$dno: Int!) {
     nadr
     souko
     tcode
-    bunsyo
+    bunsho
     dbikou
     nbikou
     obikou
