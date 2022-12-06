@@ -1,0 +1,10 @@
+<div class="flex items-end space-x-4" style="padding-left: 10px;">
+    <label>登録日時：</label>
+    <input [value]="usrsrv.tmstmp.created_at | date:'yyyy/MM/dd HH:mm'" disabled>
+    <label>登録者：</label>
+    <input [value]="usrsrv.tmstmp.created_by | staff" disabled>
+    <label>更新日時：</label>
+    <input [value]="usrsrv.tmstmp.updated_at | date:'yyyy/MM/dd HH:mm'" disabled>
+    <label>更新者：</label>
+    <input [value]="usrsrv.tmstmp.updated_by | staff" disabled>
+</div>

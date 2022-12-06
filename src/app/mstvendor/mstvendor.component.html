@@ -1,0 +1,149 @@
+<mat-toolbar [color]="mode==3 ? 'primary' : mode==2 ? 'warn' : 'accent'" class="toolbar mat-elevation-z8">
+    <div class="icon-area" class="flex flex-nowrap">
+        <button mat-button (click)="modeToCre()" *ngIf="mode==3">
+            <mat-icon>add_box</mat-icon>新規
+        </button>
+        <button mat-button (click)="modeToUpd()" *ngIf="mode==3 && this.vcd">
+            <mat-icon>edit</mat-icon>編集
+        </button>
+        <button mat-button (click)="save()" [disabled]="form.invalid" *ngIf="mode!=3">
+            <mat-icon>save</mat-icon>保存
+        </button>
+        <button mat-button (click)="cancel()" *ngIf="mode!=3">
+            <mat-icon>cancel</mat-icon>中止
+        </button>
+        <mat-form-field style="background-color: transparent;">
+            <mat-label>仕入先コード</mat-label>
+            <input matInput [(ngModel)]="vcd" (keydown.enter)="refresh()" maxlength="12" (keydown.f4)="vcdHelp()"
+                (blur)="refresh()" [ngModelOptions]="{standalone: true}"
+                [disabled]="mode==1 || (mode==2 && form.dirty)">
+            <button mat-icon-button matSuffix (click)="vcdHelp()" *ngIf="mode==3">
+                <mat-icon>find_replace</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-button><a mat-button
+                href="https://mwj001-my.sharepoint.com/:x:/g/personal/asago00_mwj001_onmicrosoft_com/EdJVQxKeKFRCr0sV1ebScewBQX6bPjCc8acDLL5VzwsIJQ?e=5HEIZ5"
+                target="_blank">
+                <mat-icon>help</mat-icon>
+                ヘルプ
+            </a></button>
+    </div>
+</mat-toolbar>
+<form [formGroup]="form" class="flex flex-wrap space-x-4">
+    <mat-card>
+        <mat-card-header class="flex flex-wrap content-between">
+            <mat-card-title>
+                {{mode|modetxt}}基本情報
+            </mat-card-title>
+            <app-tmstmp></app-tmstmp>
+        </mat-card-header>
+        <mat-card-content class="flex flex-col">
+            <div class="flex flex-wrap space-x-4">
+                <mat-form-field style="width:20em">
+                    <mat-label>仕入先名</mat-label>
+                    <input matInput formControlName="adrname" required>
+                </mat-form-field>
+                <mat-form-field style="width:20em">
+                    <mat-label>フリガナ</mat-label>
+                    <input matInput formControlName="kana" required>
+                </mat-form-field>
+                <mat-form-field style="width:5em">
+                    <mat-label>税区分</mat-label>
+                    <mat-select #msel2 formControlName="mtax" required (keydown.enter)="msel2.close()">
+                        <mat-option *ngFor="let sval of bunsrv.kbn['mtax']" [value]="sval.value">
+                            {{sval.viewval}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field style="width:4em;">
+                    <mat-label>通貨</mat-label>
+                    <mat-select #msel3 formControlName="currency" (keydown.enter)="msel3.close()">
+                        <mat-option value="JPY">JPY</mat-option>
+                        <mat-option value="USD">USD</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>郵便番号(ハイフンなし)</mat-label>
+                    <input matInput formControlName="zip" ybPostalCode size="7" maxlength="7">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>都道府県</mat-label>
+                    <input matInput formControlName="region" ybRegion>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>市区町村</mat-label>
+                    <input matInput formControlName="local" ybLocality>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>町名・番地</mat-label>
+                    <input matInput formControlName="street" ybStreet>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>マンション・ビル名</mat-label>
+                    <input matInput formControlName="extend" ybExtended>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>電話番号</mat-label>
+                    <input matInput formControlName="tel">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>電話番号2</mat-label>
+                    <input matInput formControlName="tel2">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>電話番号3</mat-label>
+                    <input matInput formControlName="tel3">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>FAX番号</mat-label>
+                    <input matInput formControlName="fax">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>担当者</mat-label>
+                    <input matInput formControlName="tanto">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>URL</mat-label>
+                    <input matInput formControlName="url">
+                </mat-form-field>
+                <mat-checkbox formControlName="del">削除済</mat-checkbox>
+            </div>
+            <div class="flex flex-wrap space-x-4">
+                <mat-form-field style="width:100%;">
+                    <mat-label>発注伝票備考</mat-label>
+                    <textarea matInput formControlName="adrbikou" cdkTextareaAutosize></textarea>
+                </mat-form-field>
+                <mat-form-field style="width:100%;">
+                    <mat-label>社内備考</mat-label>
+                    <textarea matInput formControlName="adrinbikou" cdkTextareaAutosize></textarea>
+                </mat-form-field>
+            </div>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-form-field>
+                        <mat-label>メールアドレス</mat-label>
+                        <input matInput formControlName="mail1">
+                    </mat-form-field>
+                </mat-expansion-panel-header>
+                <div class="flex flex-row space-x-4">
+                    <mat-form-field>
+                        <mat-label>メールアドレス2</mat-label>
+                        <input matInput formControlName="mail2">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>メールアドレス3</mat-label>
+                        <input matInput formControlName="mail3">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>メールアドレス4</mat-label>
+                        <input matInput formControlName="mail4">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>メールアドレス5</mat-label>
+                        <input matInput formControlName="mail5">
+                    </mat-form-field>
+                </div>
+            </mat-expansion-panel>
+        </mat-card-content>
+    </mat-card>
+</form>

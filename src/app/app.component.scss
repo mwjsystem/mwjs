@@ -1,0 +1,73 @@
+// ::ng-deep.mat-mdc-form-field.frm-fld-in-bar {
+//     .mat-form-text-field-wrapper {
+//         padding: 0;
+//     }
+//     .mat-form-field-underline {
+//         bottom: 0;
+//     }
+// }
+::ng-deep.mat-mdc-form-field input:disabled {
+  color: black;
+}
+::ng-deep.mat-mdc-form-field select:disabled {
+  color: black;
+}
+// Add in style.scss as we are overriding css of global mat-select class which is part of other module.
+::ng-deep.mat-mdc-form-field .mat-select .mat-select-value {
+  color: black;
+}
+.RouterOutlet {
+    padding-top: 35px;
+}
+mat-toolbar {
+    position: fixed;
+    z-index: 100; 
+}
+mat-toolbar + *{
+    padding-top: 70px;    
+}
+mat-form-field {
+    // height: 3em;
+    font-size: 1em;
+    padding-left: .4em;
+  }
+::ng-deep.mat-mdc-text-field-wrapper {
+    padding:0;
+}
+::ng-deep.mat-mdc-form-field-subscript-wrapper {
+  display:none;
+}
+.nmtxt {
+  padding-bottom: 5px;
+  margin-right: 7px; 
+  width: 15em;
+}  
+
+.ybtxt {
+  padding-bottom: 5px;
+  margin-right: 7px; 
+}  
+
+.i_num {
+  text-align: right;
+  margin:0px;
+}
+
+.fw_b * {
+  // font-weight:bold;
+  font-size:large;
+}
+
+.txtar {
+  width: 100%;
+  margin-top:5px;
+}
+
+mat-card-header {
+  padding-bottom: 1em;
+}
+
+::ng-deep .mat-tooltip  {
+  white-space: pre-line !important;
+  font-size: 20px !important;
+}
