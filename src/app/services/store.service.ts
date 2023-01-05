@@ -14,7 +14,7 @@ export class StoreService {
     // this.get_souko();
   }
 
-  get_store(): void {
+  getStore(): void {
     if (this.scds.length == 0) {
       const GetMast = gql`
       query get_souko($id: smallint!) {
@@ -41,7 +41,7 @@ export class StoreService {
     }
   }
 
-  async get_stradr(scd): Promise<any> {
+  async getStradr(scd): Promise<any> {
     const GetMast = gql`
     query get_souko($id: smallint!,$scd: String!) {
       msstore_by_pk(id:$id,code:$scd) {

@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   { path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule), canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'repstock', loadChildren: () => import('./repstock/repstock.module').then(m => m.RepstockModule), canActivate: [AuthGuard] },
   { path: 'mstgoods', loadChildren: () => import('./mstgoods/mstgoods.module').then(m => m.MstgoodsModule), canActivate: [AuthGuard] },
   { path: 'mstmember', loadChildren: () => import('./mstmember/mstmember.module').then(m => m.MstmemberModule), canActivate: [AuthGuard] },
   { path: 'mstvendor', loadChildren: () => import('./mstvendor/mstvendor.module').then(m => m.MstvendorModule), canActivate: [AuthGuard] }

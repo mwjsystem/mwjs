@@ -48,7 +48,7 @@ export class GdstblComponent {
   ngOnInit(): void {
     this.addRows(1);
     this.refresh();
-    this.strsrv.get_store();
+    this.strsrv.getStore();
     // this.dataSource.paginator = this.paginator;
   }
 

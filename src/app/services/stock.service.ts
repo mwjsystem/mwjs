@@ -92,7 +92,7 @@ export class StockService {
   public shGcd: string;
   public stcGcd: string;
   // public isLoading:boolean=false;
-  public subject = new Subject<Stcbs[]>();
+  public subject = new Subject<boolean>();
   public observe = this.subject.asObservable();
   constructor(public usrsrv: UserService,
     // public strsrv: StoreService,
