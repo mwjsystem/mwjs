@@ -136,28 +136,19 @@
                 <button mat-menu-item (click)="setColor('pink-bluegrey')">pink-bluegrey</button>
                 <button mat-menu-item (click)="setColor('purple-green')">purple-green</button>
             </mat-menu> -->
-            <div class="flex flex-column">
-                <mat-form-field appearance="outline">
-                    <mat-label>会社</mat-label>
-                    <input matInput mat-menu-item style="pointer-events: none" value="{{usrsrv.system.name}}" disabled>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>ユーザ名</mat-label>
-                    <input matInput mat-menu-item style="pointer-events: none"
-                        value="{{usrsrv.userInfo['nickname']}}：{{usrsrv.userInfo['name']}}" disabled>
-                </mat-form-field>
+            <div class="flex flex-col space-y-1">
+                <p mat-menu-item style="pointer-events: none;" class="text-xs">会社：{{usrsrv.system.name}}</p>
+                <p mat-menu-item style="pointer-events: none;">
+                    ユーザ名：{{usrsrv.userInfo['nickname']}}({{usrsrv.userInfo['name']}})</p>
+                <p mat-menu-item style="pointer-events: none;">接続先DB：{{db}}</p>
+                <button class="place-self-end" mat-button (click)="setDB(true)" *ngIf="db=='本番環境'">
+                    テスト環境へ切替(画面再読込)</button>
+                <button mat-button (click)="setDB(false)" *ngIf="db=='テスト環境'"> 本番環境へ切替(画面再読込)</button>
+                <button mat-menu-item (click)="usrsrv.logout();">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>ログアウト</span>
+                </button>
             </div>
-            <mat-form-field appearance="outline" class="flex flex-column">
-                <mat-label>接続先DB(切替時画面再読込)</mat-label>
-                <input matInput mat-menu-item style="pointer-events: none" value="{{db}}" disabled>
-                <button mat-button matSuffix (click)="setDB(true)" *ngIf="db=='本番環境'">テストへ切替</button>
-                <button mat-button matSuffix (click)="setDB(false)" *ngIf="db=='テスト環境'">本番へ切替</button>
-            </mat-form-field>
-            <button mat-menu-item (click)="usrsrv.logout();">
-                <mat-icon>exit_to_app</mat-icon>
-                <span>ログアウト</span>
-            </button>
-
         </form>
     </mat-menu>
 </mat-toolbar>

@@ -38,7 +38,7 @@
 ::ng-deep.mat-form-field .mat-select-disabled .mat-select-value {
     color: black;
 }
-td .mat-form-field {
+td .mat-mdc-cell {
     height:20px;
   }
 td .mat-icon-button {
@@ -49,4 +49,7 @@ tr.mat-row{
 }
 tr.mat-header-row{
     height:20px;
+}
+mat-form-field {
+    height: 20px;
 }

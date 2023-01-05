@@ -113,6 +113,19 @@ declare namespace mwI {
         // posi09: number;
         // posi10: number;
     }
+
+    interface Edahlp {
+        eda: number;
+        zip: string;
+        region: string;
+        local: string;
+        street: string;
+        extend: string;
+        extend2: string;
+        adrname: string;
+        tel: string;
+    }
+
     interface Adrs {
         eda: number;
         zip: string;

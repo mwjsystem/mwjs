@@ -274,6 +274,42 @@ export class UserService {
     return val;
   }
 
+  setMail(m1: string, m2: string, m3: string, m4: string, m5: string): string {
+    let mail: string = "";
+    if (m1 !== null) {
+      mail += m1 + "/";
+    }
+    if (m2 !== null) {
+      mail += m2 + "/";
+    }
+    if (m3 !== null) {
+      mail += m3 + "/";
+    }
+    if (m4 !== null) {
+      mail += m4 + "/";
+    }
+    if (m5 !== null) {
+      mail += m5 + "/";
+    }
+    return (mail || "").slice(0, -1);
+  }
+
+  setTel(t1: string, t2: string, t3: string, fax: string): string {
+    let tel: string = "";
+    if (t1 !== null) {
+      tel += t1 + "/";
+    }
+    if (t2 !== null) {
+      tel += t2 + "/";
+    }
+    if (t3 !== null) {
+      tel += t3 + "/";
+    }
+    if (fax !== null) {
+      tel += fax + "/";
+    }
+    return (tel || "").slice(0, -1);
+  }
   setTmstmp(obj: any): void {
     this.tmstmp.created_at = obj.created_at;
     this.tmstmp.created_by = obj.created_by;
@@ -330,28 +366,28 @@ export class UserService {
     }
     return ret;
   }
-  convHan(value): string {
+  convHan(value: string): string {
     // 全角を半角に(メール用)
     const val = value.replace(/[^a-zA-Zａ-ｚＡ-Ｚ0-9０-９＠@－-＿_．.]/g, '').replace(/[０-９ａ-ｚＡ-Ｚ＠－＿．]/g, function (s) {
       return String.fromCharCode(s.charCodeAt(0) - 65248);
     })
     return val;
   }
-  convTel(value): string {
+  convTel(value: string): string {
     // 全角を半角に(数字、－のみ)
     const val = value.replace(/[^0-9０-９－-]/g, '').replace(/[０-９－]/g, function (s) {
       return String.fromCharCode(s.charCodeAt(0) - 65248);
     })
     return val;
   }
-  convUpper(value): string {
+  convUpper(value: string): string {
     // 全角は半角にして、大文字に変換
     const val = value.toUpperCase().replace(/[^A-ZＡ-Ｚ0-9０-９－-]/g, '').replace(/[０-９Ａ-Ｚ－]/g, function (s) {
       return String.fromCharCode(s.charCodeAt(0) - 65248);
     })
     return val;
   }
-  convKana(value): string {
+  convKana(value: string): string {
     const kanaMap = {
       "ガ": "ｶﾞ", "ギ": "ｷﾞ", "グ": "ｸﾞ", "ゲ": "ｹﾞ", "ゴ": "ｺﾞ",
       "ザ": "ｻﾞ", "ジ": "ｼﾞ", "ズ": "ｽﾞ", "ゼ": "ｾﾞ", "ゾ": "ｿﾞ",
@@ -384,7 +420,23 @@ export class UserService {
       .replace(/゜/g, 'ﾟ');
     return val;
   }
-
+  getColor(mode: number): string {
+    let ret: string = "";
+    switch (mode) {
+      case 1:
+        ret = 'accent';
+        break;
+      case 2:
+        ret = 'warn';
+        break;
+      case 3:
+        ret = 'primary';
+        break;
+      default:
+        ret = 'basic';
+    }
+    return ret;
+  }
   disableMtbl(form) {
     (<FormArray>form.get('mtbl'))
       .controls
@@ -401,7 +453,7 @@ export class UserService {
         control.clearValidators();
       })
   }
-  openMst(func, value) {
+  openMst(func, value: string) {
     const url = this.router.createUrlTree(['/' + func, '3', value]);
     // window.open(url.toString(),null,'top=100,left=100');
     window.open(url.toString());

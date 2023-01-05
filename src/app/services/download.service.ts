@@ -4,6 +4,29 @@ import * as json2csv from 'json2csv';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
 
+export class Result {
+  zipcode: string;
+  prefcode: string;
+  address1: string;
+  address2: string;
+  address3: string;
+  kana1: string;
+  kana2: string;
+  kana3: string;
+  constructor(init?: Partial<Result>) {
+    Object.assign(this, init);
+  }
+}
+
+class ZipAdr {
+  status: string;
+  message: string;
+  result: Result[];
+  constructor(init?: Partial<ZipAdr>) {
+    Object.assign(this, init);
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -72,4 +95,16 @@ export class DownloadService {
     });
   }
 
+  async getAdr(zipcode: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zipcode)
+        .subscribe(
+          data => {
+            // return resolve(JSON.stringify(data))
+            return resolve(data)
+          },
+          error => { return reject(error) }
+        );
+    });
+  }
 }

@@ -19,9 +19,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
@@ -45,15 +47,18 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatToolbarModule
   ],
   providers: [
     Apollo,
     UserService,
-    BeforeunloadGuard
+    BeforeunloadGuard,
+    { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }
   ],
   bootstrap: [AppComponent]
 })

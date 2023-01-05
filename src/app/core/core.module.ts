@@ -11,7 +11,6 @@ import { TabDirective } from './directives/tab/tab.directive';
 import { TmstmpComponent } from './tmstmp/tmstmp.component';
 
 
-
 @NgModule({
   declarations: [
     BlankPipe,

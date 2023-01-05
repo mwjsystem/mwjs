@@ -1,0 +1,240 @@
+<div class="mat-elevation-z8">
+    <ng-container [formGroup]="parentForm">
+        <table mat-table formArrayName="mtbl" [dataSource]="dataSource" aria-label="Elements">
+            <!-- <table mat-table multiTemplateDataRows formArrayName="mtbl" [dataSource]="dataSource" aria-label="Elements"> -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell class="flex flex-row" *matHeaderCellDef style="border-bottom-style:none;">
+                    <span *ngIf="frmArr.enabled">行挿入</span>
+                    <button mat-icon-button (click)="insRow(false,getIdx(0))" *ngIf="frmArr.enabled">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+                </th>
+                <td mat-cell class="flex flex-row" *matCellDef="let row; let i = index"
+                    style="border-bottom-style:none;">
+                    <button mat-icon-button matPrefix (click)="insRow(false,getIdx(i)+1)" *ngIf="frmArr.enabled">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+                    <button mat-icon-button matPrefix (click)="insRow(true,getIdx(i)+1)" *ngIf="frmArr.enabled">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                    <button mat-icon-button matPrefix (click)="delRow(getIdx(i))"
+                        *ngIf="frmArr.enabled && !frmArr.getRawValue()[getIdx(i)]['ins']">
+                        <mat-icon>remove_circle</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="gcode">
+                <th mat-header-cell *matHeaderCellDef>商品コード</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:10em;">
+                        <input [tabIndex]="hidx + i * mcols + 1" matInput formControlName="gcode"
+                            (change)="updGds(getIdx(i),$any($event))"
+                            [readonly]="frmArr.getRawValue()[getIdx(i)]['ins']">
+                        <!-- [disabled]="frmArr.getRawValue()[getIdx(i)]['ins']"> -->
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="gtext">
+                <th mat-header-cell *matHeaderCellDef>商品名</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:20em;">
+                        <input [tabIndex]="hidx + i * mcols + 2" matInput formControlName="gtext" required>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="size">
+                <th mat-header-cell *matHeaderCellDef>サイズ</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:6em;">
+                        <input [tabIndex]="hidx + i * mcols + 3" matInput formControlName="size">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="color">
+                <th mat-header-cell *matHeaderCellDef>色</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:6em;">
+                        <input [tabIndex]="hidx + i * mcols + 4" matInput formControlName="color">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="pable">
+                <th mat-header-cell *matHeaderCellDef class="i_num">受注可能数</th>
+                <td mat-cell *matCellDef="let row; let i =index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:6em;">
+                        <button mat-icon-button matPrefix
+                            (click)="usrsrv.openRepstc(frmArr.getRawValue()[getIdx(i)]['gcode'],this.scode)">
+                            <mat-icon>open_in_new</mat-icon>
+                        </button>
+                        <input matInput [value]="frmArr.getRawValue()[getIdx(i)]['pable'] | number" class="i_num"
+                            disabled>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="unit">
+                <th mat-header-cell *matHeaderCellDef>単位</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:4em;">
+                        <!-- <input [tabIndex]="hidx + i * mcols + 6" matInput formControlName="unit"> -->
+                        <mat-select [tabIndex]="hidx + i * mcols + 6" #msel10 formControlName="unit" required
+                            (keydown.enter)="msel10.close()">
+                            <mat-option value="着">着</mat-option>
+                            <mat-option value="本">本</mat-option>
+                            <mat-option value="組">組</mat-option>
+                            <mat-option value="個">個</mat-option>
+                            <mat-option value="枚">枚</mat-option>
+                            <mat-option value="台">台</mat-option>
+                            <mat-option value="ｾｯﾄ">ｾｯﾄ</mat-option>
+                            <mat-option value="ｹｰｽ">ｹｰｽ</mat-option>
+                            <mat-option value="字">字</mat-option>
+                            <mat-option value="袋">袋</mat-option>
+                            <mat-option value="件">件</mat-option>
+                            <mat-option value="足">足</mat-option>
+                            <mat-option value="冊">冊</mat-option>
+                            <mat-option value="缶">缶</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="gskbn">
+                <th mat-header-cell *matHeaderCellDef>数量区分</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:8em;">
+                        <mat-select [tabIndex]="hidx + i * mcols + 7" #msel11 formControlName="gskbn" required
+                            (keydown.enter)="msel11.close()">
+                            <mat-option *ngFor="let sval of bunsrv.kbn['gskbn']" [value]="sval.value">
+                                {{sval.viewval}}
+                            </mat-option>
+                        </mat-select>
+                        <button mat-flat-button matSuffix (click)="diaGzai(getIdx(i))"
+                            *ngIf="frmArr.getRawValue()[getIdx(i)]['gskbn']==1"
+                            matTooltip="{{getGzai(frmArr.getRawValue()[getIdx(i)]['gcode'])}}"
+                            matTooltipClass="ttips">内訳</button>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="jan">
+                <th mat-header-cell *matHeaderCellDef>janコード</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:10em;">
+                        <input #ginp01 matInput formControlName="jan">
+                        <button mat-flat-button matSuffix (click)="setJan(getIdx(i))"
+                            *ngIf="ginp01.disabled==false && !frmArr.getRawValue()[getIdx(i)]['jan']">採番</button>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef>重量</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)" class="i_num">
+                    <mat-form-field style="width:6em;">
+                        <input [tabIndex]="hidx + i * mcols + 8" matInput formControlName="weight">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="tkbn">
+                <th mat-header-cell *matHeaderCellDef>中止区分</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:5em;">
+                        <mat-select #msel12 formControlName="tkbn" required (keydown.enter)="msel12.close()">
+                            <mat-option *ngFor="let sval of bunsrv.kbn['tkbn']" [value]="sval.value">
+                                {{sval.viewval}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="max">
+                <th mat-header-cell *matHeaderCellDef>１個口最大</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:4em;">
+                        <input type="number" matInput formControlName="max" class="i_num">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="send">
+                <th mat-header-cell *matHeaderCellDef>送料区分</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field style="width:4em;">
+                        <mat-select [tabIndex]="hidx + i * mcols + 10" #msel14 formControlName="send"
+                            (keydown.enter)="msel14.close()">
+                            <mat-option value=""></mat-option>
+                            <mat-option value="A">A</mat-option>
+                            <mat-option value="B">B</mat-option>
+                            <mat-option value="C">C</mat-option>
+                            <mat-option value="D">D</mat-option>
+                            <mat-option value="E">E</mat-option>
+                            <mat-option value="F">F</mat-option>
+                            <mat-option value="G">G</mat-option>
+                            <mat-option value="H">H</mat-option>
+                            <mat-option value="I">I</mat-option>
+                            <mat-option value="J">J</mat-option>
+                            <mat-option value="K">K</mat-option>
+                            <mat-option value="L">L</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="ordering">
+                <th mat-header-cell *matHeaderCellDef>受発注品</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-checkbox formControlName="ordering" style="width:4em;"></mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="koguchi">
+                <th mat-header-cell *matHeaderCellDef>個口数</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)" class="i_num">
+                    <mat-form-field style="width:4em;">
+                        <input [tabIndex]="hidx + i * mcols + 11" type="number" matInput formControlName="koguchi"
+                            class="i_num">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="lot">
+                <th mat-header-cell *matHeaderCellDef>発注ロット</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)" class="i_num">
+                    <mat-form-field style="width:4em;">
+                        <input [tabIndex]="hidx + i * mcols + 12" type="number" matInput formControlName="lot"
+                            class="i_num">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="vgcode">
+                <th mat-header-cell *matHeaderCellDef>海外品番</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field>
+                        <input [tabIndex]="hidx + i * mcols + 13" matInput formControlName="vgcode">
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="hgcode">
+                <th mat-header-cell *matHeaderCellDef>加工前品番</th>
+                <td mat-cell *matCellDef="let row; let i = index" [formGroupName]="getIdx(i)">
+                    <mat-form-field>
+                        <input [tabIndex]="hidx + i * mcols + 14" matInput formControlName="hgcode" maxlength="20"
+                            (keydown.f4)="gcdHelp(getIdx(i))">
+                        <button mat-icon-button matSuffix (click)="gcdHelp(getIdx(i))" *ngIf="frmArr.enabled">
+                            <mat-icon>find_replace</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"
+                [style.background]="setBgcolor(frmArr.getRawValue()[getIdx(i)]['tkbn'])"></tr>
+        </table>
+        <div class="flex flex-row">
+            <div style="padding:10px; " class="flex flex-row">
+                <mat-form-field class="flex flex-row">
+                    <mat-label>倉庫</mat-label>
+                    <mat-select [(value)]="scode">
+                        <mat-option *ngFor="let sval of strsrv.scds" [value]="sval.value">
+                            {{sval.viewval}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button class="mat-raised-button" (click)="setPables()">の受注可能数を表示する</button>
+            </div>
+            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]"></mat-paginator>
+        </div>
+    </ng-container>
+</div>

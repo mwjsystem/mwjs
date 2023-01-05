@@ -7,8 +7,10 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class MembsService {
-
-  membs: mwI.Mcode[] = [];
+  public mcode: string = "";
+  public membs: mwI.Mcode[] = [];
+  public edas: mwI.Edahlp[] = [];
+  public adrs: mwI.Adrs[] = [];
   constructor(private usrsrv: UserService,
     private apollo: Apollo) { }
 
