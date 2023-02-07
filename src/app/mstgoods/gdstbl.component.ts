@@ -9,7 +9,7 @@ import * as Query from './queries.mstg';
 import { UserService } from './../services/user.service';
 import { StoreService } from './../services/store.service';
 import { StockService } from './../services/stock.service';
-import { GoodsService } from './../services/goods.service';
+import { GoodsService } from './goods.service';
 import { BunruiService } from './../services/bunrui.service';
 import { GzaiComponent } from './../share/gzai/gzai.component';
 

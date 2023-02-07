@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { MembsService } from './../../services/membs.service';
+import { MembsService } from './../../mstmember/membs.service';
 
 @Pipe({
   name: 'mcdtxt'

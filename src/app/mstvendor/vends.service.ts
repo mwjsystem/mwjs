@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { UserService } from './user.service';
+import { UserService } from './../services/user.service';
 
 @Injectable({
   providedIn: 'root'

@@ -14,7 +14,7 @@ import { BunruiService } from './../services/bunrui.service';
 import { BunshoService } from './../services/bunsho.service';
 import { OkuriService } from './../services/okuri.service';
 import { StaffService } from './../services/staff.service';
-import { MembsService } from './../services/membs.service';
+import { MembsService } from './membs.service';
 import { McdhelpComponent } from './../share/mcdhelp/mcdhelp.component';
 // import { McdService } from './../share/mcdhelp/mcd.service';
 // import { EdaService } from './../share/adreda/eda.service';

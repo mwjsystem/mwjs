@@ -11,34 +11,34 @@
     </button>
     <!-- </mat-form-field> -->
     <div class="icon-area" class="flex flex-row">
-        <button mat-button (click)="setNext()">
+        <button mat-flat-button (click)="setNext()" color="primary">
             <mat-icon>keyboard_arrow_up</mat-icon>
             次の商品
         </button>
-        <button mat-button (click)="setPrev()">
+        <button mat-flat-button (click)="setPrev()" color="primary">
             <mat-icon>keyboard_arrow_down</mat-icon>
             前の商品
         </button>
-        <button mat-button (click)="gcdHelp()">
+        <button mat-flat-button (click)="gcdHelp()" color="primary">
             <mat-icon>find_replace</mat-icon>
             商品検索
         </button>
-        <button mat-button (click)="onEnter()">
+        <button mat-flat-button (click)="onEnter()" color="primary">
             <mat-icon>autorenew</mat-icon>
             再表示
         </button>
-        <button mat-button (click)="showChart()">
+        <button mat-flat-button (click)="showChart()" color="primary">
             <mat-icon>poll</mat-icon>
             月別出荷数
         </button>
-        <button mat-button (click)="outputCsv($event)">
+        <button mat-flat-button (click)="outputCsv($event)" color="primary">
             <mat-icon>cloud_download</mat-icon>
             ダウンロード
         </button>
         <a id="csv-donwload" data-type="text/csv"></a>
-        <button mat-button><a mat-button
-                href="https://mwj001.sharepoint.com/:b:/s/mwjapan/ERnyHwK29VVAtLlVtTd2fI4Buh5_43qaAwHsZPV0GJPsYA?e=fOeYl8"
-                target="_blank">
+        <button mat-flat-button color="primary">
+            <a mat-flat-button target="_blank" color="primary"
+                href="https://mwj001.sharepoint.com/:b:/s/mwjapan/ERnyHwK29VVAtLlVtTd2fI4Buh5_43qaAwHsZPV0GJPsYA?e=fOeYl8">
                 <mat-icon>help</mat-icon>
                 ヘルプ
             </a></button>
@@ -64,7 +64,7 @@
 <mat-toolbar style="visibility:hidden;"></mat-toolbar>
 <mat-card>
     <mat-card-content class="flex flex-row">
-        <fieldset class="flex flex-column">
+        <fieldset class="flex flex-col">
             <legend>倉庫共通情報</legend>
             <div class="flex flex-row">
                 <mat-form-field>
@@ -112,8 +112,8 @@
         </fieldset>
     </mat-card-content>
 </mat-card>
-<mat-card style="padding: 10px;" class="flex flex-column">
-    <mat-card-content class="flex flex-column">
+<mat-card style="padding: 10px;" class="flex flex-col">
+    <mat-card-content class="flex flex-col">
         <fieldset>
             <legend>
                 <div class="flex flex-row">

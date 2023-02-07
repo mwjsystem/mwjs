@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { UserService } from './../services/user.service';
 import { BunruiService } from './../services/bunrui.service';
 import { DownloadService } from './../services/download.service';
-import { VendsService } from './../services/vends.service';
+import { VendsService } from './vends.service';
 // import { ToastrService } from 'ngx-toastr';
 import { VcdhelpComponent } from './../share/vcdhelp/vcdhelp.component';
 

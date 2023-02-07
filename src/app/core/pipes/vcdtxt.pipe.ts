@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { VendsService } from './../../services/vends.service';
+import { VendsService } from './../../mstvendor/vends.service';
 
 
 @Pipe({
